@@ -2,7 +2,7 @@ import { EventBus } from "./event-bus";
 import { Props } from "../types";
 import { v4 as uuidv4 } from "uuid";
 
-class Block {
+export class Block {
     private static EVENTS = {
       INIT: "init",
       FLOW_CDM: "flow:component-did-mount",
@@ -166,5 +166,3 @@ class Block {
       });
     }
 }
-
-export { Block };
