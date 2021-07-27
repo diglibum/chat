@@ -1,1 +1,2 @@
-export { Input } from "./input";
+import { Input } from "./Input";
+export { Input };
