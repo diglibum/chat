@@ -9,7 +9,7 @@ export class Form extends Block {
     super("div", props);
   }
 
-  render (): string {
+  render () {
     const { name, body, autocomplete = "on", novalidate = false } = this.props;
     const id = this.getId();
     const tmpl = Handlebars.compile(formTmpl);

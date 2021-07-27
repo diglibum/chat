@@ -7,5 +7,5 @@ const bundler = new Bundler(indexFile, { watch: true, cache: false });
 
 app.use(bundler.middleware());
 app.listen(PORT, function () {
-    console.log(`Example app listening on port ${PORT}!`);
+  console.log(`Example app listening on port ${PORT}!`);
 });

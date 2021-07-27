@@ -3,7 +3,7 @@ import profileViewTmpl from "./profileView.tmpl";
 import "./profileView.scss";
 import { Input } from "../../../../components/input";
 
-export function profileView (): string {
+export function profileView () {
   const tmpl = Handlebars.compile(profileViewTmpl);
 
   const mailInput = new Input({

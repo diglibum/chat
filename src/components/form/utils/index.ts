@@ -1,7 +1,8 @@
 import { submitFormData } from "./submitFormData";
-import { formValidation } from "./formValidation";
+import { formValidation, checkAllForm } from "./formValidation";
 
 export {
   submitFormData,
-  formValidation
+  formValidation,
+  checkAllForm
 };

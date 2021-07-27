@@ -6,7 +6,7 @@ import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
 import { submitFormData, formValidation } from "../../../../components/form/utils";
 
-export function profileEdit (): string {
+export function profileEdit () {
   const tmpl = Handlebars.compile(profileEditTmpl);
 
   const mailInput = new Input({

@@ -58,7 +58,6 @@ export class Block {
       this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
-    // Может переопределять пользователь, необязательно трогать
     componentDidMount () { }
 
     _componentDidUpdate (oldProps: Props, newProps: Props) {
@@ -69,7 +68,6 @@ export class Block {
       this._render();
     }
 
-    // Может переопределять пользователь, необязательно трогать
     componentDidUpdate (oldProps: Props, newProps: Props) {
       if (oldProps === newProps) {
         return true;

@@ -6,7 +6,7 @@ import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
 import { submitFormData, formValidation } from "../../../../components/form/utils";
 
-export function passwordEdit (): string {
+export function passwordEdit () {
   const tmpl = Handlebars.compile(passwordEditTmpl);
 
   const oldPassword = new Input({
