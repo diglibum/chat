@@ -1,8 +1,8 @@
 export default
 `
   <div class="input-profile">
-    <label for="{{ name }}" class="input-profile__label">{{ text }}</label>
     <input 
+      id = {{ id }}
       data-id="{{ id }}"
       data-validation-type="{{ validationType }}"
       type="{{ type }}" 
@@ -13,6 +13,7 @@ export default
           disabled
       {{/if}}
       class="input-profile__input" />
+    <label for="{{ id }}" class="input-profile__label">{{ text }}</label>
     <div class="error-message input-profile__error-message hide">{{ errorMessage }}</div>
   </div>
 `;

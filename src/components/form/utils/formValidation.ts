@@ -25,7 +25,7 @@ const checkFormInput = (input: HTMLInputElement) => {
     errorMessage: null
   };
 
-  if (input != null) {
+  if (input) {
     const validationType = input.getAttribute("data-validation-type");
     const type = (validationType != null) ? validationType : "text";
     const value = input.value;
@@ -34,23 +34,23 @@ const checkFormInput = (input: HTMLInputElement) => {
       switch (type) {
         case ("password"):
           result = checkPasswordValidaty(value);
-          renderErrorBlock(input, result);
+          applyResult(input, result);
           break;
         case "login":
           result = checkLoginValidaty(value);
-          renderErrorBlock(input, result);
+          applyResult(input, result);
           break;
         case "email":
           result = checkEmailValidaty(value);
-          renderErrorBlock(input, result);
+          applyResult(input, result);
           break;
         case "name":
           result = checkNameValidaty(value);
-          renderErrorBlock(input, result);
+          applyResult(input, result);
           break;
         case "phone":
           result = checkPhoneValidaty(value);
-          renderErrorBlock(input, result);
+          applyResult(input, result);
           break;
       }
     }
@@ -76,6 +76,15 @@ const renderErrorBlock = (target: HTMLElement, result: ResultObject) => {
       errorBlock.textContent = "";
     }
   }
+};
+
+const toggleClass = (target: HTMLElement, result: ResultObject) => {
+  target.classList.add((result.isValid) ? "valid" : "invalid");
+};
+
+const applyResult = (target: HTMLElement, result: ResultObject) => {
+  renderErrorBlock(target, result);
+  toggleClass(target, result);
 };
 
 const checkMaxLength = (length: number, maxLength: number) => {

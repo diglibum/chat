@@ -1,9 +1,9 @@
 export default
 `
   <div class="error-page">
-    <div class="error-page__code">
+    <h1 class="error-page__code">
       {{ errorCode }}
-    </div>
+    </h1>
     <div class="error-page__text">
       {{ errorText }}
     </div>

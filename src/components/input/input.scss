@@ -1,4 +1,16 @@
 .input {
+  position: relative;
+
+  &__label {
+    display: block;
+    position: absolute;
+    font-size: 13px;
+    line-height: 13px;
+    bottom: 8px;
+    color: #999;
+    z-index: 0;
+  }
+
   &__input {
     position: relative;
     width: 100%;
@@ -9,9 +21,8 @@
     padding-top: 22px;
     background-color: transparent;
 
-    &:focus::placeholder {
-      display: block;
-      position: absolute;
+    &.valid ~ label,
+    &.invalid ~ label {
       top: 8px;
       font-size: 9px;
       line-height: 9px;

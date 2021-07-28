@@ -12,14 +12,15 @@ export const submitFormData = (event: Event) => {
 const printFormData = (form: HTMLFormElement) => {
   const inputs = form.querySelectorAll("input");
 
-  if (inputs != null) {
-    const data: Record<string, string> = {};
-
-    inputs.forEach((input) => {
-      const { name } = input;
-      data[name] = input.value;
-    });
-
-    console.log(data);
+  if (!inputs || inputs.length === 0) {
+    return;
   }
+
+  const data: Record<string, string> = Array.from(inputs).reduce((total: Record<string, string>, input) => {
+    const { name } = input;
+    total[name] = input.value;
+    return total;
+  }, {});
+
+  console.log(data);
 };

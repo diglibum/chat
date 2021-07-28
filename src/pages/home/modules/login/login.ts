@@ -12,10 +12,12 @@ export function login () {
   const loginInput = new Input({
     name: "login",
     text: "Логин",
+    className: "input_with-label",
     required: true,
     validationType: "login",
     events: {
       focus: (event: Event) => {
+        // labelAnimation(event);
         formValidation(event);
       },
       blur: (event: Event) => {

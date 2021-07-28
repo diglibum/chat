@@ -14,6 +14,13 @@ type Options = {
 
 export class HTTPTransport {
     get = (url: string, options: Options = {}) => {
+      const { data } = options;
+
+      if (data) {
+        url = (data) ? `${url}${this._queryStringify(data)}` : url;
+        delete options.data;
+      }
+
       return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
     };
 
@@ -45,13 +52,10 @@ export class HTTPTransport {
 
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        const isGet = method === METHODS.GET;
 
         xhr.open(
           method as string,
-          isGet && !!data
-            ? `${url}${this._queryStringify(data)}`
-            : url
+          url
         );
 
         Object.keys(headers).forEach(key => {
@@ -68,7 +72,7 @@ export class HTTPTransport {
         xhr.timeout = timeout;
         xhr.ontimeout = reject;
 
-        if (isGet || !data) {
+        if (!data) {
           xhr.send();
         } else {
           xhr.send(data);

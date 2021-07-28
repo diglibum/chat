@@ -16,7 +16,7 @@ export class Block {
         props: Props;
     };
 
-    state: any;
+    state: {};
     private _id: string;
     protected props: Props;
     private eventBus: () => EventBus;
@@ -78,7 +78,6 @@ export class Block {
       if (!nextProps) {
         return;
       }
-
       Object.assign(this.props, nextProps);
     };
 
@@ -111,10 +110,12 @@ export class Block {
     }
 
     _makePropsProxy (props: Props): Props {
+      const self = this;
+
       props = new Proxy(props, {
         set (target, prop: string, value: unknown): boolean {
           target[prop] = value;
-          this.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
+          self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
           return true;
         },
         get (target, prop: string): Function {
