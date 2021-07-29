@@ -1,4 +1,6 @@
-## yandex praktikum course Middle frontend developer - sprint_1
+## yandex praktikum course Middle frontend developer - sprint_2
+
+Учебный проект Веб-приложение «Чат».
 
 - `npm run start` — start project,
 - `npm run dev` — Parcel run in development mode,
