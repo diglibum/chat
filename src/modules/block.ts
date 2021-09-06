@@ -95,14 +95,16 @@ export class Block {
       return "";
     }
 
-    toString (): string {
-      const wrapper = document.createElement("div");
-      wrapper.appendChild(this.getContent());
-      return wrapper.innerHTML;
-    }
-
     getContent () {
       return this.element;
+    }
+
+    show () {
+      console.log("show");
+    }
+
+    hide () {
+      console.log("hide");
     }
 
     getId () {

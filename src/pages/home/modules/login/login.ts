@@ -17,7 +17,6 @@ export function login () {
     validationType: "login",
     events: {
       focus: (event: Event) => {
-        // labelAnimation(event);
         formValidation(event);
       },
       blur: (event: Event) => {

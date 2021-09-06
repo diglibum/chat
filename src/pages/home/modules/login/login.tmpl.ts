@@ -6,6 +6,6 @@ export default
     </div>
     <div class="login__footer">
       {{{ button }}}
-      <a class="login__registr-link" href="/registration/">Нет аккаунта?</a>
+      <a class="login__registr-link" href="/sign-up">Нет аккаунта?</a>
     </div>
 `;

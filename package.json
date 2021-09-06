@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "parcel index.html --no-cache",
     "build": "parcel build index.html --no-cache",
-    "start": "parcel index.html --port 3000"
+    "start": "parcel index.html --no-cache --port 3000"
   },
   "keywords": [],
   "author": "",

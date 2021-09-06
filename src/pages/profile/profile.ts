@@ -4,26 +4,35 @@ import "./profile.scss";
 import { profileView } from "./modules/profileView";
 import { profileEdit } from "./modules/profileEdit";
 import { passwordEdit } from "./modules/passwordEdit";
+import { Block } from "../../modules/block";
+import { Props } from "../../types/props";
 
-export function profilePage (inner = "profileView") {
-  const tmpl = Handlebars.compile(profilePageTmpl);
-  let context = {};
-
-  switch (inner) {
-    case "profileEdit":
-      context = {
-        content: profileEdit
-      };
-      break;
-    case "passwordEdit":
-      context = {
-        content: passwordEdit
-      };
-      break;
-    default:
-      context = { header: "Иван", content: profileView };
-      break;
+export class ProfilePage extends Block {
+  constructor (props: Props) {
+    super("div", props);
   }
 
-  return tmpl(context);
+  render () {
+    const { inner } = this.props;
+    const tmpl = Handlebars.compile(profilePageTmpl);
+    let context = {};
+
+    switch (inner) {
+      case "profileEdit":
+        context = {
+          content: profileEdit
+        };
+        break;
+      case "passwordEdit":
+        context = {
+          content: passwordEdit
+        };
+        break;
+      default:
+        context = { header: "Иван", content: profileView };
+        break;
+    }
+
+    return tmpl(context);
+  }
 }
