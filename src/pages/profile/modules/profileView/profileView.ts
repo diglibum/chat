@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import * as Handlebars from "handlebars";
 import profileViewTmpl from "./profileView.tmpl";
 import "./profileView.scss";
 import { Input } from "../../../../components/input";

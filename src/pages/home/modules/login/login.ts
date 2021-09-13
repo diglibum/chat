@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import * as Handlebars from "handlebars";
 import loginTmpl from "./login.tmpl";
 import "./login.scss";
 import { Input } from "../../../../components/input";

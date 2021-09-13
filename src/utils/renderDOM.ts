@@ -1,4 +1,4 @@
-import { Block } from "../modules/block";
+import { Block } from "../modules/Block";
 
 export function render (query: string, block: Block) { // TODO
   const root = document.querySelector(query);

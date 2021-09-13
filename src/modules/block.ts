@@ -1,4 +1,4 @@
-import { EventBus } from "./event-bus";
+import { EventBus } from "./eventBus";
 import { Props } from "../types";
 import { v4 as uuidv4 } from "uuid";
 
@@ -93,6 +93,12 @@ export class Block {
 
     render (): string {
       return "";
+    }
+
+    toString (): string {
+      const wrapper = document.createElement("div");
+      wrapper.appendChild(this.getContent());
+      return wrapper.innerHTML;
     }
 
     getContent () {

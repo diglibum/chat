@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import * as Handlebars from "handlebars";
 import passwordEditTmpl from "./passwordEdit.tmpl";
 import "./passwordEdit.scss";
 import { Input } from "../../../../components/input";

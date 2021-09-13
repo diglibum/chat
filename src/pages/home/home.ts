@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import * as Handlebars from "handlebars";
 import homePageTmpl from "./home.tmpl";
 import "./home.scss";
 import { login } from "./modules/login";
@@ -24,7 +24,6 @@ export class HomePage extends Block {
         context = { header: "Вход", className: "login", content: login };
         break;
     }
-
     return tmpl(context);
   }
 }

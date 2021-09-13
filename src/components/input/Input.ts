@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import * as Handlebars from "handlebars";
 import inputTmpl from "./input.tmpl";
 import inputProfile from "./inputProfile.tmpl";
 import { Block } from "../../modules/block";

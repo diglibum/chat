@@ -13,6 +13,12 @@ type Options = {
 } & Record<string, unknown>;
 
 export class HTTPTransport {
+  url: string;
+
+  constructor (url: string) {
+    this.url = url;
+  }
+
     get = (url: string, options: Options = {}) => {
       const { data } = options;
 

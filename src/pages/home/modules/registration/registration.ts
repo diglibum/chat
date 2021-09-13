@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import * as Handlebars from "handlebars";
 import registrationTmpl from "./registration.tmpl";
 import "./registration.scss";
 import { Input } from "../../../../components/input";

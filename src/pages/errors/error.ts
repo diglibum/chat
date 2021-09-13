@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import * as Handlebars from "handlebars";
 import errorPageTmpl from "./error.tmpl";
 import "./error.scss";
 

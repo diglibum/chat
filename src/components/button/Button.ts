@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import * as Handlebars from "handlebars";
 import "./button.scss";
 import buttonTmpl from "./button.tmpl";
 import { Block } from "../../modules/block";

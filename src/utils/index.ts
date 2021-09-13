@@ -1,7 +1,7 @@
-import { HTTPTransport } from "./HTTPtransport";
-import { render } from "./renderDOM";
+import { render } from "./renderDom";
+import { dataTimeFormat } from "./dataTimeFormat";
 
 export {
-  HTTPTransport,
-  render
+  render,
+  dataTimeFormat
 };

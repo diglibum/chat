@@ -4,7 +4,7 @@ export default
 `
   <div class="profile-page">
     <div class="profile-page__aside">
-      <a onClick="history.back();" class="arrow-button back"></a>
+      <a onClick="history.back()" class="arrow-button go-back"></a>
     </div>
     <div class="profile-page__content">
       <div class="profile-page__content-container">

@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import * as Handlebars from "handlebars";
 import "./form.scss";
 import formTmpl from "./form.tmpl";
 import { Block } from "../../modules/block";

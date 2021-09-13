@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import * as Handlebars from "handlebars";
 import profileEditTmpl from "./profileEdit.tmpl";
 import "./profileEdit.scss";
 import { Input } from "../../../../components/input";
