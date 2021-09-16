@@ -1,4 +1,4 @@
-import * as Handlebars from "handlebars";
+import { Templator } from "../../../../modules/Templator";
 import "./chatItem.scss";
 import chatItemTmpl from "./chatItem.tmpl";
 import { Block } from "../../../../modules/Block";
@@ -12,7 +12,7 @@ export class ChatItem extends Block {
 
   render () {
     const { title, avatar, unread_count: unreadCount, last_message: { content, time } } = this.props; // TODO
-    const tmpl = Handlebars.compile(chatItemTmpl);
+    const tmpl = new Templator(chatItemTmpl);
     const context = {
       title,
       time: dataTimeFormat(time),
@@ -21,6 +21,6 @@ export class ChatItem extends Block {
       message: content
     };
 
-    return tmpl(context);
+    return tmpl.compile(context);
   }
 }

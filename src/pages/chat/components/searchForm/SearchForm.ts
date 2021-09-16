@@ -1,4 +1,4 @@
-import * as Handlebars from "handlebars";
+import { Templator } from "../../../../modules/Templator";
 import "./searchForm.scss";
 import searchFormTmpl from "./searchForm.tmpl";
 import { Block } from "../../../../modules/Block";
@@ -11,8 +11,8 @@ export class SearchForm extends Block {
 
   render () {
     const { placeholder } = this.props;
-    const tmpl = Handlebars.compile(searchFormTmpl);
+    const tmpl = new Templator(searchFormTmpl);
     const context = { placeholder };
-    return tmpl(context);
+    return tmpl.compile(context);
   }
 }

@@ -1,6 +1,6 @@
 export default
 `
     <ul class="chat-list">
-        {{{ items }}}
+        {{ items }}
     </ul>
 `;

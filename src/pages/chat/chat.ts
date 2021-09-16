@@ -1,4 +1,4 @@
-import * as Handlebars from "handlebars";
+import { Templator } from "../../modules/Templator";
 import chatPageTmpl from "./chat.tmpl";
 import "./chat.scss";
 import { Block } from "../../modules/block";
@@ -58,7 +58,7 @@ export class ChatPage extends Block {
   render () {
     const searchForm = new SearchForm({
       placeholder: "Поиск"
-    }).toString();
+    });
 
     const chats = this.chatListData.reduce((acc: string, chat: any) => {
       const chatItem = new ChatItem(chat).toString();
@@ -67,7 +67,7 @@ export class ChatPage extends Block {
     }, "");
 
     const chatList = new ChatList({ items: chats }).toString();
-    const tmpl = Handlebars.compile(chatPageTmpl);
+    const tmpl = new Templator(chatPageTmpl);
 
     const context = {
       list: chatList,
@@ -75,6 +75,6 @@ export class ChatPage extends Block {
       content: "Страница в разработке"
     };
 
-    return tmpl(context);
+    return tmpl.compile(context);
   }
 }

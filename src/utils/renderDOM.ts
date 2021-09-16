@@ -1,7 +1,11 @@
 import { Block } from "../modules/Block";
 
-export function render (query: string, block: Block) { // TODO
+export function render (query: string, block: Block) {
   const root = document.querySelector(query);
-  root?.appendChild(block.getContent());
+  if (root?.hasChildNodes) {
+    root.replaceChildren(block.getContent());
+  } else {
+    root?.appendChild(block.getContent());
+  }
   return root;
 }

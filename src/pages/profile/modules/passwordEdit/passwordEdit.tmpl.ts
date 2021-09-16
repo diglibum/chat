@@ -1,11 +1,11 @@
 export default
 `
   <div class="password-edit">
-    {{{ oldPassword }}}
-    {{{ newPassword }}}
-    {{{ repeatPassword }}}
+    {{ oldPassword }}
+    {{ newPassword }}
+    {{ repeatPassword }}
     <div class="password-edit__button">
-      {{{ button }}}
+      {{ button }}
     </div>
   </div>
 `;

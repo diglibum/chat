@@ -1,4 +1,4 @@
-import * as Handlebars from "handlebars";
+import { Templator } from "../../modules/Templator";
 import "./button.scss";
 import buttonTmpl from "./button.tmpl";
 import { Block } from "../../modules/block";
@@ -11,8 +11,9 @@ export class Button extends Block {
 
   render () {
     const { className, text, type = "submit", disabled = false } = this.props;
-    const tmpl = Handlebars.compile(buttonTmpl);
-    const context = { className, text, type, disabled };
-    return tmpl(context);
+    const id = this.getId();
+    const tmpl = new Templator(buttonTmpl);
+    const context = { className, text, type, disabled, id };
+    return tmpl.compile(context);
   }
 }

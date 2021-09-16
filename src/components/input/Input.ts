@@ -1,4 +1,4 @@
-import * as Handlebars from "handlebars";
+import { Templator } from "../../modules/Templator";
 import inputTmpl from "./input.tmpl";
 import inputProfile from "./inputProfile.tmpl";
 import { Block } from "../../modules/block";
@@ -14,8 +14,8 @@ export class Input extends Block {
     const { isProfile, name, text, type, required, value, disabled, errorMessage, validationType = "text" } = this.props;
     const id = this.getId();
     const template = (isProfile) ? inputProfile : inputTmpl;
-    const tmpl = Handlebars.compile(template);
+    const tmpl = new Templator(template);
     const context = { name, text, type, required, value, disabled, errorMessage, id, validationType };
-    return tmpl(context);
+    return tmpl.compile(context);
   }
 }

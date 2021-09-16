@@ -4,10 +4,10 @@ export default
     <div class="chat-page__aside">
       <div class="aside__header">
         <a href="/settings" class="aside__header-link">Профиль</a>
-        {{{ search }}}
+        {{ search }}
       </div>
       <div class="aside-content">
-        {{{ list }}}
+        {{ list }}
       </div>
     </div>
     <div class="chat-page__content">

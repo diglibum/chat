@@ -1,8 +1,8 @@
-import * as Handlebars from "handlebars";
+import { Templator } from "../../modules/Templator";
 import homePageTmpl from "./home.tmpl";
 import "./home.scss";
-import { login } from "./modules/login";
-import { registration } from "./modules/registration";
+import { Login } from "./modules/login";
+import { Registration } from "./modules/registration";
 import { Props } from "../../types/props";
 import { Block } from "../../modules/block";
 
@@ -13,17 +13,18 @@ export class HomePage extends Block {
 
   render () {
     const { inner } = this.props;
-    const tmpl = Handlebars.compile(homePageTmpl);
+    const tmpl = new Templator(homePageTmpl);
     let context = {};
 
     switch (inner) {
       case "registration":
-        context = { header: "Регистрация", className: "registration", content: registration };
+        context = { header: "Регистрация", className: "registration", content: new Registration() };
+        // context = {};
         break;
       default:
-        context = { header: "Вход", className: "login", content: login };
+        context = { header: "Вход", className: "login", content: new Login() };
         break;
     }
-    return tmpl(context);
+    return tmpl.compile(context);
   }
 }

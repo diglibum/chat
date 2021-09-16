@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   router
     .use("/", new HomePage({ inner: "login" }))
     .use("/sign-up", new HomePage({ inner: "registration" }))
-    .use("/settings", new ProfilePage({ inner: "" }))
+    .use("/settings", new ProfilePage())
     .use("/profile-edit", new ProfilePage({ inner: "profileEdit" }))
     .use("/password-edit", new ProfilePage({ inner: "passwordEdit" }))
     .use("/messenger", new ChatPage())

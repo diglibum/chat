@@ -7,11 +7,10 @@ export class Block {
       INIT: "init",
       FLOW_CDM: "flow:component-did-mount",
       FLOW_CDU: "flow:component-did-update",
-      FLOW_CDP: "flow:component-did-placed",
       FLOW_RENDER: "flow:render"
     };
 
-    private _element: Node; // ссылка на Node
+    private _element: HTMLElement;
     private _meta: {
         tagName: string;
         props: Props;
@@ -42,7 +41,6 @@ export class Block {
       eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
       eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
       eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-      eventBus.on(Block.EVENTS.FLOW_CDP, this._componentDidPlaced.bind(this));
     }
 
     _createResources () {
@@ -54,12 +52,6 @@ export class Block {
       this._createResources();
       this.eventBus().emit(Block.EVENTS.FLOW_CDM);
     }
-
-    _componentDidPlaced () {
-      this.componentDidPlaced();
-    }
-
-    componentDidPlaced () {}
 
     _componentDidMount () {
       this.componentDidMount();
@@ -89,18 +81,19 @@ export class Block {
       Object.assign(this.props, nextProps);
     };
 
-    get element (): Node {
+    get element (): HTMLElement {
       return this._element;
     }
 
     _render () {
       const block = this.render();
-      this._element = this._createDocumentElement(this._meta.tagName);
-      this._element.appendChild(block);
+      this._element.innerHTML = block;
       this._addEvents();
     }
 
-    render (): any {}
+    render (): string {
+      return "";
+    }
 
     toString (): string {
       const wrapper = document.createElement("div");
@@ -113,7 +106,7 @@ export class Block {
     }
 
     show () {
-      this.eventBus().emit(Block.EVENTS.FLOW_CDP);
+      console.log("show");
     }
 
     hide () {

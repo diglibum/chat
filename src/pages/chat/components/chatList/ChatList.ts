@@ -1,4 +1,4 @@
-import * as Handlebars from "handlebars";
+import { Templator } from "../../../../modules/Templator";
 import "./chatList.scss";
 import chatListTmpl from "./chatList.tmpl";
 import { Block } from "../../../../modules/Block";
@@ -11,8 +11,8 @@ export class ChatList extends Block {
 
   render () {
     const { items } = this.props;
-    const tmpl = Handlebars.compile(chatListTmpl);
+    const tmpl = new Templator(chatListTmpl);
     const context = { items };
-    return tmpl(context);
+    return tmpl.compile(context);
   }
 }

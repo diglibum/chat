@@ -1,7 +1,7 @@
 export type Props = {
     name?: string;
     className?: string;
-    body?: string;
+    body?: string | DocumentFragment;
     text?: string;
     type?: string;
     validationType?: string;

@@ -1,38 +1,39 @@
-import * as Handlebars from "handlebars";
+import { Templator } from "../../modules/Templator";
 import profilePageTmpl from "./profile.tmpl";
 import "./profile.scss";
-import { profileView } from "./modules/profileView";
-import { profileEdit } from "./modules/profileEdit";
-import { passwordEdit } from "./modules/passwordEdit";
+import { ProfileView } from "./modules/profileView";
+import { ProfileEdit } from "./modules/profileEdit";
+import { PasswordEdit } from "./modules/passwordEdit";
 import { Block } from "../../modules/Block";
 import { Props } from "../../types/props";
 
 export class ProfilePage extends Block {
-  constructor (props: Props) {
+  constructor (props: Props = {}) {
     super("div", props);
   }
 
   render () {
     const { inner } = this.props;
-    const tmpl = Handlebars.compile(profilePageTmpl);
+    const tmpl = new Templator(profilePageTmpl);
     let context = {};
 
     switch (inner) {
       case "profileEdit":
         context = {
-          content: profileEdit
+          header: "Иван",
+          content: new ProfileEdit()
         };
         break;
       case "passwordEdit":
         context = {
-          content: passwordEdit
+          header: "Иван",
+          content: new PasswordEdit()
         };
         break;
       default:
-        context = { header: "Иван", content: profileView };
+        context = { header: "Иван", content: new ProfileView() };
         break;
     }
-
-    return tmpl(context);
+    return tmpl.compile(context);
   }
 }
