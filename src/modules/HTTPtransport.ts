@@ -5,7 +5,7 @@ enum METHODS {
   DELETE = "DELETE",
 };
 
-type Options = {
+export type Options = {
     timeout?: number;
     method?: METHODS;
     headers?: Record<string, string>;

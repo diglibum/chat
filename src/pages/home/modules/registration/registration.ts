@@ -7,6 +7,7 @@ import { submitFormData, formValidation } from "../../../../components/form/util
 import { Block } from "../../../../modules/Block";
 import { Props } from "../../../../types";
 import { Templator } from "../../../../modules/Templator";
+import { InputType, InputValidationType } from "../../../../components/input/types";
 
 export class Registration extends Block {
   constructor (props: Props = {}) {
@@ -20,8 +21,8 @@ export class Registration extends Block {
       name: "email",
       text: "Почта",
       required: true,
-      type: "email",
-      validationType: "email",
+      type: InputType.EMAIL,
+      validationType: InputValidationType.EMAIL,
       events: {
         focus: (event: Event) => {
           formValidation(event);
@@ -39,7 +40,7 @@ export class Registration extends Block {
       name: "login",
       text: "Логин",
       required: true,
-      validationType: "login",
+      validationType: InputValidationType.LOGIN,
       events: {
         focus: (event: Event) => {
           formValidation(event);
@@ -57,7 +58,7 @@ export class Registration extends Block {
       name: "first_name",
       text: "Имя",
       required: true,
-      validationType: "name",
+      validationType: InputValidationType.NAME,
       events: {
         focus: (event: Event) => {
           formValidation(event);
@@ -74,7 +75,7 @@ export class Registration extends Block {
     const secondNameInput = new Input({
       name: "second_name",
       text: "Фамилия",
-      validationType: "name",
+      validationType: InputValidationType.NAME,
       events: {
         focus: (event: Event) => {
           formValidation(event);
@@ -91,8 +92,8 @@ export class Registration extends Block {
     const phoneInput = new Input({
       name: "phone",
       text: "Телефон",
-      type: "tel",
-      validationType: "phone",
+      type: InputType.TEL,
+      validationType: InputValidationType.PHONE,
       required: true,
       events: {
         focus: (event: Event) => {
@@ -110,8 +111,8 @@ export class Registration extends Block {
     const passwordInput = new Input({
       name: "password",
       text: "Пароль",
-      type: "password",
-      validationType: "password",
+      type: InputType.PASSWORD,
+      validationType: InputValidationType.PASSWORD,
       required: true,
       events: {
         focus: (event: Event) => {
@@ -127,8 +128,7 @@ export class Registration extends Block {
     });
 
     const btn = new Button({
-      text: "Зарегистрироваться",
-      disabled: true
+      text: "Зарегистрироваться"
     });
 
     const context = {
@@ -151,8 +151,7 @@ export class Registration extends Block {
       },
       settings: {
         withInternalID: true
-      },
-      novalidate: true
+      }
     });
 
     return form.getContent();

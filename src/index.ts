@@ -4,6 +4,7 @@ import { HomePage } from "./pages/home";
 import { ProfilePage } from "./pages/profile";
 import { ChatPage } from "./pages/chat";
 // import { errorPage } from "./pages/errors";
+import { DevPage } from "./pages/dev";
 
 document.addEventListener("DOMContentLoaded", () => {
   const router = new Router("#root");
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .use("/profile-edit", new ProfilePage({ inner: "profileEdit" }))
     .use("/password-edit", new ProfilePage({ inner: "passwordEdit" }))
     .use("/messenger", new ChatPage())
+    .use("/test", new DevPage())
     .start();
 
   // const root: Element | null = document.querySelector("#root");

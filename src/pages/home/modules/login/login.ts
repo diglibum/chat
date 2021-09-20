@@ -7,6 +7,7 @@ import { Form } from "../../../../components/form";
 import { submitFormData, formValidation } from "../../../../components/form/utils";
 import { Block } from "../../../../modules/Block";
 import { Props } from "../../../../types";
+import { InputType, InputValidationType } from "../../../../components/input/types";
 
 export class Login extends Block {
   constructor (props: Props = {}) {
@@ -21,7 +22,7 @@ export class Login extends Block {
       text: "Логин",
       className: "input_with-label",
       required: true,
-      validationType: "login",
+      validationType: InputValidationType.LOGIN,
       events: {
         focus: (event: Event) => {
           formValidation(event);
@@ -38,8 +39,8 @@ export class Login extends Block {
     const passwordInput = new Input({
       name: "password",
       text: "Пароль",
-      type: "password",
-      validationType: "password",
+      type: InputType.PASSWORD,
+      validationType: InputValidationType.PASSWORD,
       required: true,
       events: {
         focus: (event: Event) => {
@@ -55,8 +56,7 @@ export class Login extends Block {
     });
 
     const btn = new Button({
-      text: "Авторизоваться",
-      disabled: true
+      text: "Авторизоваться"
     });
 
     const context = {

@@ -10,7 +10,7 @@ export class Form extends Block {
   }
 
   render () {
-    const { name, body, autocomplete = "on", novalidate = false } = this.props;
+    const { name, body, autocomplete = "on", novalidate = true } = this.props;
     const id = this.getId();
     const tmpl = new Templator(formTmpl);
     const context = { name, body, autocomplete, id, novalidate };

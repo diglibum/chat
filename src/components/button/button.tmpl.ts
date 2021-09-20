@@ -2,8 +2,12 @@ export default
 `
   <button 
     data-id="{{ id }}"
-    class="button {{ className }}" 
-    type="{{ type }}">
+    type="{{ type }}"
+    class="button {{ className }}"
+    {{#if disabled }}
+      disabled
+    {{/if}}
+    >
     {{ text }}
   </button>
 `;

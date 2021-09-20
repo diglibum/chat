@@ -1,7 +1,7 @@
 import { Block } from "./Block";
 import { v4 as uuidv4 } from "uuid";
 
-type templateContext = {
+type TemplateContext = {
   [key: string]: unknown;
 }
 
@@ -13,41 +13,45 @@ export class Templator {
     this._template = template;
   }
 
-  compile (ctx: templateContext) {
+  compile (ctx: TemplateContext) {
     return this._compileTemplate(ctx);
   }
 
-  private _compileTemplate = (ctx: templateContext) => {
+  private _compileTemplate = (ctx: TemplateContext) => {
     let tmpl: string = this._template;
-    let key: RegExpExecArray | null;
-
+    let res: RegExpExecArray | null;
     const components: Record<string, Block> = {};
     const fragments: Record<string, DocumentFragment> = {};
+    const regExp: RegExp = this.TEMPLATE_REGEXP;
 
-    const regExp = this.TEMPLATE_REGEXP;
+    tmpl = this._compileIfBlock(tmpl, ctx);
 
-    while ((key = regExp.exec(tmpl))) {
-      if (key[1]) {
-        const tmplValue = key[1].trim();
-        const data = this._get(ctx, tmplValue);
-        let stub: string | null = null;
+    while ((res = regExp.exec(tmpl))) {
+      let stub: string | null = null;
+      const key = res[1].trim();
+      const data = this._getValueFromPath(ctx, key);
 
-        // if Document-fragment
-        if (data instanceof DocumentFragment) {
-          const id = uuidv4();
-          fragments[id] = data;
-          stub = `<div id="${id}"></div>`;
-        }
-
-        // if Block-component
-        if (data instanceof Block) {
-          const id = uuidv4();
-          components[id] = data;
-          stub = `<div id="${id}"></div>`;
-        }
-
-        tmpl = tmpl.replace(new RegExp(key[0], "gi"), stub ?? ((data === undefined) ? "" : data));
+      // Document-fragment
+      if (data instanceof DocumentFragment) {
+        const id = uuidv4();
+        fragments[id] = data;
+        stub = `<div id="${id}"></div>`;
       }
+
+      // Block-component
+      if (data instanceof Block) {
+        const id = uuidv4();
+        components[id] = data;
+        stub = `<div id="${id}"></div>`;
+      }
+
+      // if (data !== undefined) {
+      //   tmpl = tmpl.replace(new RegExp(res[0].trim(), "gi"), (stub ?? data));
+      // } else {
+      //   tmpl = tmpl.replace(new RegExp(res[0].trim(), "gi"), "");
+      // }
+
+      tmpl = tmpl.replace(new RegExp(res[0].trim(), "gi"), ((data) ? (stub ?? data) : ""));
     }
 
     const container = document.createElement("template");
@@ -70,18 +74,33 @@ export class Templator {
     return container.content;
   }
 
-  private _get (obj: Record<string, any>, path: string, defaultValue?: unknown): any {
+  private _compileIfBlock (tmpl: string, ctx: TemplateContext): string {
+    let res: RegExpExecArray | null;
+    const regExp = /\{\{(#if (?<key>.*?))\}\}[\s]*(?<value>.*?)[\s]*\{\{\/if\}\}/gim;
+
+    while ((res = regExp.exec(tmpl))) {
+      const key = res!.groups!.key.trim();
+      const value = res!.groups!.value.trim();
+      const ctxValue = this._getValueFromPath(ctx, key);
+
+      if (ctxValue !!) {
+        tmpl = tmpl.replace(regExp, value);
+      } else {
+        tmpl = tmpl.replace(regExp, "");
+      }
+    }
+
+    return tmpl;
+  }
+
+  private _getValueFromPath (obj: Record<string, any>, path: string): any {
     const keys = path.split(".");
     let result = obj;
 
     for (const key of keys) {
       result = result[key];
-
-      if (result === undefined) {
-        return defaultValue;
-      }
     }
 
-    return result ?? defaultValue;
+    return result;
   }
 }

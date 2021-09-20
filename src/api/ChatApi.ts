@@ -1,5 +1,5 @@
 import { HTTPTransport as HTTP } from "../modules/HTTPtransport";
-import { BaseAPI } from "./base-api";
+import { BaseAPI } from "./BaseApi";
 
 const chatAPIInstance = new HTTP("api/v1/chats");
 
