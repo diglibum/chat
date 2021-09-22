@@ -7,6 +7,7 @@ type TemplateContext = {
 
 export class Templator {
   private TEMPLATE_REGEXP = /\{\{(.*?)\}\}/gi;
+  private IF_TEMPLATE_REGEXP = /\{\{(#if (?<key>.*?))\}\}[\s]*(?<value>.*?)[\s]*\{\{\/if\}\}/gim;
   private _template: string;
 
   constructor (template: string) {
@@ -25,6 +26,7 @@ export class Templator {
     const regExp: RegExp = this.TEMPLATE_REGEXP;
 
     tmpl = this._compileIfBlock(tmpl, ctx);
+    let compiledTmpl = tmpl;
 
     while ((res = regExp.exec(tmpl))) {
       let stub: string | null = null;
@@ -45,17 +47,11 @@ export class Templator {
         stub = `<div id="${id}"></div>`;
       }
 
-      // if (data !== undefined) {
-      //   tmpl = tmpl.replace(new RegExp(res[0].trim(), "gi"), (stub ?? data));
-      // } else {
-      //   tmpl = tmpl.replace(new RegExp(res[0].trim(), "gi"), "");
-      // }
-
-      tmpl = tmpl.replace(new RegExp(res[0].trim(), "gi"), ((data) ? (stub ?? data) : ""));
+      compiledTmpl = compiledTmpl.replace(new RegExp(res[0].trim(), "gi"), ((data) ? (stub ?? data) : ""));
     }
 
     const container = document.createElement("template");
-    container.innerHTML = tmpl;
+    container.innerHTML = compiledTmpl;
 
     if (Object.keys(components).length > 0) {
       Object.entries(components).forEach(([id, component]) => {
@@ -76,21 +72,17 @@ export class Templator {
 
   private _compileIfBlock (tmpl: string, ctx: TemplateContext): string {
     let res: RegExpExecArray | null;
-    const regExp = /\{\{(#if (?<key>.*?))\}\}[\s]*(?<value>.*?)[\s]*\{\{\/if\}\}/gim;
+    const regExp: RegExp = this.IF_TEMPLATE_REGEXP;
+    let compiledTmpl = tmpl;
 
     while ((res = regExp.exec(tmpl))) {
       const key = res!.groups!.key.trim();
       const value = res!.groups!.value.trim();
       const ctxValue = this._getValueFromPath(ctx, key);
-
-      if (ctxValue !!) {
-        tmpl = tmpl.replace(regExp, value);
-      } else {
-        tmpl = tmpl.replace(regExp, "");
-      }
+      compiledTmpl = compiledTmpl.replace(res[0].trim(), ((ctxValue!!) ? value : ""));
     }
 
-    return tmpl;
+    return compiledTmpl;
   }
 
   private _getValueFromPath (obj: Record<string, any>, path: string): any {
