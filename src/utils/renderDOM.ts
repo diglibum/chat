@@ -1,11 +1,13 @@
 import { Block } from "../modules/Block";
 
-export function render (query: string, block: Block) {
+export function renderDOM (block: Block, query: string = "#root") {
   const root = document.querySelector(query);
-  if (root?.hasChildNodes) {
-    root.replaceChildren(block.getContent());
-  } else {
-    root?.appendChild(block.getContent());
-  }
+  root?.appendChild(block.getContent());
+  return root;
+}
+
+export function removeDOM (block: Block, query: string = "#root") {
+  const root = document.querySelector(query);
+  root!.textContent = "";
   return root;
 }

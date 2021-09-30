@@ -15,6 +15,7 @@ export class Input extends Block {
       isProfile = false,
       name,
       text,
+      equal,
       type = InputType.TEXT,
       required = true,
       value,
@@ -26,7 +27,7 @@ export class Input extends Block {
     const id = this.getId();
     const template = (isProfile) ? inputProfile : inputTmpl;
     const tmpl = new Templator(template);
-    const context = { type, name, text, required, value, disabled, errorMessage, id, validationType };
+    const context = { type, name, text, required, value, disabled, equal, errorMessage, id, validationType };
     return tmpl.compile(context);
   }
 }

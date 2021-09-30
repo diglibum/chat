@@ -1,7 +1,12 @@
-import { render } from "./renderDom";
+import { renderDOM, removeDOM } from "./renderDom";
 import { dataTimeFormat } from "./dataTimeFormat";
+import { toCamelCase } from "./toCamelCase";
+import { getValueFromPath } from "./getValueFromPath";
 
 export {
-  render,
-  dataTimeFormat
+  renderDOM,
+  removeDOM,
+  dataTimeFormat,
+  toCamelCase,
+  getValueFromPath
 };

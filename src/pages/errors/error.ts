@@ -1,25 +1,34 @@
-import * as Handlebars from "handlebars";
+import { Templator } from "../../modules/Templator";
 import errorPageTmpl from "./error.tmpl";
 import "./error.scss";
+import { Block } from "../../modules/Block";
+import { Props } from "../../types";
 
-export function errorPage (errorCode: string) {
-  const tmpl = Handlebars.compile(errorPageTmpl);
-  let context = {};
-
-  switch (errorCode) {
-    case "404":
-      context = {
-        errorCode: "404",
-        errorText: "Не туда попали"
-      };
-      break;
-    case "500":
-      context = {
-        errorCode: "500",
-        errorText: "Мы уже фиксим"
-      };
-      break;
+export class ErrorPage extends Block {
+  constructor (props: Props = {}) {
+    super("div", props);
   }
 
-  return tmpl(context);
+  render () {
+    const { inner } = this.props;
+    const tmpl = new Templator(errorPageTmpl);
+    let context = {};
+
+    switch (inner) {
+      case "404":
+        context = {
+          errorCode: "404",
+          errorText: "Не туда попали"
+        };
+        break;
+      case "500":
+        context = {
+          errorCode: "500",
+          errorText: "Мы уже фиксим"
+        };
+        break;
+    }
+
+    return tmpl.compile(context);
+  }
 }

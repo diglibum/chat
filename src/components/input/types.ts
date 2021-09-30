@@ -14,7 +14,8 @@ export enum InputValidationType {
   EMAIL = "email",
   NAME = "name",
   PHONE = "phone",
-  TEXT = "text"
+  TEXT = "text",
+  EQUAL = "equal"
 }
 
 export interface InputProps extends Props{

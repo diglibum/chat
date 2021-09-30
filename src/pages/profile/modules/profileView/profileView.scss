@@ -9,10 +9,8 @@
 
     &_logout {
       border-bottom: none;
-
-      a {
-        color: var(--error-color);
-      }
+      color: var(--error-color);
+      cursor: pointer;
     }
   }
 }

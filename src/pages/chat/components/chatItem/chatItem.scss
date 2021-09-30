@@ -2,6 +2,7 @@
   display: flex;
   padding: 12px 0;
   border-top: 1px solid #eaeaea;
+  cursor: pointer;
 
   &__avatar {
     width: 47px;
@@ -9,6 +10,12 @@
     background: #efefef;
     border-radius: 100%;
     margin-right: 10px;
+
+    img {
+      width: 47px;
+      height: 47px;
+      border-radius: 100%;
+    }
   }
 
   &__content {

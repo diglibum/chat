@@ -8,9 +8,9 @@ export default
     {{ displayNameInput }}
     {{ phoneInput }}
   </div>
-  <div class="profile-view__links">
-    <div class="profile-view__link"><a href="/profile-edit">Изменить данные</a></div>
-    <div class="profile-view__link"><a href="/password-edit">Изменить пароль</a></div>
-    <div class="profile-view__link profile-view__link_logout"><a href="/">Выйти</a></div>
+  <div class="profile-view__links">    
+    <div class="profile-view__link">{{ profileEditLink }}</div>
+    <div class="profile-view__link">{{ passwordEditLink }}</div>
+    <div class="profile-view__link profile-view__link_logout">Выйти</div>
   </div>
 `;

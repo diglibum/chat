@@ -11,9 +11,12 @@ export default
       {{/if}} 
       {{#if required}}
         required
-      {{/if}} />
+      {{/if}} 
       {{#if disabled}}
         disabled
+      {{/if}}
+      {{#if equal}}
+        data-equal-to="{{ equal }}"
       {{/if}}
       value = "{{ value }}"
       class="input-profile__input" />

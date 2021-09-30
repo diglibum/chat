@@ -5,76 +5,92 @@ import { Block } from "../../modules/block";
 import { Props } from "../../types/props";
 import { SearchForm } from "./components/searchForm";
 import { ChatList } from "./components/chatList";
-import { ChatItem } from "./components/chatItem";
+import { Link } from "../../modules/Link";
+import { ChatController } from "../../controllers/ChatController";
+import { Popup } from "../../components/popup/Popup";
+import { AddChat } from "./components/addChat";
+import Store from "../../modules/Store";
+import { WebSocketService } from "../../modules/WebSocketService";
 
 export class ChatPage extends Block {
-  chatListData: any = [];
+  controller: ChatController;
+  ws: WebSocketService;
 
   constructor (props: Props = {}) {
     super("div", props);
+    Store.registerEvent(this.reRender, this);
   }
 
   componentDidMount () {
-    this.chatListData = [
-      {
-        id: 123,
-        title: "Андрей",
-        avatar: "https://sun9-23.userapi.com/c625826/v625826466/1ba40/SWIeP1wT5DA.jpg",
-        unread_count: 2,
-        last_message: {
-          user: {
-            first_name: "Petya",
-            second_name: "Pupkin",
-            avatar: "https://pbs.twimg.com/media/Ea65XdZUcAAzH87.jpg",
-            email: "my@email.com",
-            login: "userLogin",
-            phone: "8(911)-222-33-22"
-          },
-          time: "2020-01-02T10:49:22.000Z",
-          content: "Изображение"
-        }
-      },
-      {
-        id: 124,
-        title: "my-chat2",
-        avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREuozuvzB6l_lBK2nbSx-SH5pZ-liPujKBCQ&usqp=CAU",
-        unread_count: 5,
-        last_message: {
-          user: {
-            first_name: "Petya",
-            second_name: "Pupkin",
-            avatar: "https://pbs.twimg.com/media/Ea65XdZUcAAzH87.jpg",
-            email: "my@email.com",
-            login: "userLogin",
-            phone: "8(911)-222-33-22"
-          },
-          time: "2020-01-02T14:22:22.000Z",
-          content: "this is message content"
-        }
-      }
-    ];
+    this.controller = new ChatController();
+    this.controller.getToken();
+    this.controller.getChats();
   }
 
   render () {
+    const token = Store.getState("token");
+    const currentChat = Store.getState("currentChat");
+    const user = Store.getState("user");
+    // console.log(userId);
+
+    if (token && currentChat && user) {
+      try {
+        this.ws = new WebSocketService({
+          token,
+          chatId: currentChat,
+          userId: user.id
+        });
+      } catch {
+        console.log("Ошибка подлючения к серверу чатов");
+      }
+    }
+
     const searchForm = new SearchForm({
       placeholder: "Поиск"
     });
 
-    const chats = this.chatListData.reduce((acc: string, chat: any) => {
-      const chatItem = new ChatItem(chat).toString();
+    const settingsLink = new Link({
+      to: "/settings",
+      label: "Профиль",
+      className: "aside__header-link"
+    });
 
-      return acc.concat(chatItem + "\n");
-    }, "");
+    const popup = new Popup({
+      className: "add-chat__popup",
+      title: "Добавить чат",
+      body: new AddChat()
+    });
 
-    const chatList = new ChatList({ items: chats }).toString();
+    const chatList = new ChatList();
     const tmpl = new Templator(chatPageTmpl);
 
     const context = {
       list: chatList,
       search: searchForm,
-      content: "Страница в разработке"
+      content: currentChat ?? "Выберите чат для начала общения",
+      settingsLink,
+      popup
     };
 
-    return tmpl.compile(context);
+    const fragment = tmpl.compile(context);
+    const addChatBtn = fragment.querySelector(".chat-page__link-button");
+    const addChatFormPopup = fragment.querySelector(".form")! as HTMLFormElement;
+    const addChatPopup = fragment.querySelector(".add-chat__popup");
+    addChatPopup?.classList.add("hide");
+    const addChatNameButton = fragment.querySelector(".add-chat-name__button");
+
+    addChatBtn?.addEventListener("click", (event) => {
+      event.preventDefault();
+      addChatPopup?.classList.remove("hide");
+    });
+
+    addChatNameButton?.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (this.controller.createChat(addChatFormPopup)) {
+        addChatPopup?.classList.add("hide");
+      }
+    });
+
+    return fragment;
   }
 }

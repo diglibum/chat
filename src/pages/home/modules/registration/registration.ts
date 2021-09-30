@@ -3,13 +3,17 @@ import "./registration.scss";
 import { Input } from "../../../../components/input";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
-import { submitFormData, formValidation } from "../../../../components/form/utils";
+import { formValidation } from "../../../../components/form/utils";
 import { Block } from "../../../../modules/Block";
 import { Props } from "../../../../types";
 import { Templator } from "../../../../modules/Templator";
 import { InputType, InputValidationType } from "../../../../components/input/types";
+import { AuthController } from "../../../../controllers/AuthController";
+import { Link } from "../../../../modules/Link";
 
 export class Registration extends Block {
+  private controller = new AuthController();
+
   constructor (props: Props = {}) {
     super("div", props);
   }
@@ -127,8 +131,14 @@ export class Registration extends Block {
       }
     });
 
-    const btn = new Button({
+    const button = new Button({
       text: "Зарегистрироваться"
+    });
+
+    const regLink = new Link({
+      to: "/",
+      label: "Войти",
+      className: "registration__enter-link"
     });
 
     const context = {
@@ -138,22 +148,23 @@ export class Registration extends Block {
       secondNameInput,
       phoneInput,
       passwordInput,
-      button: btn
+      button,
+      regLink
     };
 
     const form = new Form({
       name: "registrationForm",
-      body: tmpl.compile(context),
-      events: {
-        submit: (event: Event) => {
-          submitFormData(event);
-        }
-      },
-      settings: {
-        withInternalID: true
-      }
+      body: tmpl.compile(context)
     });
 
-    return form.getContent();
+    const fragment = form.getContent();
+    const htmlForm = (<HTMLElement>fragment).querySelector(".form")! as HTMLFormElement;
+
+    htmlForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.controller.signUp(htmlForm);
+    });
+
+    return fragment;
   }
 }

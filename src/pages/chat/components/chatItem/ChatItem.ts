@@ -4,6 +4,7 @@ import chatItemTmpl from "./chatItem.tmpl";
 import { Block } from "../../../../modules/Block";
 import { Props } from "../../../../types";
 import { dataTimeFormat } from "../../../../utils";
+import Store from "../../../../modules/Store";
 
 export class ChatItem extends Block {
   constructor (props: Props) {
@@ -11,16 +12,24 @@ export class ChatItem extends Block {
   }
 
   render () {
-    const { title, avatar, unread_count: unreadCount, last_message: { content, time } } = this.props; // TODO
+    const { title, id: chatId, avatar, unread_count: unreadCount, last_message: lastMessage } = this.props;
     const tmpl = new Templator(chatItemTmpl);
-    const context = {
+    const context: Props = {
       title,
-      time: dataTimeFormat(time),
-      avatar,
-      unreadCount,
-      message: content
+      time: lastMessage ? dataTimeFormat(lastMessage.time) : "",
+      message: lastMessage ? lastMessage.content : ""
     };
+    if (avatar) {
+      context.avatar = avatar;
+    }
+    if (unreadCount) {
+      context.unreadCount = unreadCount;
+    }
 
-    return tmpl.compile(context);
+    const fragment = tmpl.compile(context);
+    fragment.firstElementChild?.addEventListener("click", () => {
+      Store.setState({ currentChat: chatId });
+    });
+    return fragment;
   }
 }

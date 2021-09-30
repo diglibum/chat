@@ -4,13 +4,20 @@ import "./passwordEdit.scss";
 import { Input } from "../../../../components/input";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
-import { submitFormData, formValidation } from "../../../../components/form/utils";
+import { formValidation } from "../../../../components/form/utils";
 import { Block } from "../../../../modules/Block";
 import { Props } from "../../../../types";
+import { InputType, InputValidationType } from "../../../../components/input/types";
+import Store from "../../../../modules/Store";
+import { Router } from "../../../../modules/Router";
+import { UsersController } from "../../../../controllers/UsersController";
 
 export class PasswordEdit extends Block {
+  private controller = new UsersController();
+
   constructor (props: Props = {}) {
     super("div", props);
+    Store.registerEvent(this.reRender, this);
   }
 
   render () {
@@ -19,9 +26,9 @@ export class PasswordEdit extends Block {
     const oldPassword = new Input({
       name: "oldPassword",
       text: "Старый пароль",
-      type: "password",
+      type: InputType.PASSWORD,
       required: true,
-      validationType: "password",
+      validationType: InputValidationType.PASSWORD,
       isProfile: true,
       events: {
         focus: (event: Event) => {
@@ -39,8 +46,8 @@ export class PasswordEdit extends Block {
     const newPassword = new Input({
       name: "newPassword",
       text: "Новый пароль",
-      type: "password",
-      validationType: "password",
+      type: InputType.PASSWORD,
+      validationType: InputValidationType.PASSWORD,
       required: true,
       isProfile: true,
       events: {
@@ -59,10 +66,11 @@ export class PasswordEdit extends Block {
     const repeatPassword = new Input({
       name: "repeatPassword",
       text: "Повторите новый пароль",
-      type: "password",
+      type: InputType.PASSWORD,
       required: true,
-      validationType: "password",
+      validationType: InputValidationType.EQUAL,
       isProfile: true,
+      equal: "newPassword",
       events: {
         focus: (event: Event) => {
           formValidation(event);
@@ -89,17 +97,20 @@ export class PasswordEdit extends Block {
 
     const form = new Form({
       name: "passwordEditForm",
-      body: tmpl.compile(context),
-      events: {
-        submit: (event: Event) => {
-          submitFormData(event);
-        }
-      },
-      settings: {
-        withInternalID: true
+      body: tmpl.compile(context)
+    });
+
+    const fragment = form.getContent();
+    const htmlForm = (<HTMLElement>fragment).querySelector(".form")! as HTMLFormElement;
+    const router = new Router();
+
+    htmlForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (this.controller.changePassword(htmlForm)) {
+        router.go("/settings");
       }
     });
 
-    return form.getContent();
+    return fragment;
   }
 }

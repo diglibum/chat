@@ -1,5 +1,4 @@
 import { Props } from "../types";
-import { render as renderDOM } from "../utils";
 import { Block } from "./block";
 
 export class Route {
@@ -35,7 +34,7 @@ export class Route {
     render () {
       if (!this._block) {
         this._block = this._blockClass;
-        renderDOM(this._props.rootQuery as string, this._block);
+        this._block.show();
         return;
       }
 

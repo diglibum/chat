@@ -58,6 +58,7 @@ export class HTTPTransport {
 
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
 
         xhr.open(
           method as string,
@@ -69,6 +70,9 @@ export class HTTPTransport {
         });
 
         xhr.onload = function () {
+          if (xhr.status !== 200) {
+            reject(JSON.parse(xhr.response).reason);
+          }
           resolve(xhr);
         };
 

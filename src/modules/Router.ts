@@ -1,18 +1,26 @@
+import { Block } from "./Block";
 import { Route } from "./Route";
+
+export interface Redirect {
+  from: string;
+  to: string;
+}
 
 export class Router {
     routes: Route[];
+    redirects: Redirect[];
     history: History;
     private _currentRoute: null | Route;
     private _rootQuery: string;
     private static __instance: Router;
 
-    constructor (rootQuery: string) {
+    constructor (rootQuery: string = "#root") {
       if (Router.__instance) {
         return Router.__instance;
       }
 
       this.routes = [];
+      this.redirects = [];
       this.history = window.history;
       this._currentRoute = null;
       this._rootQuery = rootQuery;
@@ -20,31 +28,35 @@ export class Router {
       Router.__instance = this;
     }
 
-    use (pathname: string, block: any) { // TODO
+    use (pathname: string, block: Block) {
       const route = new Route(pathname, block, { rootQuery: this._rootQuery });
       this.routes.push(route);
       return this;
     }
 
     start () {
-      window.onpopstate = event => {
-        this._onRoute((<any>event.currentTarget).location.pathname); // TODO Window
-      };
-
-      this._onRoute(window.location.pathname);
+      if (this.redirects) {
+        const redirect = this.getRedirect(window.location.pathname);
+        if (redirect) {
+          this.go(redirect.to);
+        }
+        window.onpopstate = event => {
+          this._onRoute((event.currentTarget as Window).location.pathname);
+        };
+        this._onRoute(window.location.pathname);
+      }
     }
 
     _onRoute (pathname: string) {
       const route = this.getRoute(pathname);
       if (!route) {
+        this.go("/404");
         return;
       }
 
       if (this._currentRoute) {
         this._currentRoute.leave();
       }
-
-      // route.render(route: Route, pathname: string); // TODO
       route.render();
       this._currentRoute = route;
     }
@@ -64,5 +76,19 @@ export class Router {
 
     getRoute (pathname: string) {
       return this.routes.find(route => route.match(pathname));
+    }
+
+    getRedirect (pathname: string) {
+      return this.redirects.find(redirect => (pathname === redirect.from));
+    }
+
+    redirect (item: Redirect) {
+      this.redirects.push(item);
+      return this;
+    }
+
+    clearRedirects () {
+      this.redirects = [];
+      return this;
     }
 }

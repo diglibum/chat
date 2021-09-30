@@ -4,6 +4,12 @@
   height: 100vh;
   justify-content: stretch;
 
+  &__link-button {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+  }
+
   &__aside {
     min-width: 310px;
     background: #fbfbfb;

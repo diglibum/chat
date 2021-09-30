@@ -19,7 +19,6 @@ export class HomePage extends Block {
     switch (inner) {
       case "registration":
         context = { header: "Регистрация", className: "registration", content: new Registration() };
-        // context = {};
         break;
       default:
         context = { header: "Вход", className: "login", content: new Login() };

@@ -27,6 +27,8 @@ const checkFormInput = (input: HTMLInputElement) => {
 
   if (input) {
     const validationType = input.getAttribute("data-validation-type");
+    let equalTo: string | null;
+    let equalInput: string | null;
     const type = (validationType != null) ? validationType : "text";
     const value = input.value;
 
@@ -50,6 +52,12 @@ const checkFormInput = (input: HTMLInputElement) => {
           break;
         case "phone":
           result = checkPhoneValidaty(value);
+          applyResult(input, result);
+          break;
+        case "equal":
+          equalTo = input.getAttribute("data-equal-to");
+          equalInput = input.form?.[equalTo!]?.value;
+          result = checkEqualValidaty(value, new RegExp("^" + equalInput + "$"), "Поля не равны");
           applyResult(input, result);
           break;
       }
@@ -179,6 +187,13 @@ const checkEmailValidaty = (value: string = "") => {
     checkMinLength(value.length, rules.minLength)
   ];
 
+  return checker(checkList);
+};
+
+const checkEqualValidaty = (value: string = "", pattern: RegExp, errorMessage: string) => {
+  const checkList: (string | boolean)[] = [
+    checkPattern(value, pattern, errorMessage)
+  ];
   return checker(checkList);
 };
 

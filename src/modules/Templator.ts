@@ -1,5 +1,7 @@
 import { Block } from "./Block";
+import { Link } from "./Link";
 import { v4 as uuidv4 } from "uuid";
+import { getValueFromPath } from "../utils";
 
 type TemplateContext = {
   [key: string]: unknown;
@@ -23,6 +25,8 @@ export class Templator {
     let res: RegExpExecArray | null;
     const components: Record<string, Block> = {};
     const fragments: Record<string, DocumentFragment> = {};
+    const links: Record<string, Link> = {};
+    const arrays: Record<string, unknown[]> = {};
     const regExp: RegExp = this.TEMPLATE_REGEXP;
 
     tmpl = this._compileIfBlock(tmpl, ctx);
@@ -31,7 +35,14 @@ export class Templator {
     while ((res = regExp.exec(tmpl))) {
       let stub: string | null = null;
       const key = res[1].trim();
-      const data = this._getValueFromPath(ctx, key);
+      const data = getValueFromPath(ctx, key);
+
+      // Array
+      if (Array.isArray(data)) {
+        const id = uuidv4();
+        arrays[id] = data;
+        stub = `<div id="${id}"></div>`;
+      }
 
       // Document-fragment
       if (data instanceof DocumentFragment) {
@@ -44,6 +55,13 @@ export class Templator {
       if (data instanceof Block) {
         const id = uuidv4();
         components[id] = data;
+        stub = `<div id="${id}"></div>`;
+      }
+
+      // Link
+      if (data instanceof Link) {
+        const id = uuidv4();
+        links[id] = data;
         stub = `<div id="${id}"></div>`;
       }
 
@@ -67,6 +85,24 @@ export class Templator {
       });
     }
 
+    if (Object.keys(links).length > 0) {
+      Object.entries(links).forEach(([id, link]) => {
+        const root = container.content.getElementById(id);
+        root?.replaceWith(link.getContent());
+      });
+    }
+
+    if (Object.keys(arrays).length > 0) {
+      Object.entries(arrays).forEach(([id, array]) => {
+        const root = container.content.getElementById(id);
+        array.forEach(element => {
+          const tmpl = new Templator("{{ item }}");
+          const compiledItem = tmpl.compile({ item: element });
+          root?.appendChild(compiledItem);
+        });
+      });
+    }
+
     return container.content;
   }
 
@@ -78,21 +114,10 @@ export class Templator {
     while ((res = regExp.exec(tmpl))) {
       const key = res!.groups!.key.trim();
       const value = res!.groups!.value.trim();
-      const ctxValue = this._getValueFromPath(ctx, key);
+      const ctxValue = getValueFromPath(ctx, key);
       compiledTmpl = compiledTmpl.replace(res[0].trim(), ((ctxValue!!) ? value : ""));
     }
 
     return compiledTmpl;
-  }
-
-  private _getValueFromPath (obj: Record<string, any>, path: string): any {
-    const keys = path.split(".");
-    let result = obj;
-
-    for (const key of keys) {
-      result = result[key];
-    }
-
-    return result;
   }
 }

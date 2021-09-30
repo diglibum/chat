@@ -10,6 +10,6 @@ export default
   </div>
   <div class="registration__footer">
     {{ button }}
-    <a class="registration__enter-link" href="/">Войти</a>
+    {{ regLink }}
   </div>
 `;

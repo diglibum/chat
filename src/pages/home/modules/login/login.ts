@@ -4,12 +4,16 @@ import "./login.scss";
 import { Input } from "../../../../components/input";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
-import { submitFormData, formValidation } from "../../../../components/form/utils";
+import { formValidation } from "../../../../components/form/utils";
 import { Block } from "../../../../modules/Block";
+import { Link } from "../../../../modules/Link";
 import { Props } from "../../../../types";
 import { InputType, InputValidationType } from "../../../../components/input/types";
+import { AuthController } from "../../../../controllers/AuthController";
 
 export class Login extends Block {
+  controller = new AuthController();
+
   constructor (props: Props = {}) {
     super("div", props);
   }
@@ -59,26 +63,33 @@ export class Login extends Block {
       text: "Авторизоваться"
     });
 
+    const signUpLink = new Link({
+      to: "/sign-up",
+      label: "Нет аккаунта?",
+      className: "login__registr-link"
+    });
+
     const context = {
       loginInput,
       passwordInput,
-      button: btn
+      button: btn,
+      signUpLink
     };
 
     const form = new Form({
       name: "loginForm",
       body: tmpl.compile(context),
-      events: {
-        submit: (event: Event) => {
-          submitFormData(event);
-        }
-      },
-      settings: {
-        withInternalID: true
-      },
       novalidate: true
     });
 
-    return form.getContent();
+    const fragment = form.getContent();
+    const htmlForm = (<HTMLElement>fragment).querySelector(".form")! as HTMLFormElement;
+
+    htmlForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.controller.signIn(htmlForm);
+    });
+
+    return fragment;
   }
 }

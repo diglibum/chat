@@ -1,6 +1,7 @@
 import { EventBus } from "./EventBus";
 import { Props } from "../types";
 import { v4 as uuidv4 } from "uuid";
+import { renderDOM, removeDOM } from "../utils";
 
 export class Block {
     private static EVENTS = {
@@ -8,6 +9,7 @@ export class Block {
       FLOW_CDM: "flow:component-did-mount",
       FLOW_CDU: "flow:component-did-update",
       FLOW_CDP: "flow:component-did-placed",
+      FLOW_CDR: "flow:component-did-removed",
       FLOW_RENDER: "flow:render"
     };
 
@@ -20,6 +22,7 @@ export class Block {
     state: {};
     private _id: string;
     protected props: Props;
+    protected children: Record<string, Block>;
     private eventBus: () => EventBus;
 
     constructor (tagName: string = "div", props: Props) {
@@ -30,9 +33,7 @@ export class Block {
       };
       this._id = uuidv4();
       this.props = this._makePropsProxy(props);
-
       this.eventBus = () => eventBus;
-
       this._registerEvents(eventBus);
       eventBus.emit(Block.EVENTS.INIT);
     }
@@ -43,6 +44,7 @@ export class Block {
       eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
       eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
       eventBus.on(Block.EVENTS.FLOW_CDP, this._componentDidPlaced.bind(this));
+      eventBus.on(Block.EVENTS.FLOW_CDR, this._componentDidRemoved.bind(this));
     }
 
     _createResources () {
@@ -60,6 +62,12 @@ export class Block {
     }
 
     componentDidPlaced () {}
+
+    _componentDidRemoved () {
+      this.componentDidPlaced();
+    }
+
+    componentDidRemoved () {}
 
     _componentDidMount () {
       this.componentDidMount();
@@ -100,6 +108,13 @@ export class Block {
       this._addEvents();
     }
 
+    reRender () {
+      const block = this.render();
+      this._element.textContent = "";
+      this._element.appendChild(block);
+      this._addEvents();
+    }
+
     render (): any {}
 
     toString (): string {
@@ -113,11 +128,13 @@ export class Block {
     }
 
     show () {
+      renderDOM(this);
       this.eventBus().emit(Block.EVENTS.FLOW_CDP);
     }
 
     hide () {
-      console.log("hide");
+      removeDOM(this);
+      this.eventBus().emit(Block.EVENTS.FLOW_CDR);
     }
 
     getId () {
