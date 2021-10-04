@@ -1,6 +1,8 @@
+import ChatController from "../controllers/ChatController";
+
 export enum WS_ACTIONS {
-  SEND_TEXT = "SEND_TEXT",
-  MESSAGES = "MESSAGES"
+  MESSAGES = "message",
+  GET_OLD = "get old"
 }
 
 interface WsRequest {
@@ -12,55 +14,72 @@ interface WsRequest {
 const host = "wss://ya-praktikum.tech/ws/chats";
 
 export class WebSocketService {
-  private socket: WebSocket;
-  private static __instance: WebSocketService;
+  socket: WebSocket;
+  chatId: number;
+  token: string;
+  private pingId: any;
 
   constructor (data: WsRequest) {
-    if (WebSocketService.__instance) {
-      return WebSocketService.__instance;
-    }
     const { userId, chatId, token } = data;
+    this.chatId = chatId;
+    this.token = token;
     const path = `${host}/${userId}/${chatId}/${token}`;
-    // const path = `${host}/${userId}/1/${token}`;
-    console.log(path);
     this.socket = new WebSocket(path);
     this.addListeners();
-    WebSocketService.__instance = this;
+  }
+
+  private pingPong () {
+    this.pingId = setInterval(() => {
+      this.socket.send(JSON.stringify({
+        type: "ping"
+      }));
+    }, 10000);
+  }
+
+  send (action: WS_ACTIONS, payload: any) {
+    const data = {
+      content: payload,
+      type: action
+    };
+    this.socket.send(JSON.stringify(data));
+  }
+
+  close () {
+    this.socket.close();
+  }
+
+  getNewMessages (offset: number) {
+    this.socket.send(JSON.stringify({
+      content: "" + offset,
+      type: "get old"
+    }));
   }
 
   private addListeners () {
     this.socket.addEventListener("open", () => {
       console.log("Соединение установлено");
+      this.pingPong();
     });
 
     this.socket.addEventListener("close", event => {
+      clearInterval(this.pingId);
       if (event.wasClean) {
         console.log("Соединение закрыто чисто");
       } else {
         console.log("Обрыв соединения");
       }
-
       console.log(`Код: ${event.code} | Причина: ${event.reason}`);
     });
 
     this.socket.addEventListener("message", event => {
       console.log("Получены данные", event.data);
+      if (JSON.parse(event.data).type === WS_ACTIONS.MESSAGES) {
+        ChatController.getChats();
+      }
     });
 
     this.socket.addEventListener("error", event => {
       console.log("Ошибка", (<any>event).message);
     });
   }
-
-  // send (action: WS_ACTIONS, payload: unknown) {
-
-  // }
 }
-
-// const webSocketService = new WebSocketService('/ws');
-
-// webSocketService.send('SEND_TEXT', { message: 'text' });
-// webSocketService.subscribe('MESSAGES', function (payload) {
-//   const state = payload.state;
-//   chat.setProps(state);
-// });

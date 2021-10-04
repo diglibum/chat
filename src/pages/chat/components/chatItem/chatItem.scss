@@ -5,6 +5,7 @@
   cursor: pointer;
 
   &__avatar {
+    flex-shrink: 0;
     width: 47px;
     height: 47px;
     background: #efefef;

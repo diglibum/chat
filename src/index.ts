@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .use("/", new HomePage({ inner: "login" }))
     .use("/sign-up", new HomePage({ inner: "registration" }))
     .use("/messenger", new ChatPage())
-    .use("/messennger/:chatId", new ChatPage())
     .use("/settings", new ProfilePage())
     .use("/profile-edit", new ProfilePage({ inner: "profileEdit" }))
     .use("/password-edit", new ProfilePage({ inner: "passwordEdit" }))

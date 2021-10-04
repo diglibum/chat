@@ -50,6 +50,10 @@ const checkFormInput = (input: HTMLInputElement) => {
           result = checkNameValidaty(value);
           applyResult(input, result);
           break;
+        case "shortText":
+          result = checkShortTextValidaty(value);
+          applyResult(input, result);
+          break;
         case "phone":
           result = checkPhoneValidaty(value);
           applyResult(input, result);
@@ -207,6 +211,23 @@ const checkNameValidaty = (value: string = "") => {
 
   const checkList: (string | boolean)[] = [
     checkPattern(value, rules.pattern, "Поле может содержать только буквы латинского или русского алфавита"),
+    checkMaxLength(value.length, rules.maxLength),
+    checkMinLength(value.length, rules.minLength)
+  ];
+
+  return checker(checkList);
+};
+
+const checkShortTextValidaty = (value: string = "") => {
+  const rules: Rules = {
+    symbols: "",
+    minLength: 2,
+    maxLength: 100
+  };
+  rules.pattern = /^[A-Zа-яё 0-9_-]{1,}$/gi;
+
+  const checkList: (string | boolean)[] = [
+    checkPattern(value, rules.pattern, "Поле может содержать только буквы латинского или русского алфавита, цифры и знаки _-"),
     checkMaxLength(value.length, rules.maxLength),
     checkMinLength(value.length, rules.minLength)
   ];

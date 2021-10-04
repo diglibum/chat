@@ -6,45 +6,24 @@ import { Props } from "../../types/props";
 import { SearchForm } from "./components/searchForm";
 import { ChatList } from "./components/chatList";
 import { Link } from "../../modules/Link";
-import { ChatController } from "../../controllers/ChatController";
-import { Popup } from "../../components/popup/Popup";
+import ChatController from "../../controllers/ChatController";
 import { AddChat } from "./components/addChat";
 import Store from "../../modules/Store";
-import { WebSocketService } from "../../modules/WebSocketService";
+import { WebSocketService, WS_ACTIONS } from "../../modules/WebSocketService";
+import { ChatBody } from "./components/chatBody";
+import { AddUser } from "./components/addUser";
 
 export class ChatPage extends Block {
-  controller: ChatController;
-  ws: WebSocketService;
+  currentChat: any;
 
   constructor (props: Props = {}) {
     super("div", props);
     Store.registerEvent(this.reRender, this);
-  }
-
-  componentDidMount () {
-    this.controller = new ChatController();
-    this.controller.getToken();
-    this.controller.getChats();
+    ChatController.getChats();
   }
 
   render () {
-    const token = Store.getState("token");
-    const currentChat = Store.getState("currentChat");
-    const user = Store.getState("user");
-    // console.log(userId);
-
-    if (token && currentChat && user) {
-      try {
-        this.ws = new WebSocketService({
-          token,
-          chatId: currentChat,
-          userId: user.id
-        });
-      } catch {
-        console.log("Ошибка подлючения к серверу чатов");
-      }
-    }
-
+    this.currentChat = Store.getState("currentChat");
     const searchForm = new SearchForm({
       placeholder: "Поиск"
     });
@@ -55,42 +34,54 @@ export class ChatPage extends Block {
       className: "aside__header-link"
     });
 
-    const popup = new Popup({
-      className: "add-chat__popup",
-      title: "Добавить чат",
-      body: new AddChat()
-    });
-
+    const chatPopup = new AddChat();
+    const userPopup = new AddUser({ inner: "search" });
     const chatList = new ChatList();
     const tmpl = new Templator(chatPageTmpl);
 
-    const context = {
+    const context: Props = {
       list: chatList,
       search: searchForm,
-      content: currentChat ?? "Выберите чат для начала общения",
+      chatTitle: this.currentChat?.title ?? "",
+      content: new ChatBody(),
       settingsLink,
-      popup
+      chatPopup: chatPopup,
+      userPopup: userPopup
     };
 
+    if (this.currentChat?.avatar) {
+      context.avatar = this.currentChat?.avatar;
+    }
+
     const fragment = tmpl.compile(context);
-    const addChatBtn = fragment.querySelector(".chat-page__link-button");
-    const addChatFormPopup = fragment.querySelector(".form")! as HTMLFormElement;
-    const addChatPopup = fragment.querySelector(".add-chat__popup");
-    addChatPopup?.classList.add("hide");
-    const addChatNameButton = fragment.querySelector(".add-chat-name__button");
+    this.addMessageListener(fragment);
+    this.addPopupTriggers(fragment);
+    return fragment;
+  }
 
-    addChatBtn?.addEventListener("click", (event) => {
-      event.preventDefault();
-      addChatPopup?.classList.remove("hide");
-    });
-
-    addChatNameButton?.addEventListener("click", (event) => {
-      event.preventDefault();
-      if (this.controller.createChat(addChatFormPopup)) {
-        addChatPopup?.classList.add("hide");
+  private addMessageListener (fragment: DocumentFragment) {
+    const sendMsgButton = fragment.querySelector(".chat-footer__send");
+    const message = (fragment.querySelector(".chat-footer__input") as HTMLInputElement);
+    sendMsgButton?.addEventListener("click", () => {
+      const chatId = this.currentChat?.id;
+      let ws: WebSocketService | null = null;
+      if (chatId && message?.value) {
+        ws = ChatController.getConnection(chatId);
+        ws?.send(WS_ACTIONS.MESSAGES, message?.value);
+        message.value = "";
       }
     });
+  }
 
-    return fragment;
+  private addPopupTriggers (fragment: DocumentFragment) {
+    const triggers = fragment.firstElementChild?.querySelectorAll("[data-popup]");
+    triggers?.forEach(trigger => {
+      trigger.addEventListener("click", (e) => {
+        e.preventDefault();
+        const popupClassname = trigger.getAttribute("data-popup");
+        const popup = document.querySelector(`.${popupClassname}`);
+        popup?.classList.remove("hide");
+      });
+    });
   }
 }

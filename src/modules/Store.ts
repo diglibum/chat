@@ -10,7 +10,11 @@ const initialState: State = {
   user: null,
   token: null,
   chats: [],
-  currentChat: null
+  currentChat: {
+    id: null,
+    messages: null
+  },
+  wsconnection: false
 };
 
 class Store {

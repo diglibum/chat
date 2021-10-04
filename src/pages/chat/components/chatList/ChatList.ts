@@ -18,11 +18,10 @@ export class ChatList extends Block {
 
     if (chats.length > 0) {
       chatsList = chats.reduce((acc: Block[], chat: any, index: number) => {
-        acc[index] = new ChatItem(chat);
+        acc[index] = new ChatItem({ chat });
         return acc;
       }, []);
     }
-    // console.log(Array.isArray(chatsList));
     const tmpl = new Templator(chatListTmpl);
     const context = { chatsList };
     return tmpl.compile(context);

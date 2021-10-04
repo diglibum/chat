@@ -1,18 +1,18 @@
 import { Block } from "../../../../modules/Block";
 import { Templator } from "../../../../modules/Templator";
 import { Props } from "../../../../types";
-import chatViewTmpl from "./chatView.tmpl";
+import chatBodyTmpl from "./chatBody.tmpl";
 
-export class ChatView extends Block {
-  constructor (props: Props) {
+export class ChatBody extends Block {
+  constructor (props: Props = {}) {
     super("div", props);
   }
 
   render () {
-    const tmpl = new Templator(chatViewTmpl);
-    const context = {
+    // ChatController.getAllMessages();
+    const tmpl = new Templator(chatBodyTmpl);
+    const context = {};
 
-    };
     return tmpl.compile(context);
   }
 }

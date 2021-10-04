@@ -1,0 +1,17 @@
+.add-user {
+  width: 300px;
+
+  &__form {
+    &-content {
+      .input {
+        font-size: 13px;
+        line-height: 13px;
+        margin-top: 45px;
+      }
+    }
+
+    &-button {
+      margin-top: 33px;
+    }
+  }
+}

@@ -1,20 +1,25 @@
 import { ChatApi } from "../api/chats/ChatApi";
 import { TokenApi } from "../api/chats/TokenApi";
-import { BaseRequest } from "../api/types";
+import { AddUsersToChatRequest, BaseRequest } from "../api/types";
+import { UserSearch } from "../api/users/UserSearch";
 import { checkAllForm } from "../components/form/utils";
 import Store from "../modules/Store";
+import { WebSocketService } from "../modules/WebSocketService";
 import { prepareDataToRequest } from "./utils/prepareDataToReques";
 
-const tokenAPIinstance = new TokenApi();
-const chatAPIInstance = new ChatApi();
+class ChatController {
+  private tokenAPIinstance = new TokenApi();
+  private chatAPIInstance = new ChatApi();
+  private userSearchAPIInstance = new UserSearch();
+  ws: WebSocketService | null = null;
+  wsArray: any[] = [];
 
-export class ChatController {
-  public getToken () {
-    return tokenAPIinstance.request(1)
+  public getToken (chatId: number) {
+    return this.tokenAPIinstance.request(chatId)
       .then((data) => {
         const token = JSON.parse(data.response).token;
         if (token) {
-          Store.setState({ token: token });
+          return token;
         }
       })
       .catch((reason) => {
@@ -29,7 +34,7 @@ export class ChatController {
         throw new Error("ошибка валидации");
       }
       const data = prepareDataToRequest(new FormData(form)) as BaseRequest;
-      chatAPIInstance.create(data)
+      this.chatAPIInstance.create(data)
         .then(() => {
           this.getChats();
         })
@@ -45,18 +50,109 @@ export class ChatController {
 
   getChats () {
     try {
-      chatAPIInstance.getChats()
+      this.chatAPIInstance.getChats()
         .then((data) => {
           const chats = JSON.parse(data.response);
           if (chats) {
             Store.setState({ chats });
           }
         })
+        .then(() => {
+          if (this.wsArray.length === 0) {
+            this.openConnections(Store.getState("chats"));
+          }
+        })
         .catch((reason) => {
           console.log(reason);
         });
     } catch {
-
+      console.log("ошибка получения чатов");
     }
   }
+
+  private openConnections (chats) {
+    chats.forEach(chat => {
+      this.getToken(chat.id)
+        .then(token => {
+          this.wsArray.push({ id: chat.id, ws: this.openWs(token, chat.id, Store.getState("user")?.id) });
+        });
+    });
+  }
+
+  private openWs (token: string, chatId: number, userId: number) {
+    return new WebSocketService({
+      token,
+      chatId: chatId,
+      userId: userId
+    });
+  }
+
+  getConnection (chatId: number) {
+    return this.wsArray?.find(x => x.id === chatId)?.ws;
+  }
+
+  searchUsers (form: HTMLFormElement, userName: string) {
+    const validateData = checkAllForm(form!);
+    if (!validateData) {
+      throw new Error("ошибка валидации");
+    }
+    return this.userSearchAPIInstance.findUser({ login: userName })
+      .then((data) => {
+        const users = JSON.parse(data.response);
+        return users;
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  }
+
+  addUsersToChat (obj: AddUsersToChatRequest) {
+    try {
+      this.chatAPIInstance.addUsersToChat(obj)
+        .catch((reason) => {
+          console.log(reason);
+        });
+    } catch {
+      console.log("Пользователь не был добавлен");
+      return false;
+    }
+    return true;
+  }
+
+  setCurrentChat (chat: any) {
+    const oldChat = Store.getState("currentChat");
+    if (oldChat?.id !== chat.id) {
+      Store.setState({ currentChat: chat });
+    }
+  }
+
+  getChat () {
+    const token = Store.getState("token");
+    const currentChatId = Store.getState("currentChat.id");
+    const user = Store.getState("user");
+
+    if (token && currentChatId && user) {
+      try {
+        this.ws = new WebSocketService({
+          token,
+          chatId: currentChatId,
+          userId: user.id
+        });
+      } catch {
+        console.log("Ошибка подлючения к серверу чатов");
+      }
+    }
+  }
+
+  getAllMessages () {
+    const chat = Store.getState("currentChat");
+    const unreadMessages = chat?.unread_count;
+    const ws = this.getConnection(chat.id);
+  }
+
+  sendMessage () {
+
+  }
 }
+
+export default new ChatController();

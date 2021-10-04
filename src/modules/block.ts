@@ -78,16 +78,15 @@ export class Block {
 
     _componentDidUpdate (oldProps: Props, newProps: Props) {
       const response = this.componentDidUpdate(oldProps, newProps);
+      console.log(response);
       if (!response) {
         return;
       }
-      this._render();
+      this.reRender();
     }
 
     componentDidUpdate (oldProps: Props, newProps: Props) {
-      if (oldProps === newProps) {
-        return true;
-      }
+      return !(oldProps === newProps);
     }
 
     setProps = (nextProps: Props) => {

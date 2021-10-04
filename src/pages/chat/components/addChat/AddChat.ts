@@ -8,6 +8,8 @@ import { Props } from "../../../../types";
 import addChatTmpl from "./addChat.tmpl";
 import "./addChat.scss";
 import { formValidation } from "../../../../components/form/utils";
+import { Popup } from "../../../../components/popup/Popup";
+import ChatController from "../../../../controllers/ChatController";
 
 export class AddChat extends Block {
   constructor (props: Props = {}) {
@@ -20,7 +22,7 @@ export class AddChat extends Block {
       name: "title",
       text: "Название",
       type: InputType.TEXT,
-      validationType: InputValidationType.NAME,
+      validationType: InputValidationType.SHORT_TEXT,
       events: {
         focus: (event: Event) => {
           formValidation(event);
@@ -48,7 +50,19 @@ export class AddChat extends Block {
       name: "addChatForm",
       body: tmpl.compile(context)
     });
-    const fragment = form.getContent();
+
+    const popup = new Popup({
+      className: "add-chat__popup",
+      title: "Добавить чат",
+      body: form
+    });
+
+    const fragment = popup.getContent() as DocumentFragment;
+    const htmlForm = fragment.querySelector("form");
+    htmlForm!.addEventListener("submit", (e) => {
+      e.preventDefault();
+      ChatController.createChat(htmlForm!);
+    });
     return fragment;
   }
 }

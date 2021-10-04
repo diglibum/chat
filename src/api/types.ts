@@ -34,3 +34,12 @@ export interface UserPasswordRequest extends BaseRequest {
     oldPassword: "string",
     newPassword: "string"
   }
+
+export interface AddUsersToChatRequest {
+    users: number[],
+    chatId: number
+}
+
+export interface FindUserRequest {
+  login: string
+}

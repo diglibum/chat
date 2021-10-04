@@ -5,7 +5,7 @@ export default
       <div class="aside__header">
         {{ settingsLink }}
         {{ search }}
-        <a href="/chat-add" class="chat-page__link-button">
+        <a href="/chat-add" data-popup="add-chat__popup" class="chat-page__link-button">
           Добавить чат
         </a>
       </div>
@@ -15,8 +15,13 @@ export default
     </div>
     <div class="chat-page__content">
       <div class="chat-header">
-        <img src="https://pbs.twimg.com/media/Ea65XdZUcAAzH87.jpg" alt="alt" class="chat-header__avatar">
-        <h5 class="chat-header__title">Вадим</h5>
+        <div class="chat-header__avatar">
+          {{#if chatAvatar }}
+            <img src="{{ chatAvatar }}" alt="alt">
+          {{/if}}
+        </div>
+        <h5 class="chat-header__title">{{ chatTitle }}</h5>
+        <button type="button" class="chat-page__add-user" data-popup="add-user__popup">добавить пользователя в чат</button>
         <span class="chat-header__menu"></span>
       </div>
       <div class="chat-body">
@@ -28,6 +33,7 @@ export default
         <button type="submit" class="chat-footer__send"></button>
       </div>
     </div>
-    {{ popup }}
+    {{ chatPopup }}
+    {{ userPopup }}
   </div>
 `;

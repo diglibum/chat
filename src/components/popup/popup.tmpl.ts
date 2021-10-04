@@ -1,6 +1,9 @@
 export default
 `
-    <div class="popup {{ className }}">
+    <div class="popup {{ className }} 
+    {{#if hidePopup }}    
+        hide
+    {{/if}}">
         <div class="popup__wrapper">
             <div class="popup__container">
                 <div class="popup__header">
