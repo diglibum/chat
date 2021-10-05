@@ -12,6 +12,8 @@ import Store from "../../modules/Store";
 import { WebSocketService, WS_ACTIONS } from "../../modules/WebSocketService";
 import { ChatBody } from "./components/chatBody";
 import { AddUser } from "./components/addUser";
+import { Popup } from "../../components/popup/Popup";
+import { DeleteUser } from "./components/deleteUser";
 
 export class ChatPage extends Block {
   currentChat: any;
@@ -34,9 +36,21 @@ export class ChatPage extends Block {
       className: "aside__header-link"
     });
 
+    const chatMenuTmpl = `
+      <ul class="chat-menu__list">
+        <li class="chat-menu__list-item chat-menu__list-item_add-user" data-popup="add-user__popup">Добавить пользователя</li>
+        <li class="chat-menu__list-item chat-menu__list-item_delete-user" data-popup="delete-user__popup">Удалить пользователя</li>
+        <li class="chat-menu__list-item chat-menu__list-item_delete-chat">Удалить чат</li>
+      </ul>
+    `;
     const chatPopup = new AddChat();
     const userPopup = new AddUser({ inner: "search" });
+    const deleteUserPopup = new DeleteUser();
     const chatList = new ChatList();
+    const chatMenu = new Popup({
+      body: chatMenuTmpl,
+      className: "chat-menu__popup"
+    });
     const tmpl = new Templator(chatPageTmpl);
 
     const context: Props = {
@@ -45,8 +59,10 @@ export class ChatPage extends Block {
       chatTitle: this.currentChat?.title ?? "",
       content: new ChatBody(),
       settingsLink,
-      chatPopup: chatPopup,
-      userPopup: userPopup
+      chatPopup,
+      userPopup,
+      deleteUserPopup,
+      chatMenu
     };
 
     if (this.currentChat?.avatar) {
@@ -56,6 +72,7 @@ export class ChatPage extends Block {
     const fragment = tmpl.compile(context);
     this.addMessageListener(fragment);
     this.addPopupTriggers(fragment);
+    this.addDeleteChatListener(fragment);
     return fragment;
   }
 
@@ -78,10 +95,29 @@ export class ChatPage extends Block {
     triggers?.forEach(trigger => {
       trigger.addEventListener("click", (e) => {
         e.preventDefault();
+        this.closeAllPopups();
         const popupClassname = trigger.getAttribute("data-popup");
         const popup = document.querySelector(`.${popupClassname}`);
         popup?.classList.remove("hide");
       });
+    });
+  }
+
+  addDeleteChatListener (fragment: DocumentFragment) {
+    const button = fragment.querySelector(".chat-menu__list-item_delete-chat");
+    button?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const chatId = Store.getState("currentChat")?.id;
+      if (chatId && ChatController.deleteChat(chatId)) {
+        console.log("чат удалён");
+      }
+    });
+  }
+
+  private closeAllPopups () {
+    const popups = document.querySelectorAll(".popup");
+    popups.forEach(popup => {
+      popup.classList.add("hide");
     });
   }
 }

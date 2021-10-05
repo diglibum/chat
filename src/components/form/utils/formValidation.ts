@@ -227,7 +227,7 @@ const checkShortTextValidaty = (value: string = "") => {
   rules.pattern = /^[A-Zа-яё 0-9_-]{1,}$/gi;
 
   const checkList: (string | boolean)[] = [
-    checkPattern(value, rules.pattern, "Поле может содержать только буквы латинского или русского алфавита, цифры и знаки _-"),
+    checkPattern(value, rules.pattern, "Поле может содержать только буквы, цифры и знаки _-"),
     checkMaxLength(value.length, rules.maxLength),
     checkMinLength(value.length, rules.minLength)
   ];

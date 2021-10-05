@@ -78,7 +78,6 @@ export class Block {
 
     _componentDidUpdate (oldProps: Props, newProps: Props) {
       const response = this.componentDidUpdate(oldProps, newProps);
-      console.log(response);
       if (!response) {
         return;
       }

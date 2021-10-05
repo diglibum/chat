@@ -1,6 +1,6 @@
 import { ChatApi } from "../api/chats/ChatApi";
 import { TokenApi } from "../api/chats/TokenApi";
-import { AddUsersToChatRequest, BaseRequest } from "../api/types";
+import { AddUsersToChatRequest, BaseRequest, DeleteChatRequest, DeleteUsersFromChatRequest } from "../api/types";
 import { UserSearch } from "../api/users/UserSearch";
 import { checkAllForm } from "../components/form/utils";
 import Store from "../modules/Store";
@@ -109,11 +109,41 @@ class ChatController {
   addUsersToChat (obj: AddUsersToChatRequest) {
     try {
       this.chatAPIInstance.addUsersToChat(obj)
+        .then(() => {
+          this.getChats();
+        })
         .catch((reason) => {
           console.log(reason);
         });
     } catch {
       console.log("Пользователь не был добавлен");
+      return false;
+    }
+    return true;
+  }
+
+  getChatUsers (chatId: number) {
+    return this.chatAPIInstance.getChatUsers(chatId)
+      .then((data) => {
+        const users = JSON.parse(data.response);
+        return users;
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  }
+
+  deleteUsersFromChat (obj: DeleteUsersFromChatRequest) {
+    try {
+      this.chatAPIInstance.deleteUsersFromChat(obj)
+        .then(() => {
+          this.getChats();
+        })
+        .catch((reason) => {
+          console.log(reason);
+        });
+    } catch {
+      console.log("Пользователь не был удалён");
       return false;
     }
     return true;
@@ -144,14 +174,23 @@ class ChatController {
     }
   }
 
-  getAllMessages () {
-    const chat = Store.getState("currentChat");
-    const unreadMessages = chat?.unread_count;
-    const ws = this.getConnection(chat.id);
-  }
-
-  sendMessage () {
-
+  deleteChat (chatId: number) {
+    try {
+      const chat: DeleteChatRequest = {
+        chatId
+      };
+      this.chatAPIInstance.deleteChat(chat)
+        .then(() => {
+          this.getChats();
+        })
+        .catch((reason) => {
+          console.log(reason);
+        });
+    } catch {
+      console.log("Пользователь не был добавлен");
+      return false;
+    }
+    return true;
   }
 }
 

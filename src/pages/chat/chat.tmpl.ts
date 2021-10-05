@@ -21,8 +21,7 @@ export default
           {{/if}}
         </div>
         <h5 class="chat-header__title">{{ chatTitle }}</h5>
-        <button type="button" class="chat-page__add-user" data-popup="add-user__popup">добавить пользователя в чат</button>
-        <span class="chat-header__menu"></span>
+        <span class="chat-header__menu" data-popup="chat-menu__popup"></span>
       </div>
       <div class="chat-body">
         {{ content }}
@@ -35,5 +34,7 @@ export default
     </div>
     {{ chatPopup }}
     {{ userPopup }}
+    {{ deleteUserPopup }}
+    {{ chatMenu }}
   </div>
 `;
