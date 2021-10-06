@@ -4,7 +4,7 @@ import { AddUsersToChatRequest, BaseRequest, DeleteChatRequest, DeleteUsersFromC
 import { UserSearch } from "../api/users/UserSearch";
 import { checkAllForm } from "../components/form/utils";
 import Store from "../modules/Store";
-import { WebSocketService } from "../modules/WebSocketService";
+import { WebSocketService, WS_ACTIONS } from "../modules/WebSocketService";
 import { prepareDataToRequest } from "./utils/prepareDataToReques";
 
 class ChatController {
@@ -17,10 +17,7 @@ class ChatController {
   public getToken (chatId: number) {
     return this.tokenAPIinstance.request(chatId)
       .then((data) => {
-        const token = JSON.parse(data.response).token;
-        if (token) {
-          return token;
-        }
+        return JSON.parse(data.response).token;
       })
       .catch((reason) => {
         console.log(reason);
@@ -62,6 +59,9 @@ class ChatController {
             this.openConnections(Store.getState("chats"));
           }
         })
+        .then(() => {
+          this.getAllNewMessages();
+        })
         .catch((reason) => {
           console.log(reason);
         });
@@ -74,7 +74,7 @@ class ChatController {
     chats.forEach(chat => {
       this.getToken(chat.id)
         .then(token => {
-          this.wsArray.push({ id: chat.id, ws: this.openWs(token, chat.id, Store.getState("user")?.id) });
+          this.wsArray.push({ id: chat.id, ws: this.openWs(token, chat.id, Store.getState("user")?.id), messages: null });
         });
     });
   }
@@ -188,6 +188,29 @@ class ChatController {
         });
     } catch {
       console.log("Пользователь не был добавлен");
+      return false;
+    }
+    return true;
+  }
+
+  getAllNewMessages (chatId?: number, offset: number = 0) { // TODO
+    this.wsArray.forEach(item => {
+      item.ws.messages = item.ws.getNewMessages(offset);
+    });
+  }
+
+  newMessage (form: HTMLFormElement, message: string, chatId: number) {
+    try {
+      const validateData = checkAllForm(form!);
+      if (!validateData) {
+        throw new Error("ошибка валидации");
+      }
+      if (chatId && message) {
+        const wsItem = this.wsArray.find(item => item.id === chatId);
+        wsItem.ws?.send(WS_ACTIONS.MESSAGES, message);
+      }
+    } catch (error) {
+      console.log(error);
       return false;
     }
     return true;

@@ -64,6 +64,10 @@ const checkFormInput = (input: HTMLInputElement) => {
           result = checkEqualValidaty(value, new RegExp("^" + equalInput + "$"), "Поля не равны");
           applyResult(input, result);
           break;
+        case "text":
+          result = checkTextValidaty(value);
+          applyResult(input, result);
+          break;
       }
     }
   }
@@ -225,6 +229,23 @@ const checkShortTextValidaty = (value: string = "") => {
     maxLength: 100
   };
   rules.pattern = /^[A-Zа-яё 0-9_-]{1,}$/gi;
+
+  const checkList: (string | boolean)[] = [
+    checkPattern(value, rules.pattern, "Поле может содержать только буквы, цифры и знаки _-"),
+    checkMaxLength(value.length, rules.maxLength),
+    checkMinLength(value.length, rules.minLength)
+  ];
+
+  return checker(checkList);
+};
+
+const checkTextValidaty = (value: string = "") => {
+  const rules: Rules = {
+    symbols: "",
+    minLength: 1,
+    maxLength: 500
+  };
+  rules.pattern = /[^$]/gi;
 
   const checkList: (string | boolean)[] = [
     checkPattern(value, rules.pattern, "Поле может содержать только буквы, цифры и знаки _-"),

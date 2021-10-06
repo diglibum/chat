@@ -69,11 +69,6 @@ export class AddUser extends Block {
           htmlForm.querySelector("button")?.setAttribute("disabled", "disabled");
           setTimeout(() => {
             popup.close();
-            // this.setProps({
-            //   inner: "search",
-            //   users: undefined,
-            //   hidePopup: true
-            // });
           }, 1500);
         }
       }

@@ -14,4 +14,11 @@ export class UserProfileApi extends BaseAPI {
         data: JSON.stringify(user)
       });
   }
+
+  changeAvatar (data: FormData) {
+    return APIInstance.put(APIInstance.url + "/profile/avatar",
+      {
+        data
+      });
+  }
 }

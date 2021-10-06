@@ -36,4 +36,24 @@ export class Popup extends Block {
     });
     return fragment;
   }
+
+  static closeAllPopups () {
+    const popups = document.querySelectorAll(".popup");
+    popups.forEach(popup => {
+      popup.classList.add("hide");
+    });
+  }
+
+  static addPopupTriggers (fragment?: DocumentFragment) {
+    const triggers = (fragment ?? document).firstElementChild?.querySelectorAll("[data-popup]");
+    triggers?.forEach(trigger => {
+      trigger.addEventListener("click", (e) => {
+        e.preventDefault();
+        Popup.closeAllPopups();
+        const popupClassname = trigger.getAttribute("data-popup");
+        const popup = document.querySelector(`.${popupClassname}`);
+        popup?.classList.remove("hide");
+      });
+    });
+  }
 }

@@ -7,7 +7,6 @@ import { prepareDataToRequest } from "./utils/prepareDataToReques";
 
 const userProfileApi = new UserProfileApi();
 const userPasswordApi = new UserPasswordApi();
-
 export class UsersController {
   public changeProfile (form?: HTMLFormElement) {
     try {
@@ -52,5 +51,13 @@ export class UsersController {
       return false;
     }
     return true;
+  }
+
+  public changeAvatar (form?: HTMLFormElement) {
+    const data = new FormData(form);
+    userProfileApi.changeAvatar(data)
+      .then(data => {
+        Store.setState({ user: JSON.parse(data.response) });
+      });
   }
 }

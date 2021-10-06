@@ -48,11 +48,12 @@ export class WebSocketService {
     this.socket.close();
   }
 
-  getNewMessages (offset: number) {
-    this.socket.send(JSON.stringify({
-      content: "" + offset,
-      type: "get old"
-    }));
+  getNewMessages () {
+    // this.socket.send(JSON.stringify({
+    //   content: "" + offset,
+    //   type: WS_ACTIONS.GET_OLD
+    // }));
+    return null;
   }
 
   private addListeners () {

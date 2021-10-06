@@ -26,11 +26,7 @@ export default
       <div class="chat-body">
         {{ content }}
       </div>
-      <div class="chat-footer">
-        <div class="chat-footer__attach"></div>
-        <input type="text" class="chat-footer__input" placeholder="Сообщение"/>
-        <button type="submit" class="chat-footer__send"></button>
-      </div>
+      {{ messageForm }}
     </div>
     {{ chatPopup }}
     {{ userPopup }}

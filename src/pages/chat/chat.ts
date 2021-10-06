@@ -3,20 +3,23 @@ import chatPageTmpl from "./chat.tmpl";
 import "./chat.scss";
 import { Block } from "../../modules/block";
 import { Props } from "../../types/props";
-import { SearchForm } from "./components/searchForm";
-import { ChatList } from "./components/chatList";
+import { SearchForm } from "./modules/searchForm";
+import { ChatList } from "./modules/chatList";
 import { Link } from "../../modules/Link";
 import ChatController from "../../controllers/ChatController";
-import { AddChat } from "./components/addChat";
+import { AddChat } from "./modules/addChat";
 import Store from "../../modules/Store";
-import { WebSocketService, WS_ACTIONS } from "../../modules/WebSocketService";
-import { ChatBody } from "./components/chatBody";
-import { AddUser } from "./components/addUser";
+import { ChatBody } from "./modules/chatBody";
+import { AddUser } from "./modules/addUser";
 import { Popup } from "../../components/popup/Popup";
-import { DeleteUser } from "./components/deleteUser";
+import { DeleteUser } from "./modules/deleteUser";
+import chatMenuTmpl from "./chatMenu.tmpl";
+import chatStubTmpl from "./chatStub.tmpl";
+import { MessageForm } from "./modules/messageForm";
 
 export class ChatPage extends Block {
   currentChat: any;
+  newMessages: any;
 
   constructor (props: Props = {}) {
     super("div", props);
@@ -36,13 +39,6 @@ export class ChatPage extends Block {
       className: "aside__header-link"
     });
 
-    const chatMenuTmpl = `
-      <ul class="chat-menu__list">
-        <li class="chat-menu__list-item chat-menu__list-item_add-user" data-popup="add-user__popup">Добавить пользователя</li>
-        <li class="chat-menu__list-item chat-menu__list-item_delete-user" data-popup="delete-user__popup">Удалить пользователя</li>
-        <li class="chat-menu__list-item chat-menu__list-item_delete-chat">Удалить чат</li>
-      </ul>
-    `;
     const chatPopup = new AddChat();
     const userPopup = new AddUser({ inner: "search" });
     const deleteUserPopup = new DeleteUser();
@@ -51,56 +47,37 @@ export class ChatPage extends Block {
       body: chatMenuTmpl,
       className: "chat-menu__popup"
     });
+    const messageForm = new MessageForm();
+
     const tmpl = new Templator(chatPageTmpl);
 
     const context: Props = {
       list: chatList,
       search: searchForm,
       chatTitle: this.currentChat?.title ?? "",
-      content: new ChatBody(),
       settingsLink,
       chatPopup,
       userPopup,
       deleteUserPopup,
-      chatMenu
+      chatMenu,
+      messageForm
     };
+
+    if (this.currentChat.id === null) {
+      context.content = chatStubTmpl;
+    } else {
+      ChatController.getAllNewMessages(this.currentChat.id);
+      context.content = new ChatBody();
+    }
 
     if (this.currentChat?.avatar) {
       context.avatar = this.currentChat?.avatar;
     }
 
     const fragment = tmpl.compile(context);
-    this.addMessageListener(fragment);
-    this.addPopupTriggers(fragment);
+    Popup.addPopupTriggers(fragment);
     this.addDeleteChatListener(fragment);
     return fragment;
-  }
-
-  private addMessageListener (fragment: DocumentFragment) {
-    const sendMsgButton = fragment.querySelector(".chat-footer__send");
-    const message = (fragment.querySelector(".chat-footer__input") as HTMLInputElement);
-    sendMsgButton?.addEventListener("click", () => {
-      const chatId = this.currentChat?.id;
-      let ws: WebSocketService | null = null;
-      if (chatId && message?.value) {
-        ws = ChatController.getConnection(chatId);
-        ws?.send(WS_ACTIONS.MESSAGES, message?.value);
-        message.value = "";
-      }
-    });
-  }
-
-  private addPopupTriggers (fragment: DocumentFragment) {
-    const triggers = fragment.firstElementChild?.querySelectorAll("[data-popup]");
-    triggers?.forEach(trigger => {
-      trigger.addEventListener("click", (e) => {
-        e.preventDefault();
-        this.closeAllPopups();
-        const popupClassname = trigger.getAttribute("data-popup");
-        const popup = document.querySelector(`.${popupClassname}`);
-        popup?.classList.remove("hide");
-      });
-    });
   }
 
   addDeleteChatListener (fragment: DocumentFragment) {
@@ -111,13 +88,6 @@ export class ChatPage extends Block {
       if (chatId && ChatController.deleteChat(chatId)) {
         console.log("чат удалён");
       }
-    });
-  }
-
-  private closeAllPopups () {
-    const popups = document.querySelectorAll(".popup");
-    popups.forEach(popup => {
-      popup.classList.add("hide");
     });
   }
 }

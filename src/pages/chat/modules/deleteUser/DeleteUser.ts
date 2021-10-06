@@ -28,7 +28,6 @@ export class DeleteUser extends Block {
     if (chatId && !users) {
       ChatController.getChatUsers(chatId)
         .then(data => {
-          console.log(data);
           this.setProps({ users: data });
         });
     }

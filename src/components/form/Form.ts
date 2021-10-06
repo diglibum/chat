@@ -2,10 +2,10 @@ import { Templator } from "../../modules/Templator";
 import "./form.scss";
 import formTmpl from "./form.tmpl";
 import { Block } from "../../modules/block";
-import { Props } from "../../types";
+import { FormProps } from "./types";
 
 export class Form extends Block {
-  constructor (props: Props) {
+  constructor (props: FormProps) {
     super("div", props);
   }
 

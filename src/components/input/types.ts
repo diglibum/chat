@@ -28,5 +28,6 @@ export interface InputProps extends Props{
     disabled?: boolean,
     errorMessage?: string,
     type?: InputType,
-    validationType?: InputValidationType
+    validationType?: InputValidationType,
+    className?: string
   }
