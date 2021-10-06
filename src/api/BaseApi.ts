@@ -4,7 +4,7 @@ import { BaseRequest } from "./types";
 export abstract class BaseAPI {
   create (_data?: BaseRequest | unknown): Promise<XMLHttpRequest> { throw new Error("Not implemented"); }
 
-  request (_data?: BaseRequest | unknown): Promise<XMLHttpRequest> { throw new Error("Not implemented"); }
+  signIn (_data?: BaseRequest | unknown): Promise<XMLHttpRequest> { throw new Error("Not implemented"); }
 
   update (_data?: BaseRequest | unknown): Promise<XMLHttpRequest> { throw new Error("Not implemented"); }
 

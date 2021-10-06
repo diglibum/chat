@@ -1,10 +1,10 @@
-import { HTTPTransport as HTTP } from "../../modules/HTTPtransport";
+import { HTTPTransport as HTTP } from "../HTTPtransport";
 import { BaseAPI } from "../BaseApi";
 
 const logoutAPIInstance = new HTTP("https://ya-praktikum.tech/api/v2/auth");
 
 export class LogoutApi extends BaseAPI {
-  public request () {
+  public logout () {
     return logoutAPIInstance.post(logoutAPIInstance.url + "/logout");
   }
 }

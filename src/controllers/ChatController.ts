@@ -15,7 +15,7 @@ class ChatController {
   wsArray: any[] = [];
 
   public getToken (chatId: number) {
-    return this.tokenAPIinstance.request(chatId)
+    return this.tokenAPIinstance.getToken(chatId)
       .then((data) => {
         return JSON.parse(data.response).token;
       })
@@ -70,7 +70,7 @@ class ChatController {
     }
   }
 
-  private openConnections (chats) {
+  private openConnections (chats: any[]) {
     chats.forEach(chat => {
       this.getToken(chat.id)
         .then(token => {
@@ -181,6 +181,12 @@ class ChatController {
       };
       this.chatAPIInstance.deleteChat(chat)
         .then(() => {
+          Store.setState({
+            currentChat: {
+              id: null,
+              messages: null
+            }
+          });
           this.getChats();
         })
         .catch((reason) => {

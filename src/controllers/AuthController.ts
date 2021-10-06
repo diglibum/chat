@@ -6,6 +6,7 @@ import { SignUpRequest } from "../api/types";
 import { checkAllForm } from "../components/form/utils/formValidation";
 import Store from "../modules/Store";
 import { prepareDataToRequest } from "./utils/prepareDataToReques";
+import ChatController from "./ChatController";
 
 const signUpApi = new SignUpApi();
 const signInApi = new SignInApi();
@@ -14,13 +15,13 @@ const userLoginApi = new UserLoginApi();
 
 export class AuthController {
   public checkUser () {
-    return userLoginApi.request()
+    return userLoginApi.userLogin()
       .then(data => {
         Store.setState({ isAuthorized: true, user: JSON.parse(data.responseText) });
-        return (data);
+        ChatController.getChats();
       })
       .catch(() => {
-        Store.setState({ isAuthorized: false });
+        Store.setState({ isAuthorized: false, user: null });
       });
   }
 
@@ -31,7 +32,7 @@ export class AuthController {
         throw new Error("ошибка валидации");
       }
       const data = prepareDataToRequest(new FormData(form)) as SignUpRequest;
-      signUpApi.request(data)
+      signUpApi.signUp(data)
         .then(data => {
           return data;
         })
@@ -51,10 +52,7 @@ export class AuthController {
         throw new Error("ошибка валидации");
       }
       const data = prepareDataToRequest(new FormData(form)) as SignUpRequest;
-      signInApi.request(data)
-        .then(data => {
-          return data;
-        })
+      signInApi.signIn(data)
         .then(() => {
           this.checkUser();
         })
@@ -68,9 +66,9 @@ export class AuthController {
   }
 
   public logOut () {
-    logoutApi.request()
+    logoutApi.logout()
       .then(data => {
-        Store.setState({ isAuthorized: false, user: null });
+        Store.setState({ isAuthorized: false, user: null, chats: [] });
         return data;
       })
       .catch(reason => {

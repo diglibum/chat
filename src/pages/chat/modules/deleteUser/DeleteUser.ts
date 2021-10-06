@@ -94,10 +94,10 @@ export class DeleteUser extends Block {
   }
 
   getUsers (users: any[]) {
-    const userList = users?.reduce((acc: [], user: any) => {
-      return [...acc, `
-        <a href="/add-user" class="add-user__user-item" id="${user.id}">${user.login} (${user.first_name} ${user.second_name})</a>
-      `];
+    const currentUserId = Store.getState("user")?.id;
+    const filteredUsers = users.filter((user) => user.id !== currentUserId);
+    const userList = filteredUsers?.reduce((acc: [], user: any) => {
+      return [...acc, `<a href="/add-user" class="add-user__user-item" id="${user.id}">${user.login} (${user.first_name} ${user.second_name})</a>`];
     }, []);
     const userListContainer = document.createElement("template");
     userListContainer.innerHTML = userList;

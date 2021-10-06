@@ -1,0 +1,29 @@
+/* eslint-disable no-undef */
+import { expect } from "chai";
+import { Input } from ".";
+import { Props } from "../../types";
+import { InputType, InputValidationType } from "./types";
+
+describe("Input", () => {
+  it("should send POST /auth/signin on signIn", () => {
+    const context: Props = {
+      isProfile: true,
+      name: "inputName",
+      text: "Input text",
+      required: true,
+      value: "soma value",
+      disabled: true,
+      errorMessage: "error message",
+      type: InputType.TEXT,
+      validationType: InputValidationType.PASSWORD,
+      className: "inputClassName"
+    };
+
+    const input = new Input(context);
+
+    // expect(requests.length).to.eq(1);
+    // expect(requests[0].method).to.eq("POST");
+    // expect(requests[0].requestBody).to.eq(JSON.stringify(data));
+    // expect(requests[0].url).to.eq("https://ya-praktikum.tech/api/v2/auth/signin");
+  });
+});

@@ -1,4 +1,4 @@
-import { HTTPTransport as HTTP } from "../../modules/HTTPtransport";
+import { HTTPTransport as HTTP } from "../HTTPtransport";
 import { BaseAPI } from "../BaseApi";
 import { AddUsersToChatRequest, BaseRequest, DeleteChatRequest, DeleteUsersFromChatRequest } from "../types";
 
