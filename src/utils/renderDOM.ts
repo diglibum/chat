@@ -1,4 +1,4 @@
-import { Block } from "../modules/Block";
+import { Block } from "../modules/block";
 
 export class RenderDOM {
   append (block: Block, query: string = "#root") {

@@ -1,16 +1,16 @@
-import { Templator } from "../../../../modules/Templator";
+import { Templator } from "../../../../modules/templator";
 import passwordEditTmpl from "./passwordEdit.tmpl";
 import "./passwordEdit.scss";
 import { Input } from "../../../../components/input";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
 import { formValidation } from "../../../../components/form/utils";
-import { Block } from "../../../../modules/Block";
+import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
 import { InputType, InputValidationType } from "../../../../components/input/types";
-import Store from "../../../../modules/Store";
-import { Router } from "../../../../modules/Router";
-import { UsersController } from "../../../../controllers/UsersController";
+import Store from "../../../../modules/store";
+import { Router } from "../../../../modules/router";
+import { UsersController } from "../../../../controllers/usersController";
 
 export class PasswordEdit extends Block {
   private controller = new UsersController();

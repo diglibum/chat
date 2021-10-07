@@ -1,1 +1,1 @@
-export { DeleteUser } from "./DeleteUser";
+export { DeleteUser } from "./deleteUser";

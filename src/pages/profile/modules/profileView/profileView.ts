@@ -1,13 +1,13 @@
-import { Templator } from "../../../../modules/Templator";
+import { Templator } from "../../../../modules/templator";
 import profileViewTmpl from "./profileView.tmpl";
 import "./profileView.scss";
 import { Input } from "../../../../components/input";
-import { Block } from "../../../../modules/Block";
+import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
 import { InputType } from "../../../../components/input/types";
-import { AuthController } from "../../../../controllers/AuthController";
-import { Link } from "../../../../modules/Link";
-import Store from "../../../../modules/Store";
+import { AuthController } from "../../../../controllers/authController";
+import { Link } from "../../../../modules/link";
+import Store from "../../../../modules/store";
 
 export class ProfileView extends Block {
   controller = new AuthController();

@@ -1,15 +1,15 @@
-import { Templator } from "../../../../modules/Templator";
+import { Templator } from "../../../../modules/templator";
 import loginTmpl from "./login.tmpl";
 import "./login.scss";
 import { Input } from "../../../../components/input";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
 import { formValidation } from "../../../../components/form/utils";
-import { Block } from "../../../../modules/Block";
-import { Link } from "../../../../modules/Link";
+import { Block } from "../../../../modules/block";
+import { Link } from "../../../../modules/link";
 import { Props } from "../../../../types";
 import { InputType, InputValidationType } from "../../../../components/input/types";
-import { AuthController } from "../../../../controllers/AuthController";
+import { AuthController } from "../../../../controllers/authController";
 
 export class Login extends Block {
   controller = new AuthController();

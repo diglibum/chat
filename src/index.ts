@@ -1,10 +1,10 @@
 import "./index.scss";
-import { Router } from "./modules/Router";
+import { Router } from "./modules/router";
 import { HomePage } from "./pages/home";
 import { ProfilePage } from "./pages/profile";
 import { ChatPage } from "./pages/chat";
-import Store from "./modules/Store";
-import { AuthController } from "./controllers/AuthController";
+import Store from "./modules/store";
+import { AuthController } from "./controllers/authController";
 import { ErrorPage } from "./pages/errors";
 
 document.addEventListener("DOMContentLoaded", () => {

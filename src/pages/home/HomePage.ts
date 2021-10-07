@@ -1,4 +1,4 @@
-import { Templator } from "../../modules/Templator";
+import { Templator } from "../../modules/templator";
 import homePageTmpl from "./home.tmpl";
 import "./home.scss";
 import { Login } from "./modules/login";

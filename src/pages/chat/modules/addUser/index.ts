@@ -1,1 +1,1 @@
-export { AddUser } from "./AddUser";
+export { AddUser } from "./addUser";

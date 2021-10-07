@@ -1,4 +1,4 @@
-import { EventBus } from "./EventBus";
+import { EventBus } from "./eventBus";
 import { Props } from "../types";
 import { v4 as uuidv4 } from "uuid";
 import { RenderDOM } from "../utils";

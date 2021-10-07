@@ -1,7 +1,7 @@
-import { Templator } from "../../modules/Templator";
+import { Templator } from "../../modules/templator";
 import errorPageTmpl from "./error.tmpl";
 import "./error.scss";
-import { Block } from "../../modules/Block";
+import { Block } from "../../modules/block";
 import { Props } from "../../types";
 
 export class ErrorPage extends Block {

@@ -1,1 +1,1 @@
-export { ChatBody } from "./ChatBody";
+export { ChatBody } from "./chatBody";

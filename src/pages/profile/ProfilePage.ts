@@ -1,16 +1,16 @@
-import { Templator } from "../../modules/Templator";
+import { Templator } from "../../modules/templator";
 import profilePageTmpl from "./profile.tmpl";
 import "./profile.scss";
 import { ProfileView } from "./modules/profileView";
 import { ProfileEdit } from "./modules/profileEdit";
 import { PasswordEdit } from "./modules/passwordEdit";
-import { Block } from "../../modules/Block";
+import { Block } from "../../modules/block";
 import { Props } from "../../types/props";
-import Store from "../../modules/Store";
-import { Popup } from "../../components/popup/Popup";
+import Store from "../../modules/store";
+import { Popup } from "../../components/popup/popup";
 import { Form } from "../../components/form";
 import avatarFormTmpl from "./avatarForm.tmpl";
-import { UsersController } from "../../controllers/UsersController";
+import { UsersController } from "../../controllers/usersController";
 
 const controller = new UsersController();
 

@@ -1,16 +1,16 @@
-import { Templator } from "../../../../modules/Templator";
+import { Templator } from "../../../../modules/templator";
 import profileEditTmpl from "./profileEdit.tmpl";
 import "./profileEdit.scss";
 import { Input } from "../../../../components/input";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
 import { formValidation } from "../../../../components/form/utils";
-import { Block } from "../../../../modules/Block";
+import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
-import Store from "../../../../modules/Store";
+import Store from "../../../../modules/store";
 import { InputType, InputValidationType } from "../../../../components/input/types";
-import { UsersController } from "../../../../controllers/UsersController";
-import { Router } from "../../../../modules/Router";
+import { UsersController } from "../../../../controllers/usersController";
+import { Router } from "../../../../modules/router";
 
 export class ProfileEdit extends Block {
   private controller = new UsersController();

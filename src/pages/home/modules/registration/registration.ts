@@ -4,12 +4,12 @@ import { Input } from "../../../../components/input";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
 import { formValidation } from "../../../../components/form/utils";
-import { Block } from "../../../../modules/Block";
+import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
-import { Templator } from "../../../../modules/Templator";
+import { Templator } from "../../../../modules/templator";
 import { InputType, InputValidationType } from "../../../../components/input/types";
-import { AuthController } from "../../../../controllers/AuthController";
-import { Link } from "../../../../modules/Link";
+import { AuthController } from "../../../../controllers/authController";
+import { Link } from "../../../../modules/link";
 
 export class Registration extends Block {
   private controller = new AuthController();

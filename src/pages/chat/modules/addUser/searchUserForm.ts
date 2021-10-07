@@ -1,4 +1,4 @@
-import { Templator } from "../../../../modules/Templator";
+import { Templator } from "../../../../modules/templator";
 import addUserTmpl from "./addUser.tmpl";
 import { Input } from "../../../../components/input";
 import { InputType, InputValidationType } from "../../../../components/input/types";

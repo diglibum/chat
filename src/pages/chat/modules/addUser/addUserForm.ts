@@ -1,5 +1,5 @@
 import { Props } from "../../../../types";
-import { Templator } from "../../../../modules/Templator";
+import { Templator } from "../../../../modules/templator";
 import addUserTmpl from "./addUser.tmpl";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
