@@ -10,7 +10,7 @@ export class Router {
     routes: Route[];
     redirects: Redirect[];
     history: History;
-    private _currentRoute: null | Route;
+    currentRoute: null | Route;
     private _rootQuery: string;
     private static __instance: Router;
 
@@ -22,14 +22,14 @@ export class Router {
       this.routes = [];
       this.redirects = [];
       this.history = window.history;
-      this._currentRoute = null;
+      this.currentRoute = null;
       this._rootQuery = rootQuery;
 
       Router.__instance = this;
     }
 
     use (pathname: string, block: Block) {
-      const route = new Route(pathname, block);
+      const route = new Route(pathname, block, { rootQuery: this._rootQuery });
       this.routes.push(route);
       return this;
     }
@@ -54,11 +54,11 @@ export class Router {
         return;
       }
 
-      if (this._currentRoute) {
-        this._currentRoute.leave();
+      if (this.currentRoute) {
+        this.currentRoute.leave();
       }
-      route.render();
-      this._currentRoute = route;
+      route?.render();
+      this.currentRoute = route!;
     }
 
     go (pathname: string) {
@@ -74,11 +74,11 @@ export class Router {
       this.history.forward();
     }
 
-    getRoute (pathname: string) {
+    private getRoute (pathname: string) {
       return this.routes.find(route => route.match(pathname));
     }
 
-    getRedirect (pathname: string) {
+    private getRedirect (pathname: string) {
       return this.redirects.find(redirect => (pathname === redirect.from));
     }
 

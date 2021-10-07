@@ -1,7 +1,7 @@
 import { EventBus } from "./EventBus";
 import { Props } from "../types";
 import { v4 as uuidv4 } from "uuid";
-import { renderDOM, removeDOM } from "../utils";
+import { RenderDOM } from "../utils";
 
 export class Block {
     private static EVENTS = {
@@ -21,8 +21,7 @@ export class Block {
 
     state: {};
     private _id: string;
-    protected props: Props;
-    protected children: Record<string, Block>;
+    props: Props;
     private eventBus: () => EventBus;
 
     constructor (tagName: string = "div", props: Props) {
@@ -126,12 +125,14 @@ export class Block {
     }
 
     show () {
-      renderDOM(this);
+      const renderDom = new RenderDOM();
+      renderDom.append(this);
       this.eventBus().emit(Block.EVENTS.FLOW_CDP);
     }
 
     hide () {
-      removeDOM(this);
+      const renderDom = new RenderDOM();
+      renderDom.remove(this);
       this.eventBus().emit(Block.EVENTS.FLOW_CDR);
     }
 
@@ -167,7 +168,7 @@ export class Block {
     _addEvents () {
       const { events = {} } = this.props;
       Object.keys(events).forEach(eventName => {
-        (document.querySelector("#root") as HTMLElement).addEventListener(eventName, (e: Event) => {
+        (document.querySelector("#root") as HTMLElement)?.addEventListener(eventName, (e: Event) => {
           this._callEventFunction(e, events[eventName]);
         }, true);
       });

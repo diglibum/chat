@@ -23,7 +23,7 @@ export class Link {
 
       link.addEventListener("click", (e) => {
         e.preventDefault();
-        new Router("#root").go(this._pathname);
+        new Router().go(this._pathname);
       });
       this._element = link;
     }

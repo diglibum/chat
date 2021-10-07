@@ -21,7 +21,7 @@ describe("SignIn API", () => {
     requests.length = 0;
   });
 
-  it("should send POST /auth/signin on signIn", () => {
+  it("signIn sends POST to /auth/signin", () => {
     const api = new SignInApi();
     const data: SignInRequest = {
       first_name: "Имя",

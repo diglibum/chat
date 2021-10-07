@@ -199,7 +199,7 @@ class ChatController {
     return true;
   }
 
-  getAllNewMessages (chatId?: number, offset: number = 0) { // TODO
+  getAllNewMessages (chatId?: number, offset: number = 0) {
     this.wsArray.forEach(item => {
       item.ws.messages = item.ws.getNewMessages(offset);
     });
