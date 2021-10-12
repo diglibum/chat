@@ -5,11 +5,11 @@ import { Block } from "../../modules/block";
 import { Props } from "../../types";
 
 export class ErrorPage extends Block {
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const { inner } = this.props;
     const tmpl = new Templator(errorPageTmpl);
     let context = {};
@@ -18,13 +18,13 @@ export class ErrorPage extends Block {
       case "404":
         context = {
           errorCode: "404",
-          errorText: "Не туда попали"
+          errorText: "Не туда попали",
         };
         break;
       case "500":
         context = {
           errorCode: "500",
-          errorText: "Мы уже фиксим"
+          errorText: "Мы уже фиксим",
         };
         break;
     }

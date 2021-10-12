@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="input {{ className }}">
     <input
       id="{{ id }}"

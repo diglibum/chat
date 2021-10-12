@@ -4,28 +4,28 @@ import popupTmpl from "./popup.tmpl";
 import { PopupProps } from "./types";
 import "./popup.scss";
 export class Popup extends Block {
-  constructor (props: PopupProps) {
+  constructor(props: PopupProps) {
     super("div", props);
   }
 
-  close () {
+  close() {
     const fragment = this.getContent() as DocumentFragment;
     fragment.firstElementChild?.classList.add("hide");
   }
 
-  open () {
+  open() {
     const fragment = this.getContent() as DocumentFragment;
     fragment.firstElementChild?.classList.remove("hide");
   }
 
-  render () {
+  render() {
     const { title, body, className, hidePopup = true } = this.props;
     const tmpl = new Templator(popupTmpl);
     const context: PopupProps = {
       title,
       body,
       className,
-      hidePopup
+      hidePopup,
     };
     const fragment = tmpl.compile(context);
     const wrapper = fragment.querySelector(".popup__wrapper");
@@ -37,16 +37,18 @@ export class Popup extends Block {
     return fragment;
   }
 
-  static closeAllPopups () {
+  static closeAllPopups() {
     const popups = document.querySelectorAll(".popup");
-    popups.forEach(popup => {
+    popups.forEach((popup) => {
       popup.classList.add("hide");
     });
   }
 
-  static addPopupTriggers (fragment?: DocumentFragment) {
-    const triggers = (fragment ?? document).firstElementChild?.querySelectorAll("[data-popup]");
-    triggers?.forEach(trigger => {
+  static addPopupTriggers(fragment?: DocumentFragment) {
+    const triggers = (fragment ?? document).firstElementChild?.querySelectorAll(
+      "[data-popup]"
+    );
+    triggers?.forEach((trigger) => {
       trigger.addEventListener("click", (e) => {
         e.preventDefault();
         Popup.closeAllPopups();

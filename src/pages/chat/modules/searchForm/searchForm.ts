@@ -5,11 +5,11 @@ import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
 
 export class SearchForm extends Block {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const { placeholder } = this.props;
     const tmpl = new Templator(searchFormTmpl);
     const context = { placeholder };

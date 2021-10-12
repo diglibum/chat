@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="add-user__form-content">
     {{ content }}
   </div>

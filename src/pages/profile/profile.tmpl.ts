@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="profile-page">
     <div class="profile-page__aside">
       <a onClick="history.back()" class="arrow-button go-back"></a>

@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <form class="form" 
     name="{{ name }}" 
     autocomplete="{{ autocomplete }}" 

@@ -2,28 +2,6 @@
 import { expect } from "chai";
 import { Input } from "../components/input";
 import { Templator } from "./templator";
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { window } = new JSDOM(
-    `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chat</title>
-    </head>
-    <body>
-        <div id="root"></div>    
-    </body>
-    </html>
-    `,
-    { url: "http://localhost:3000" }
-);
-
-global.window = window;
-global.document = window.document;
 
 const template = `
     <div class="test-container">
@@ -36,7 +14,7 @@ const component = new Input({ name: "inputName" });
 const context = {
   text: "some text",
   component,
-  fragment: component.getContent()
+  fragment: component.getContent(),
 };
 const tmpl = new Templator(template);
 const compiled = tmpl.compile(context);

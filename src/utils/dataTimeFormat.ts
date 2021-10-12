@@ -1,9 +1,17 @@
-export function dataTimeFormat (value: string) {
+export function dataTimeFormat(value: string, withDate: boolean = false) {
   const date = Date.parse(value);
-  const options: Intl.DateTimeFormatOptions = {
+  let options: Intl.DateTimeFormatOptions = {
     hour: "numeric",
-    minute: "numeric"
+    minute: "numeric",
   };
+
+  if (withDate) {
+    options = {
+      ...options,
+      month: "numeric",
+      day: "numeric",
+    };
+  }
 
   return new Intl.DateTimeFormat("ru", options).format(date);
 }

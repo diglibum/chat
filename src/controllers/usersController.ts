@@ -3,24 +3,26 @@ import { UserPasswordApi } from "../api/users/userPasswordApi";
 import { UserProfileApi } from "../api/users/userProfileApi";
 import { checkAllForm } from "../components/form/utils/formValidation";
 import Store from "../modules/store";
-import { prepareDataToRequest } from "./utils/prepareDataToReques";
+import { prepareDataToRequest } from "./utils/prepareDataToRequest";
 
 const userProfileApi = new UserProfileApi();
 const userPasswordApi = new UserPasswordApi();
 export class UsersController {
-  public changeProfile (form?: HTMLFormElement) {
+  public changeProfile(form?: HTMLFormElement) {
     try {
       const validateData = checkAllForm(form!);
       if (!validateData) {
         throw new Error("ошибка валидации");
       }
-      const data = prepareDataToRequest(new FormData(form)) as UserProfileRequest;
-      userProfileApi.update(data)
-        .then(data => {
-          Store.setState({ user: JSON.parse(data.responseText) });
-          return data;
+      const data = prepareDataToRequest(
+        new FormData(form)
+      ) as UserProfileRequest;
+      userProfileApi
+        .updateUser(data)
+        .then((user) => {
+          Store.setState({ user });
         })
-        .catch(reason => {
+        .catch((reason) => {
           console.log(reason);
           return false;
         });
@@ -31,18 +33,19 @@ export class UsersController {
     return true;
   }
 
-  public changePassword (form?: HTMLFormElement) {
+  public changePassword(form?: HTMLFormElement) {
     try {
       const validateData = checkAllForm(form!);
       if (!validateData) {
         throw new Error("ошибка валидации");
       }
       const data = prepareDataToRequest(new FormData(form));
-      userPasswordApi.update(<UserPasswordRequest>{ oldPassword: data.oldPassword, newPassword: data.newPassword })
-        .then(data => {
-          return data;
+      userPasswordApi
+        .updatePass(<UserPasswordRequest>{
+          oldPassword: data.oldPassword,
+          newPassword: data.newPassword,
         })
-        .catch(reason => {
+        .catch((reason) => {
           console.log(reason);
           return false;
         });
@@ -53,11 +56,10 @@ export class UsersController {
     return true;
   }
 
-  public changeAvatar (form?: HTMLFormElement) {
+  public changeAvatar(form?: HTMLFormElement) {
     const data = new FormData(form);
-    userProfileApi.changeAvatar(data)
-      .then(data => {
-        Store.setState({ user: JSON.parse(data.response) });
-      });
+    userProfileApi.changeAvatar(data).then((user) => {
+      Store.setState({ user });
+    });
   }
 }

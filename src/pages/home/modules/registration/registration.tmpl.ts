@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="registration__inputs">
     {{ mailInput }}
     {{ loginInput }}

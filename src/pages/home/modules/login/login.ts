@@ -8,17 +8,20 @@ import { formValidation } from "../../../../components/form/utils";
 import { Block } from "../../../../modules/block";
 import { Link } from "../../../../modules/link";
 import { Props } from "../../../../types";
-import { InputType, InputValidationType } from "../../../../components/input/types";
+import {
+  InputType,
+  InputValidationType,
+} from "../../../../components/input/types";
 import { AuthController } from "../../../../controllers/authController";
 
 export class Login extends Block {
   controller = new AuthController();
 
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const tmpl = new Templator(loginTmpl);
 
     const loginInput = new Input({
@@ -36,8 +39,8 @@ export class Login extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const passwordInput = new Input({
@@ -55,35 +58,37 @@ export class Login extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const btn = new Button({
-      text: "Авторизоваться"
+      text: "Авторизоваться",
     });
 
     const signUpLink = new Link({
       to: "/sign-up",
       label: "Нет аккаунта?",
-      className: "login__registr-link"
+      className: "login__registr-link",
     });
 
     const context = {
       loginInput,
       passwordInput,
       button: btn,
-      signUpLink
+      signUpLink,
     };
 
     const form = new Form({
       name: "loginForm",
       body: tmpl.compile(context),
-      novalidate: true
+      novalidate: true,
     });
 
     const fragment = form.getContent();
-    const htmlForm = (<HTMLElement>fragment).querySelector(".form")! as HTMLFormElement;
+    const htmlForm = (<HTMLElement>fragment).querySelector(
+      ".form"
+    )! as HTMLFormElement;
 
     htmlForm?.addEventListener("submit", (event) => {
       event.preventDefault();

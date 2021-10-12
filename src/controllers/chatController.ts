@@ -1,12 +1,17 @@
 import { ChatApi } from "../api/chats/chatApi";
 import { TokenApi } from "../api/chats/tokenApi";
-import { AddUsersToChatRequest, BaseRequest, DeleteChatRequest, DeleteUsersFromChatRequest } from "../api/types";
+import {
+  AddUsersToChatRequest,
+  BaseRequest,
+  DeleteChatRequest,
+  DeleteUsersFromChatRequest,
+} from "../api/types";
 import { UserSearch } from "../api/users/userSearch";
 import { checkAllForm } from "../components/form/utils";
 import Store from "../modules/store";
 import { WebSocketService, WS_ACTIONS } from "../modules/webSocketService";
-import { prepareDataToRequest } from "./utils/prepareDataToReques";
-
+import { Chat, Message } from "../types";
+import { prepareDataToRequest } from "./utils/prepareDataToRequest";
 class ChatController {
   private tokenAPIinstance = new TokenApi();
   private chatAPIInstance = new ChatApi();
@@ -14,24 +19,26 @@ class ChatController {
   ws: WebSocketService | null = null;
   wsArray: any[] = [];
 
-  public getToken (chatId: number) {
-    return this.tokenAPIinstance.getToken(chatId)
-      .then((data) => {
-        return JSON.parse(data.response).token;
+  public getToken(chatId: number) {
+    return this.tokenAPIinstance
+      .getToken(chatId)
+      .then((result) => {
+        return (<any>result).token;
       })
       .catch((reason) => {
         console.log(reason);
       });
   }
 
-  createChat (form?: HTMLFormElement) {
+  createChat(form?: HTMLFormElement) {
     try {
       const validateData = checkAllForm(form!);
       if (!validateData) {
         throw new Error("ошибка валидации");
       }
       const data = prepareDataToRequest(new FormData(form)) as BaseRequest;
-      this.chatAPIInstance.create(data)
+      this.chatAPIInstance
+        .create(data)
         .then(() => {
           this.getChats();
         })
@@ -45,22 +52,18 @@ class ChatController {
     return true;
   }
 
-  getChats () {
+  getChats() {
     try {
-      this.chatAPIInstance.getChats()
-        .then((data) => {
-          const chats = JSON.parse(data.response);
+      this.chatAPIInstance
+        .getChats()
+        .then((chats) => {
           if (chats) {
             Store.setState({ chats });
           }
         })
         .then(() => {
-          if (this.wsArray.length === 0) {
-            this.openConnections(Store.getState("chats"));
-          }
-        })
-        .then(() => {
-          this.getAllNewMessages();
+          const chats: Chat[] = Store.getState("chats");
+          this.openConnections(chats);
         })
         .catch((reason) => {
           console.log(reason);
@@ -70,45 +73,51 @@ class ChatController {
     }
   }
 
-  private openConnections (chats: any[]) {
-    chats.forEach(chat => {
-      this.getToken(chat.id)
-        .then(token => {
-          this.wsArray.push({ id: chat.id, ws: this.openWs(token, chat.id, Store.getState("user")?.id), messages: null });
+  private openConnections(chats: Chat[]) {
+    chats.forEach((chat) => {
+      const chatWs = this.findChatinArray(chat.id);
+      if (!chatWs) {
+        this.wsArray.push({ id: chat.id, ws: null });
+        this.getToken(chat.id).then((token) => {
+          const chatWs = this.findChatinArray(chat.id);
+          chatWs.ws = this.openWs(token, chat.id, Store.getState("user")?.id);
         });
+      }
     });
   }
 
-  private openWs (token: string, chatId: number, userId: number) {
+  private findChatinArray(chatId: number) {
+    return this.wsArray.find((item) => item.id === chatId);
+  }
+
+  private openWs(token: string, chatId: number, userId: number) {
     return new WebSocketService({
       token,
       chatId: chatId,
-      userId: userId
+      userId: userId,
     });
   }
 
-  getConnection (chatId: number) {
-    return this.wsArray?.find(x => x.id === chatId)?.ws;
+  getConnection(chatId: number) {
+    return this.wsArray?.find((x) => x.id === chatId)?.ws;
   }
 
-  searchUsers (form: HTMLFormElement, userName: string) {
+  searchUsers(form: HTMLFormElement, userName: string) {
     const validateData = checkAllForm(form!);
     if (!validateData) {
       throw new Error("ошибка валидации");
     }
-    return this.userSearchAPIInstance.findUser({ login: userName })
-      .then((data) => {
-        const users = JSON.parse(data.response);
-        return users;
-      })
+    return this.userSearchAPIInstance
+      .findUser({ login: userName })
       .catch((reason) => {
         console.log(reason);
       });
   }
 
-  addUsersToChat (obj: AddUsersToChatRequest) {
+  addUsersToChat(obj: AddUsersToChatRequest) {
     try {
-      this.chatAPIInstance.addUsersToChat(obj)
+      this.chatAPIInstance
+        .addUsersToChat(obj)
         .then(() => {
           this.getChats();
         })
@@ -122,20 +131,16 @@ class ChatController {
     return true;
   }
 
-  getChatUsers (chatId: number) {
-    return this.chatAPIInstance.getChatUsers(chatId)
-      .then((data) => {
-        const users = JSON.parse(data.response);
-        return users;
-      })
-      .catch((reason) => {
-        console.log(reason);
-      });
+  getChatUsers(chatId: number) {
+    return this.chatAPIInstance.getChatUsers(chatId).catch((reason) => {
+      console.log(reason);
+    });
   }
 
-  deleteUsersFromChat (obj: DeleteUsersFromChatRequest) {
+  deleteUsersFromChat(obj: DeleteUsersFromChatRequest) {
     try {
-      this.chatAPIInstance.deleteUsersFromChat(obj)
+      this.chatAPIInstance
+        .deleteUsersFromChat(obj)
         .then(() => {
           this.getChats();
         })
@@ -149,14 +154,15 @@ class ChatController {
     return true;
   }
 
-  setCurrentChat (chat: any) {
+  setCurrentChat(chat: Chat) {
     const oldChat = Store.getState("currentChat");
     if (oldChat?.id !== chat.id) {
       Store.setState({ currentChat: chat });
     }
+    this.getNewMessages(chat.id);
   }
 
-  getChat () {
+  getChat() {
     const token = Store.getState("token");
     const currentChatId = Store.getState("currentChat.id");
     const user = Store.getState("user");
@@ -166,7 +172,7 @@ class ChatController {
         this.ws = new WebSocketService({
           token,
           chatId: currentChatId,
-          userId: user.id
+          userId: user.id,
         });
       } catch {
         console.log("Ошибка подлючения к серверу чатов");
@@ -174,19 +180,26 @@ class ChatController {
     }
   }
 
-  deleteChat (chatId: number) {
+  deleteChat(chatId: number) {
     try {
       const chat: DeleteChatRequest = {
-        chatId
+        chatId,
       };
-      this.chatAPIInstance.deleteChat(chat)
+      this.chatAPIInstance
+        .deleteChat(chat)
         .then(() => {
           Store.setState({
             currentChat: {
               id: null,
-              messages: null
-            }
+              messages: null,
+            },
           });
+          const messages = Store.getState("messages");
+          messages[chatId] = [];
+          Store.setState({
+            messages,
+          });
+
           this.getChats();
         })
         .catch((reason) => {
@@ -199,20 +212,67 @@ class ChatController {
     return true;
   }
 
-  getAllNewMessages (_chatId?: number, offset: number = 0) {
-    this.wsArray.forEach(item => {
-      item.ws.messages = item.ws.getNewMessages(offset);
+  getNewMsgCount(chatId: number) {
+    return this.chatAPIInstance
+      .getNewMessagesCount(chatId)
+      .then((count) => {
+        return (<any>count).unread_count;
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  }
+
+  getNewMessages(chatId: number) {
+    return this.getNewMsgCount(chatId).then((msgCount) => {
+      let offset = 0;
+      while (offset < msgCount) {
+        this.getMessages(chatId, offset);
+        offset += 20;
+      }
     });
   }
 
-  newMessage (form: HTMLFormElement, message: string, chatId: number) {
+  getMessages(chatId: number, offset: number) {
+    const chat = this.findChatinArray(chatId);
+    const ws = chat.ws;
+    ws.getMessages(offset);
+  }
+
+  setMessage(chatId: number, messages: Message | Message[]) {
+    const allMessages = Store.getState("messages");
+    let chat = allMessages.find((chat: Chat) => chat.id === chatId);
+
+    if (!chat) {
+      const length: number = allMessages.push({
+        id: chatId,
+        messages: [],
+      });
+      chat = allMessages[length - 1];
+    }
+    let lastMessage = "old";
+    if (Array.isArray(messages)) {
+      messages.forEach((msg) => {
+        chat.messages.unshift(msg);
+        lastMessage = "new";
+      });
+    } else {
+      chat.messages.push(messages);
+    }
+    Store.setState({
+      messages: allMessages,
+      lastMessage,
+    });
+  }
+
+  newMessage(form: HTMLFormElement, message: string, chatId: number) {
     try {
       const validateData = checkAllForm(form!);
       if (!validateData) {
         throw new Error("ошибка валидации");
       }
       if (chatId && message) {
-        const wsItem = this.wsArray.find(item => item.id === chatId);
+        const wsItem = this.wsArray.find((item) => item.id === chatId);
         wsItem.ws?.send(WS_ACTIONS.MESSAGES, message);
       }
     } catch (error) {

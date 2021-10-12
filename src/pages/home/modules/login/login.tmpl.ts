@@ -1,5 +1,4 @@
-export default
-`
+export default `
     <div class="login__inputs">
       {{ loginInput }}
       {{ passwordInput }}

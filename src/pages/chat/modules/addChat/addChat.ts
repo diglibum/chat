@@ -1,7 +1,10 @@
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
 import { Input } from "../../../../components/input";
-import { InputType, InputValidationType } from "../../../../components/input/types";
+import {
+  InputType,
+  InputValidationType,
+} from "../../../../components/input/types";
 import { Block } from "../../../../modules/block";
 import { Templator } from "../../../../modules/templator";
 import { Props } from "../../../../types";
@@ -12,11 +15,11 @@ import { Popup } from "../../../../components/popup/popup";
 import ChatController from "../../../../controllers/chatController";
 
 export class AddChat extends Block {
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const tmpl = new Templator(addChatTmpl);
     const input = new Input({
       name: "title",
@@ -32,29 +35,29 @@ export class AddChat extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const button = new Button({
       text: "Добавить",
-      className: "add-chat-name__button"
+      className: "add-chat-name__button",
     });
 
     const context = {
       input,
-      button
+      button,
     };
 
     const form = new Form({
       name: "addChatForm",
-      body: tmpl.compile(context)
+      body: tmpl.compile(context),
     });
 
     const popup = new Popup({
       className: "add-chat__popup",
       title: "Добавить чат",
-      body: form
+      body: form,
     });
 
     const fragment = popup.getContent() as DocumentFragment;

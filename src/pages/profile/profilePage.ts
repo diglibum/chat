@@ -15,34 +15,35 @@ import { UsersController } from "../../controllers/usersController";
 const controller = new UsersController();
 
 export class ProfilePage extends Block {
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
     Store.registerEvent(this.reRender, this);
   }
 
-  render () {
+  render() {
     const user = Store.getState("user");
-    const userName = (user) ? user.first_name : "";
+    const userName = user ? user.first_name : "";
     const { inner } = this.props;
     const tmpl = new Templator(profilePageTmpl);
 
     const form = new Form({
       name: "addAvatar",
-      body: avatarFormTmpl
+      body: avatarFormTmpl,
     });
 
     const popup = new Popup({
       title: "Загрузите файл",
       body: form,
-      className: "add-avatar__popup"
+      className: "add-avatar__popup",
     });
 
     const context: Props = {
       header: userName,
-      popup
+      popup,
     };
     if (user?.avatar) {
-      context.avatar = "https://ya-praktikum.tech/api/v2/resources" + user.avatar;
+      context.avatar =
+        "https://ya-praktikum.tech/api/v2/resources" + user.avatar;
     }
 
     switch (inner) {
@@ -60,7 +61,9 @@ export class ProfilePage extends Block {
     const fragment = tmpl.compile(context);
     Popup.addPopupTriggers(fragment);
 
-    const avatarForm = (popup.getContent() as DocumentFragment).querySelector("form");
+    const avatarForm = (popup.getContent() as DocumentFragment).querySelector(
+      "form"
+    );
     avatarForm?.addEventListener("submit", (e) => {
       e.preventDefault();
       controller.changeAvatar(avatarForm);

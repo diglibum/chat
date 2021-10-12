@@ -4,195 +4,202 @@ import { v4 as uuidv4 } from "uuid";
 import { RenderDOM } from "../utils";
 
 export class Block {
-    private static EVENTS = {
-      INIT: "init",
-      FLOW_CDM: "flow:component-did-mount",
-      FLOW_CDU: "flow:component-did-update",
-      FLOW_CDP: "flow:component-did-placed",
-      FLOW_CDR: "flow:component-did-removed",
-      FLOW_RENDER: "flow:render"
-    };
+  private static EVENTS = {
+    INIT: "init",
+    FLOW_CDM: "flow:component-did-mount",
+    FLOW_CDU: "flow:component-did-update",
+    FLOW_CDP: "flow:component-did-placed",
+    FLOW_CDR: "flow:component-did-removed",
+    FLOW_RENDER: "flow:render",
+  };
 
-    private _element: Node; // ссылка на Node
-    private _meta: {
-        tagName: string;
-        props: Props;
-    };
-
-    state: {};
-    private _id: string;
+  private _element: Node;
+  private _meta: {
+    tagName: string;
     props: Props;
-    private eventBus: () => EventBus;
+  };
 
-    constructor (tagName: string = "div", props: Props) {
-      const eventBus: EventBus = new EventBus();
-      this._meta = {
-        tagName,
-        props
-      };
-      this._id = uuidv4();
-      this.props = this._makePropsProxy(props);
-      this.eventBus = () => eventBus;
-      this._registerEvents(eventBus);
-      eventBus.emit(Block.EVENTS.INIT);
-    }
+  state: {};
+  private _id: string;
+  props: Props;
+  private eventBus: () => EventBus;
 
-    _registerEvents (eventBus: EventBus) {
-      eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
-      eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-      eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
-      eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-      eventBus.on(Block.EVENTS.FLOW_CDP, this._componentDidPlaced.bind(this));
-      eventBus.on(Block.EVENTS.FLOW_CDR, this._componentDidRemoved.bind(this));
-    }
-
-    _createResources () {
-      const { tagName } = this._meta;
-      this._element = this._createDocumentElement(tagName);
-    }
-
-    init () {
-      this._createResources();
-      this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-    }
-
-    _componentDidPlaced () {
-      this.componentDidPlaced();
-    }
-
-    componentDidPlaced () {}
-
-    _componentDidRemoved () {
-      this.componentDidPlaced();
-    }
-
-    componentDidRemoved () {}
-
-    _componentDidMount () {
-      this.componentDidMount();
-      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-    }
-
-    componentDidMount () { }
-
-    _componentDidUpdate (oldProps: Props, newProps: Props) {
-      const response = this.componentDidUpdate(oldProps, newProps);
-      if (!response) {
-        return;
-      }
-      this.reRender();
-    }
-
-    componentDidUpdate (oldProps: Props, newProps: Props) {
-      return !(oldProps === newProps);
-    }
-
-    setProps = (nextProps: Props) => {
-      if (!nextProps) {
-        return;
-      }
-      Object.assign(this.props, nextProps);
+  constructor(tagName: string = "div", props: Props) {
+    const eventBus: EventBus = new EventBus();
+    this._meta = {
+      tagName,
+      props,
     };
+    this._id = uuidv4();
+    this.props = this._makePropsProxy(props);
+    this.eventBus = () => eventBus;
+    this._registerEvents(eventBus);
+    eventBus.emit(Block.EVENTS.INIT);
+  }
 
-    get element (): Node {
-      return this._element;
+  _registerEvents(eventBus: EventBus) {
+    eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CDP, this._componentDidPlaced.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CDR, this._componentDidRemoved.bind(this));
+  }
+
+  _createResources() {
+    const { tagName } = this._meta;
+    this._element = this._createDocumentElement(tagName);
+  }
+
+  init() {
+    this._createResources();
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+  }
+
+  _componentDidPlaced() {
+    this.componentDidPlaced();
+  }
+
+  componentDidPlaced() {}
+
+  _componentDidRemoved() {
+    this.componentDidPlaced();
+  }
+
+  componentDidRemoved() {}
+
+  _componentDidMount() {
+    this.componentDidMount();
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  }
+
+  componentDidMount() {}
+
+  _componentDidUpdate(oldProps: Props, newProps: Props) {
+    const response = this.componentDidUpdate(oldProps, newProps);
+    if (!response) {
+      return;
     }
+    this.reRender();
+  }
 
-    _render () {
-      const block = this.render();
-      this._element = this._createDocumentElement(this._meta.tagName);
-      this._element.appendChild(block);
-      this._addEvents();
+  componentDidUpdate(oldProps: Props, newProps: Props) {
+    return !(oldProps === newProps);
+  }
+
+  setProps = (nextProps: Props) => {
+    if (!nextProps) {
+      return;
     }
+    Object.assign(this.props, nextProps);
+  };
 
-    reRender () {
-      const block = this.render();
-      this._element.textContent = "";
-      this._element.appendChild(block);
-      this._addEvents();
-    }
+  get element(): Node {
+    return this._element;
+  }
 
-    render (): any {}
+  _render() {
+    const block = this.render();
+    this._element = this._createDocumentElement(this._meta.tagName);
+    this._element.appendChild(block);
+    this._addEvents();
+  }
 
-    toString (): string {
-      const wrapper = document.createElement("div");
-      wrapper.appendChild(this.getContent());
-      return wrapper.innerHTML;
-    }
+  reRender() {
+    const block = this.render();
+    this._element.textContent = "";
+    this._element.appendChild(block);
+    this._addEvents();
+  }
 
-    getContent () {
-      return this.element;
-    }
+  render(): any {}
 
-    show () {
-      const renderDom = new RenderDOM();
-      renderDom.append(this);
-      this.eventBus().emit(Block.EVENTS.FLOW_CDP);
-    }
+  toString(): string {
+    const wrapper = document.createElement("div");
+    wrapper.appendChild(this.getContent());
+    return wrapper.innerHTML;
+  }
 
-    hide () {
-      const renderDom = new RenderDOM();
-      renderDom.remove(this);
-      this.eventBus().emit(Block.EVENTS.FLOW_CDR);
-    }
+  getContent() {
+    return this.element;
+  }
 
-    getId () {
-      return this._id;
-    }
+  show() {
+    const renderDom = new RenderDOM();
+    renderDom.append(this);
+    this.eventBus().emit(Block.EVENTS.FLOW_CDP);
+  }
 
-    _makePropsProxy (props: Props): Props {
-      const self = this;
+  hide() {
+    const renderDom = new RenderDOM();
+    renderDom.remove(this);
+    this.eventBus().emit(Block.EVENTS.FLOW_CDR);
+  }
 
-      props = new Proxy(props, {
-        set (target, prop: string, value: unknown): boolean {
-          target[prop] = value;
-          self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
-          return true;
-        },
-        get (target, prop: string): Function {
-          const value = target[prop];
-          return typeof value === "function" ? value.bind(target) : value;
-        },
-        deleteProperty (): boolean {
-          throw new Error("нет доступа");
-        }
-      });
-      return props;
-    }
+  getId() {
+    return this._id;
+  }
 
-    _createDocumentElement (tagName: string) {
-      const element = document.createElement(tagName);
-      return element;
-    }
+  _makePropsProxy(props: Props): Props {
+    const self = this;
 
-    _addEvents () {
-      const { events = {} } = this.props;
-      Object.keys(events).forEach(eventName => {
-        (document.querySelector("#root") as HTMLElement)?.addEventListener(eventName, (e: Event) => {
+    props = new Proxy(props, {
+      set(target, prop: string, value: unknown): boolean {
+        target[prop] = value;
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
+        return true;
+      },
+      get(target, prop: string): Function {
+        const value = target[prop];
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+      deleteProperty(): boolean {
+        throw new Error("нет доступа");
+      },
+    });
+    return props;
+  }
+
+  _createDocumentElement(tagName: string) {
+    const element = document.createElement(tagName);
+    return element;
+  }
+
+  _addEvents() {
+    const { events = {} } = this.props;
+    Object.keys(events).forEach((eventName) => {
+      (document.querySelector("#root") as HTMLElement)?.addEventListener(
+        eventName,
+        (e: Event) => {
           this._callEventFunction(e, events[eventName]);
-        }, true);
-      });
-    }
+        },
+        true
+      );
+    });
+  }
 
-    _callEventFunction (e: Event, eventFn: Function) {
-      const target = e.target as HTMLElement;
-      const dataId = target.getAttribute("data-id");
+  _callEventFunction(e: Event, eventFn: Function) {
+    const target = e.target as HTMLElement;
+    const dataId = target.getAttribute("data-id");
 
-      if (target != null) {
-        if (dataId === this._id) {
-          e.preventDefault();
-          eventFn.bind(this);
-          eventFn(e);
-        }
+    if (target != null) {
+      if (dataId === this._id) {
+        e.preventDefault();
+        eventFn.bind(this);
+        eventFn(e);
       }
     }
+  }
 
-    _removeEvents () {
-      const { events = {} } = this.props;
-      Object.keys(events).forEach(eventName => {
-        (document.querySelector("#root") as HTMLElement).removeEventListener(eventName, (e: Event) => {
+  _removeEvents() {
+    const { events = {} } = this.props;
+    Object.keys(events).forEach((eventName) => {
+      (document.querySelector("#root") as HTMLElement).removeEventListener(
+        eventName,
+        (e: Event) => {
           this._callEventFunction(e, events[eventName]);
-        });
-      });
-    }
+        }
+      );
+    });
+  }
 }

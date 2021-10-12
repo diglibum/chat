@@ -5,7 +5,7 @@ import { BaseAPI } from "../baseApi";
 const signInAPIInstance = new HTTP("https://ya-praktikum.tech/api/v2/auth");
 
 export class UserLoginApi extends BaseAPI {
-  public userLogin () {
+  public userLogin() {
     return signInAPIInstance.get(signInAPIInstance.url + "/user");
   }
 }

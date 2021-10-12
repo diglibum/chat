@@ -16,27 +16,27 @@ import { DeleteUser } from "./modules/deleteUser";
 import chatMenuTmpl from "./chatMenu.tmpl";
 import chatStubTmpl from "./chatStub.tmpl";
 import { MessageForm } from "./modules/messageForm";
-
+import { Chat, Message } from "../../types";
 export class ChatPage extends Block {
-  currentChat: any;
-  newMessages: any;
+  currentChat: Chat;
+  newMessages: Message[];
 
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
     Store.registerEvent(this.reRender, this);
     ChatController.getChats();
   }
 
-  render () {
+  render() {
     this.currentChat = Store.getState("currentChat");
     const searchForm = new SearchForm({
-      placeholder: "Поиск"
+      placeholder: "Поиск",
     });
 
     const settingsLink = new Link({
       to: "/settings",
       label: "Профиль",
-      className: "aside__header-link"
+      className: "aside__header-link",
     });
 
     const chatPopup = new AddChat();
@@ -45,7 +45,7 @@ export class ChatPage extends Block {
     const chatList = new ChatList();
     const chatMenu = new Popup({
       body: chatMenuTmpl,
-      className: "chat-menu__popup"
+      className: "chat-menu__popup",
     });
     const messageForm = new MessageForm();
 
@@ -60,13 +60,12 @@ export class ChatPage extends Block {
       userPopup,
       deleteUserPopup,
       chatMenu,
-      messageForm
+      messageForm,
     };
 
     if (this.currentChat.id === null) {
       context.content = chatStubTmpl;
     } else {
-      ChatController.getAllNewMessages(this.currentChat.id);
       context.content = new ChatBody();
     }
 
@@ -77,10 +76,15 @@ export class ChatPage extends Block {
     const fragment = tmpl.compile(context);
     Popup.addPopupTriggers(fragment);
     this.addDeleteChatListener(fragment);
+
+    setTimeout(() => {
+      this.pageScrolling();
+    }, 0);
+
     return fragment;
   }
 
-  addDeleteChatListener (fragment: DocumentFragment) {
+  addDeleteChatListener(fragment: DocumentFragment) {
     const button = fragment.querySelector(".chat-menu__list-item_delete-chat");
     button?.addEventListener("click", (e) => {
       e.preventDefault();
@@ -89,5 +93,21 @@ export class ChatPage extends Block {
         console.log("чат удалён");
       }
     });
+  }
+
+  pageScrolling() {
+    const lastMessage = Store.getState("lastMessage");
+    const direction = lastMessage === "new" ? "top" : "bottom";
+    const chatBody = document.querySelector(".chat-body");
+    if (chatBody) {
+      switch (direction) {
+        case "top":
+          chatBody.scrollTop = 0;
+          break;
+        case "bottom":
+          chatBody.scrollTop = chatBody.scrollHeight - chatBody.clientHeight;
+          break;
+      }
+    }
   }
 }

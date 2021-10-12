@@ -7,11 +7,11 @@ import Store from "../../../../modules/store";
 import { ChatItem } from "../chatItem";
 
 export class ChatList extends Block {
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const chats = Store.getState("chats");
 
     let chatsList: any = [];

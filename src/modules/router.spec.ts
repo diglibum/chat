@@ -4,54 +4,36 @@ import * as sinon from "sinon";
 import { Block } from "./block";
 import { Route } from "./route";
 import { Router } from "./router";
+import { setupJsdom } from "../utils/setupJsdom";
 
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { window } = new JSDOM(
-    `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chat</title>
-    </head>
-    <body>
-        <div id="root"></div>    
-    </body>
-    </html>
-    `,
-    { url: "http://localhost:3000" }
-);
-
-global.window = window;
-global.document = window.document;
-
+const dom = setupJsdom();
+global.window = dom.window;
 class MainPage extends Block {
-  constructor () {
+  constructor() {
     super("div", {});
   }
 
-  render () {
+  render() {
     return this.getContent();
   }
 }
+
 class SecondPage extends Block {
-  constructor () {
+  constructor() {
     super("div", {});
   }
 
-  render () {
+  render() {
     return this.getContent();
   }
 }
+
 class ProfilePage extends Block {
-  constructor () {
+  constructor() {
     super("div", {});
   }
 
-  render () {
+  render() {
     return this.getContent();
   }
 }

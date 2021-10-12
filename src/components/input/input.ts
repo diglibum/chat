@@ -6,11 +6,11 @@ import "./input.scss";
 import { InputProps, InputType, InputValidationType } from "./types";
 
 export class Input extends Block {
-  constructor (props: InputProps) {
+  constructor(props: InputProps) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const {
       isProfile = false,
       name,
@@ -21,13 +21,24 @@ export class Input extends Block {
       value,
       disabled = false,
       errorMessage,
-      validationType = InputValidationType.TEXT
-    } = <InputProps> this.props;
+      validationType = InputValidationType.TEXT,
+    } = <InputProps>this.props;
 
     const id = this.getId();
-    const template = (isProfile) ? inputProfile : inputTmpl;
+    const template = isProfile ? inputProfile : inputTmpl;
     const tmpl = new Templator(template);
-    const context = { type, name, text, required, value, disabled, equal, errorMessage, id, validationType };
+    const context = {
+      type,
+      name,
+      text,
+      required,
+      value,
+      disabled,
+      equal,
+      errorMessage,
+      id,
+      validationType,
+    };
     return tmpl.compile(context);
   }
 }

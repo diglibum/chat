@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="password-edit">
     {{ oldPassword }}
     {{ newPassword }}

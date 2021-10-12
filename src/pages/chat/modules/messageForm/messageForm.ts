@@ -7,21 +7,26 @@ import ChatController from "../../../../controllers/chatController";
 import Store from "../../../../modules/store";
 
 export class MessageForm extends Block {
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const form = new Form({
-      body: messageFormTmpl
+      body: messageFormTmpl,
     });
 
     const fragment = form.getContent() as DocumentFragment;
     const htmlForm = fragment.querySelector("form");
     htmlForm?.addEventListener("submit", (e) => {
       e.preventDefault();
-      const message = (fragment.querySelector("input") as HTMLInputElement).value;
-      ChatController.newMessage(htmlForm, message, Store.getState("currentChat")?.id);
+      const message = (fragment.querySelector("input") as HTMLInputElement)
+        .value;
+      ChatController.newMessage(
+        htmlForm,
+        message,
+        Store.getState("currentChat")?.id
+      );
     });
 
     return fragment;

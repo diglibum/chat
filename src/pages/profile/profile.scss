@@ -1,3 +1,5 @@
+@import "../../vars";
+
 .profile-page {
   display: flex;
   min-height: 100vh;
@@ -19,7 +21,7 @@
     width: 64px;
     min-height: 100vh;
     height: 100%;
-    background-color: var(--bg-color-light);
+    background-color: $bg-color-light;
   }
 
   &__content {
@@ -59,10 +61,10 @@
       width: 130px;
       height: 130px;
       border-radius: 100%;
-      background: #000;
+      background: $darkest-color;
       font-size: 13px;
       line-height: 14px;
-      color: #fff;
+      color: $lightest-color;
       padding: 25px;
       text-align: center;
       cursor: pointer;

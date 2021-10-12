@@ -5,11 +5,11 @@ import { Block } from "../../modules/block";
 import { FormProps } from "./types";
 
 export class Form extends Block {
-  constructor (props: FormProps) {
+  constructor(props: FormProps) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const { name, body, autocomplete = "on", novalidate = true } = this.props;
     const id = this.getId();
     const tmpl = new Templator(formTmpl);

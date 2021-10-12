@@ -11,28 +11,27 @@ import ChatController from "../../../../controllers/chatController";
 import { DeleteUsersFromChatRequest } from "../../../../api/types";
 
 export class DeleteUser extends Block {
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const tmpl = new Templator(deleteUserTmpl);
     const { users } = this.props;
     const chatId = Store.getState("currentChat")?.id;
 
     const button = new Button({
       text: "Удалить",
-      className: "delete-user-name__button"
+      className: "delete-user-name__button",
     });
 
     if (chatId && !users) {
-      ChatController.getChatUsers(chatId)
-        .then(data => {
-          this.setProps({ users: data });
-        });
+      ChatController.getChatUsers(chatId).then((data) => {
+        this.setProps({ users: data });
+      });
     }
     const context: Props = {
-      button: button
+      button: button,
     };
 
     let content;
@@ -45,21 +44,21 @@ export class DeleteUser extends Block {
 
     const form = new Form({
       name: "deleteUserForm",
-      body: tmpl.compile(context)
+      body: tmpl.compile(context),
     });
 
     const popup = new Popup({
       className: "delete-user__popup",
       title: "Удалить пользователей",
-      body: form
+      body: form,
     });
 
     const selectedUsers: Set<number> = new Set();
     const fragment = popup.getContent() as DocumentFragment;
     const htmlForm = fragment.querySelector("form");
     const items = htmlForm?.querySelectorAll(".add-user__user-item");
-    items?.forEach(item => {
-      const newUserId = <unknown>item.getAttribute("id") as number;
+    items?.forEach((item) => {
+      const newUserId = (<unknown>item.getAttribute("id")) as number;
       item.addEventListener("click", (e) => {
         e.preventDefault();
         if (selectedUsers.has(newUserId)) {
@@ -76,14 +75,16 @@ export class DeleteUser extends Block {
       if (selectedUsers.size > 0) {
         const oldUsers: DeleteUsersFromChatRequest = {
           users: Array.from(selectedUsers),
-          chatId
+          chatId,
         };
         if (ChatController.deleteUsersFromChat(oldUsers)) {
-          htmlForm.querySelector("button")?.setAttribute("disabled", "disabled");
+          htmlForm
+            .querySelector("button")
+            ?.setAttribute("disabled", "disabled");
           setTimeout(() => {
             popup.close();
             this.setProps({
-              users: undefined
+              users: undefined,
             });
           }, 1500);
         }
@@ -93,11 +94,14 @@ export class DeleteUser extends Block {
     return fragment;
   }
 
-  getUsers (users: any[]) {
+  getUsers(users: any[]) {
     const currentUserId = Store.getState("user")?.id;
     const filteredUsers = users.filter((user) => user.id !== currentUserId);
     const userList = filteredUsers?.reduce((acc: [], user: any) => {
-      return [...acc, `<a href="/add-user" class="add-user__user-item" id="${user.id}">${user.login} (${user.first_name} ${user.second_name})</a>`];
+      return [
+        ...acc,
+        `<a href="/add-user" class="add-user__user-item" id="${user.id}">${user.login} (${user.first_name} ${user.second_name})</a>`,
+      ];
     }, []);
 
     const userListContainer = document.createElement("template");

@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="profile-view">
     {{ mailInput }}
     {{ loginInput }}

@@ -8,11 +8,11 @@ import { AddUsersToChatRequest } from "../../../../api/types";
 import { searchUserForm } from "./searchUserForm";
 import { addUserForm } from "./addUserForm";
 export class AddUser extends Block {
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const { inner, hidePopup } = this.props;
 
     let form;
@@ -33,7 +33,7 @@ export class AddUser extends Block {
       className: "add-user__popup",
       title: popupTitle,
       hidePopup,
-      body: form
+      body: form,
     });
 
     const fragment = this.addFormListeners(popup);
@@ -41,10 +41,12 @@ export class AddUser extends Block {
     return fragment;
   }
 
-  addFormListeners (popup: Popup) {
+  addFormListeners(popup: Popup) {
     const fragment = popup.getContent() as DocumentFragment;
     const htmlForm = fragment.querySelector("form") as HTMLFormElement;
-    const userNameInput = htmlForm?.querySelector("input[name='title']") as HTMLInputElement;
+    const userNameInput = htmlForm?.querySelector(
+      "input[name='title']"
+    ) as HTMLInputElement;
     const chatId = Store.getState("currentChat").id;
     const selectedUsers: Set<number> = new Set();
 
@@ -53,20 +55,21 @@ export class AddUser extends Block {
       if (this.props.inner === "search") {
         const userName = userNameInput.value;
         if (chatId) {
-          ChatController.searchUsers(htmlForm, userName)
-            .then(users => {
-              if (users && users.length > 0) {
-                this.setProps({ users, inner: "add", hidePopup: false });
-              }
-            });
+          ChatController.searchUsers(htmlForm, userName).then((users) => {
+            if (users && users.length > 0) {
+              this.setProps({ users, inner: "add", hidePopup: false });
+            }
+          });
         }
       } else if (this.props.inner === "add" && selectedUsers.size > 0) {
         const newUser: AddUsersToChatRequest = {
           users: Array.from(selectedUsers),
-          chatId
+          chatId,
         };
         if (ChatController.addUsersToChat(newUser)) {
-          htmlForm.querySelector("button")?.setAttribute("disabled", "disabled");
+          htmlForm
+            .querySelector("button")
+            ?.setAttribute("disabled", "disabled");
           setTimeout(() => {
             popup.close();
           }, 1500);
@@ -76,8 +79,8 @@ export class AddUser extends Block {
 
     if (this.props.inner === "add") {
       const users = htmlForm?.querySelectorAll(".add-user__user-item");
-      users.forEach(item => {
-        const newUserId = <unknown>item.getAttribute("id") as number;
+      users.forEach((item) => {
+        const newUserId = (<unknown>item.getAttribute("id")) as number;
         item.addEventListener("click", (e) => {
           e.preventDefault();
           if (selectedUsers.has(newUserId)) {

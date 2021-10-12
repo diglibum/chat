@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="input-profile">
     <input 
       id = {{ id }}

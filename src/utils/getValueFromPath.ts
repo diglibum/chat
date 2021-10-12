@@ -1,4 +1,4 @@
-export function getValueFromPath (obj: Record<string, any>, path: string): any {
+export function getValueFromPath(obj: Record<string, any>, path: string): any {
   const keys = path.split(".");
   let result = obj;
 

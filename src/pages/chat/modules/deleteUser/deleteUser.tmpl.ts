@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="delete-user__form-content">
     {{ content }}
   </div>

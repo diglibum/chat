@@ -7,7 +7,10 @@ import { Form } from "../../../../components/form";
 import { formValidation } from "../../../../components/form/utils";
 import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
-import { InputType, InputValidationType } from "../../../../components/input/types";
+import {
+  InputType,
+  InputValidationType,
+} from "../../../../components/input/types";
 import Store from "../../../../modules/store";
 import { Router } from "../../../../modules/router";
 import { UsersController } from "../../../../controllers/usersController";
@@ -15,12 +18,12 @@ import { UsersController } from "../../../../controllers/usersController";
 export class PasswordEdit extends Block {
   private controller = new UsersController();
 
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
     Store.registerEvent(this.reRender, this);
   }
 
-  render () {
+  render() {
     const tmpl = new Templator(passwordEditTmpl);
 
     const oldPassword = new Input({
@@ -39,8 +42,8 @@ export class PasswordEdit extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const newPassword = new Input({
@@ -59,8 +62,8 @@ export class PasswordEdit extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const repeatPassword = new Input({
@@ -80,28 +83,30 @@ export class PasswordEdit extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const btn = new Button({
-      text: "Сохранить"
+      text: "Сохранить",
     });
 
     const context = {
       oldPassword,
       newPassword,
       repeatPassword,
-      button: btn
+      button: btn,
     };
 
     const form = new Form({
       name: "passwordEditForm",
-      body: tmpl.compile(context)
+      body: tmpl.compile(context),
     });
 
     const fragment = form.getContent();
-    const htmlForm = (<HTMLElement>fragment).querySelector(".form")! as HTMLFormElement;
+    const htmlForm = (<HTMLElement>fragment).querySelector(
+      ".form"
+    )! as HTMLFormElement;
     const router = new Router();
 
     htmlForm?.addEventListener("submit", (event) => {

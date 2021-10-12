@@ -11,10 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const authController = new AuthController();
   const router = new Router("#root");
 
-  authController.checkUser()
-    .then(() => {
-      startRouting();
-    });
+  authController.checkUser().then(() => {
+    startRouting();
+  });
 
   router
     .use("/", new HomePage({ inner: "login" }))
@@ -28,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   Store.registerEvent(startRouting);
 
-  function startRouting () {
+  function startRouting() {
     const isAuthorized = Store.getState("isAuthorized");
 
     if (!isAuthorized) {
@@ -44,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .redirect({ from: "/", to: "/messenger" })
         .redirect({ from: "/sign-up", to: "/messenger" });
     }
-    router
-      .start();
+    router.start();
   }
 });

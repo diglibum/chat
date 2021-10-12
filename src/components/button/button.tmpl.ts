@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <button 
     data-id="{{ id }}"
     type="{{ type }}"

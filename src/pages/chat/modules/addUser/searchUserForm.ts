@@ -1,12 +1,15 @@
 import { Templator } from "../../../../modules/templator";
 import addUserTmpl from "./addUser.tmpl";
 import { Input } from "../../../../components/input";
-import { InputType, InputValidationType } from "../../../../components/input/types";
+import {
+  InputType,
+  InputValidationType,
+} from "../../../../components/input/types";
 import { formValidation } from "../../../../components/form/utils";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
 
-export function searchUserForm () {
+export function searchUserForm() {
   const tmpl = new Templator(addUserTmpl);
 
   const input = new Input({
@@ -23,21 +26,21 @@ export function searchUserForm () {
       },
       input: (event: Event) => {
         formValidation(event);
-      }
-    }
+      },
+    },
   });
 
   const button = new Button({
     text: "Найти",
-    className: "search-user-name__button"
+    className: "search-user-name__button",
   });
 
   const form = new Form({
     name: "searchUserForm",
     body: tmpl.compile({
       content: input,
-      button: button
-    })
+      button: button,
+    }),
   });
 
   return form;

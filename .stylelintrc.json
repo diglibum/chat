@@ -1,9 +1,21 @@
 {
-    "extends": "stylelint-config-standard",
-    "rules": {
-      "at-rule-no-unknown": null
-    },
-    "ignoreFiles": [
-      "build/*"
+  "plugins": [
+    "stylelint-order",
+    "stylelint-scss"
+  ],
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "at-rule-no-unknown": null,
+    "order/properties-order": [
+      "position",
+      "z-index",
+      "top",
+      "right",
+      "bottom",
+      "left"
     ]
-  } 
+  },
+  "ignoreFiles": [
+    "build/*"
+  ]
+}

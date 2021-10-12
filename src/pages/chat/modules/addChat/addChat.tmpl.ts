@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="add-chat__input">
     {{ input }}
   </div>

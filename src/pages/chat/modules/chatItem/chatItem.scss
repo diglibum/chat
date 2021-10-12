@@ -1,14 +1,16 @@
+@import "../../../../vars";
+
 .chat-list-item {
   display: flex;
   padding: 12px 0;
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid $light-color;
   cursor: pointer;
 
   &__avatar {
     flex-shrink: 0;
     width: 47px;
     height: 47px;
-    background: #efefef;
+    background: $bg-color-dark;
     border-radius: 100%;
     margin-right: 10px;
 
@@ -32,7 +34,7 @@
   &__message {
     margin-top: 4px;
     line-height: 15px;
-    color: #999;
+    color: $gray-color;
   }
 
   &__info {
@@ -44,16 +46,16 @@
   &__time {
     font-size: 9px;
     line-height: 13px;
-    color: #999;
+    color: $gray-color;
   }
 
   &__badge {
     width: 20px;
     height: 20px;
-    background: var(--primary-color);
+    background: $primary-color;
     font-size: 11px;
     line-height: 12px;
-    color: #fff;
+    color: $lightest-color;
     border-radius: 100%;
     text-align: center;
     padding-top: 4px;

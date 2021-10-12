@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="chat-page">
     <div class="chat-page__aside">
       <div class="aside__header">
@@ -23,9 +22,7 @@ export default
         <h5 class="chat-header__title">{{ chatTitle }}</h5>
         <span class="chat-header__menu" data-popup="chat-menu__popup"></span>
       </div>
-      <div class="chat-body">
         {{ content }}
-      </div>
       {{ messageForm }}
     </div>
     {{ chatPopup }}

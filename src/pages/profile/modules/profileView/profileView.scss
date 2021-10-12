@@ -1,15 +1,17 @@
+@import "../../../../vars";
+
 .profile-view {
   &__links {
     margin-top: 50px;
   }
 
   &__link {
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 1px solid $light-color;
     padding: 10px 0;
 
     &_logout {
       border-bottom: none;
-      color: var(--error-color);
+      color: $error-color;
       cursor: pointer;
     }
   }

@@ -7,17 +7,22 @@ import { dataTimeFormat } from "../../../../utils";
 import ChatController from "../../../../controllers/chatController";
 
 export class ChatItem extends Block {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super("div", props);
   }
 
-  render () {
-    const { title, avatar, unread_count: unreadCount, last_message: lastMessage } = this.props.chat;
+  render() {
+    const {
+      title,
+      avatar,
+      unread_count: unreadCount,
+      last_message: lastMessage,
+    } = this.props.chat;
     const tmpl = new Templator(chatItemTmpl);
     const context: Props = {
       title,
       time: lastMessage ? dataTimeFormat(lastMessage.time) : "",
-      message: lastMessage ? (lastMessage.content.slice(0, 50) + "...") : ""
+      message: lastMessage ? lastMessage.content.slice(0, 50) + "..." : "",
     };
     if (avatar) {
       context.avatar = avatar;

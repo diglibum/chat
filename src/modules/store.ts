@@ -1,72 +1,75 @@
 import { EventBus } from "./eventBus";
 import { getValueFromPath } from "../utils";
 interface State {
-    [key: string]: State | unknown;
+  [key: string]: State | unknown;
 }
 
-const initialState: State = {
+export const unAuthorizedState: State = {
   isAuthorized: false,
   user: null,
   token: null,
   chats: [],
   currentChat: {
     id: null,
-    messages: null
+    messages: [],
   },
-  wsconnection: false
+  messages: [],
+  lastMessage: null,
+};
+
+const initialState: State = {
+  ...unAuthorizedState,
 };
 
 class Store {
-    private static EVENTS = {
-      FLOW_SDU: "flow:state-did-update"
-    };
+  private static EVENTS = {
+    FLOW_SDU: "flow:state-did-update",
+  };
 
-    private eventBus: () => EventBus;
-    private _globalState: State;
+  private eventBus: () => EventBus;
+  private _globalState: State;
 
-    constructor () {
-      const eventBus: EventBus = new EventBus();
-      this.eventBus = () => eventBus;
-      this._globalState = this._makeStateProxy(initialState);
+  constructor() {
+    const eventBus: EventBus = new EventBus();
+    this.eventBus = () => eventBus;
+    this._globalState = this._makeStateProxy(initialState);
+  }
+
+  registerEvent(listener: () => any, ctx: unknown = this) {
+    this.eventBus().on(Store.EVENTS.FLOW_SDU, listener.bind(ctx));
+  }
+
+  getState(path?: string) {
+    if (path) {
+      return getValueFromPath(this._globalState, path);
     }
+    return this._globalState;
+  }
 
-    registerEvent (listener: () => any, ctx: unknown = this) {
-      this.eventBus().on(Store.EVENTS.FLOW_SDU, listener.bind(ctx));
+  setState(nextState: State) {
+    if (!nextState) {
+      return;
     }
+    Object.assign(this._globalState, nextState);
+  }
 
-    getState (path?: string) {
-      if (path) {
-        return getValueFromPath(this._globalState, path);
-      }
-      return this._globalState;
-    }
-
-    setState (nextState: State) {
-      if (!nextState) {
-        return;
-      }
-      Object.assign(this._globalState, nextState);
-    }
-
-    _makeStateProxy (state: State): State {
-      const self = this;
-
-      state = new Proxy(state, {
-        set (target, prop: string, value: unknown): boolean {
-          target[prop] = value;
-          self.eventBus().emit(Store.EVENTS.FLOW_SDU, { ...target }, target);
-          return true;
-        },
-        get (target, prop: string): Function {
-          const value = target[prop];
-          return typeof value === "function" ? value.bind(target) : value;
-        },
-        deleteProperty (): boolean {
-          throw new Error("нет доступа");
-        }
-      });
-      return state;
-    }
+  _makeStateProxy(state: State): State {
+    state = new Proxy(state, {
+      set: (target, prop: string, value: unknown): boolean => {
+        target[prop] = value;
+        this.eventBus().emit(Store.EVENTS.FLOW_SDU, { ...target }, target);
+        return true;
+      },
+      get: (target, prop: string): Function => {
+        const value = target[prop];
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+      deleteProperty(): boolean {
+        throw new Error("нет доступа");
+      },
+    });
+    return state;
+  }
 }
 
 export default new Store();

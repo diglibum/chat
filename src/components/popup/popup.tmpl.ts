@@ -1,5 +1,4 @@
-export default
-`
+export default `
     <div class="popup {{ className }} 
     {{#if hidePopup }}    
         hide
@@ -15,5 +14,4 @@ export default
             </div>
         </div>
     </div>
-`
-;
+`;

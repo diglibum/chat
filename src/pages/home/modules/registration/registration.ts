@@ -7,18 +7,21 @@ import { formValidation } from "../../../../components/form/utils";
 import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
 import { Templator } from "../../../../modules/templator";
-import { InputType, InputValidationType } from "../../../../components/input/types";
+import {
+  InputType,
+  InputValidationType,
+} from "../../../../components/input/types";
 import { AuthController } from "../../../../controllers/authController";
 import { Link } from "../../../../modules/link";
 
 export class Registration extends Block {
   private controller = new AuthController();
 
-  constructor (props: Props = {}) {
+  constructor(props: Props = {}) {
     super("div", props);
   }
 
-  render () {
+  render() {
     const tmpl = new Templator(registrationTmpl);
 
     const mailInput = new Input({
@@ -36,8 +39,8 @@ export class Registration extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const loginInput = new Input({
@@ -54,8 +57,8 @@ export class Registration extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const firstNameInput = new Input({
@@ -72,8 +75,8 @@ export class Registration extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const secondNameInput = new Input({
@@ -89,8 +92,8 @@ export class Registration extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const phoneInput = new Input({
@@ -108,8 +111,8 @@ export class Registration extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const passwordInput = new Input({
@@ -127,18 +130,18 @@ export class Registration extends Block {
         },
         input: (event: Event) => {
           formValidation(event);
-        }
-      }
+        },
+      },
     });
 
     const button = new Button({
-      text: "Зарегистрироваться"
+      text: "Зарегистрироваться",
     });
 
     const regLink = new Link({
       to: "/",
       label: "Войти",
-      className: "registration__enter-link"
+      className: "registration__enter-link",
     });
 
     const context = {
@@ -149,16 +152,18 @@ export class Registration extends Block {
       phoneInput,
       passwordInput,
       button,
-      regLink
+      regLink,
     };
 
     const form = new Form({
       name: "registrationForm",
-      body: tmpl.compile(context)
+      body: tmpl.compile(context),
     });
 
     const fragment = form.getContent();
-    const htmlForm = (<HTMLElement>fragment).querySelector(".form")! as HTMLFormElement;
+    const htmlForm = (<HTMLElement>fragment).querySelector(
+      ".form"
+    )! as HTMLFormElement;
 
     htmlForm?.addEventListener("submit", (event) => {
       event.preventDefault();

@@ -1,5 +1,4 @@
-export default
-`
+export default `
     <li class="chat-list-item">
         <div class="chat-list-item__avatar">
             {{#if avatar }}

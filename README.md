@@ -7,7 +7,6 @@
 - `npm run build` — Parcel run in production mode.
 - `npm run test` - Start tests
 
-
 ## Что изменилось
 
 - Добавлен роутинг
@@ -18,7 +17,6 @@
 - Тесты для шаблонизатора, роутера, компонента input, SignInApi
 - изменён шаблонизатор с handlebars на свой
 
-
 ## Ссылки
 
 Макет в Figma - [https://www.figma.com/file/SYPGzKY1kNuZqvpTRlXaDE/Chat-Copy] - (за основу взят предлагаемый в курсе макет с небольшими изменениями.)
@@ -27,9 +25,10 @@ Netlify - [https://garipova.netlify.app/]
 
 Pull request - [https://github.com/diglibum/middle.messenger.praktikum.yandex/pull/2]
 
-
 ## Страницы
+
 Страницы доступны по ссылкам:
+
 - /
 - /sign-up
 - /settings

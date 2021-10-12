@@ -29,7 +29,7 @@ describe("SignIn API", () => {
       login: "login",
       email: "email@yandex.ru",
       password: "6fgt!#rLe7",
-      phone: "+79165487962"
+      phone: "+79165487962",
     };
 
     api.signIn(data);
@@ -37,6 +37,8 @@ describe("SignIn API", () => {
     expect(requests.length).to.eq(1);
     expect(requests[0].method).to.eq("POST");
     expect(requests[0].requestBody).to.eq(JSON.stringify(data));
-    expect(requests[0].url).to.eq("https://ya-praktikum.tech/api/v2/auth/signin");
+    expect(requests[0].url).to.eq(
+      "https://ya-praktikum.tech/api/v2/auth/signin"
+    );
   });
 });
