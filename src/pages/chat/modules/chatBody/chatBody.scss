@@ -1,0 +1,29 @@
+@import "../../../../vars";
+
+.chat-body {
+  height: calc(100vh - 108px);
+  overflow-y: auto;
+  border-bottom: 1px solid $light-color;
+  padding: 20px 0;
+  bottom: 0;
+
+  &__date {
+    display: block;
+    text-align: center;
+    margin-top: 28px;
+    color: $gray-color;
+  }
+
+  &__message-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button__more-msg {
+    background-color: $lightest-color;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+}
