@@ -41,7 +41,7 @@
           align-self: flex-end;
 
           &::after {
-            content: url("/dist/icons/aside_link_after.svg");
+            content: url("/public/icons/aside_link_after.svg");
             width: 6px;
             height: 11px;
             display: block;
@@ -87,7 +87,7 @@
           width: 25px;
           height: 25px;
           margin-right: -10px;
-          background: no-repeat center url("/dist/icons/menu.svg");
+          background: no-repeat center url("/public/icons/menu.svg");
           cursor: pointer;
           border-radius: 100%;
           background-color: $light-color;
@@ -132,19 +132,19 @@
 
       &_add-user {
         &::before {
-          background-image: url("/dist/icons/user_add.svg");
+          background-image: url("/public/icons/user_add.svg");
         }
       }
 
       &_delete-user {
         &::before {
-          background: right/cover no-repeat url("/dist/icons/user_delete.svg");
+          background: right/cover no-repeat url("/public/icons/user_delete.svg");
         }
       }
 
       &_delete-chat {
         &::before {
-          background-image: url("/dist/icons/chat_delete.svg");
+          background-image: url("/public/icons/chat_delete.svg");
         }
       }
     }
