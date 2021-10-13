@@ -10,7 +10,43 @@
   command = "npm run build"
 
 [[redirects]]
-from = "/*"
+from = "/sign-up"
+to = "/"
+status = 200
+force = true
+
+[[redirects]]
+from = "/settings"
+to = "/"
+status = 200
+force = true
+
+[[redirects]]
+from = "/messenger"
+to = "/"
+status = 200
+force = true
+
+[[redirects]]
+from = "/profile-edit"
+to = "/"
+status = 200
+force = true
+
+[[redirects]]
+from = "/password-edit"
+to = "/"
+status = 200
+force = true
+
+[[redirects]]
+from = "/500"
+to = "/"
+status = 200
+force = true
+
+[[redirects]]
+from = "/404"
 to = "/"
 status = 200
 force = true
