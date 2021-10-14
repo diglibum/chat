@@ -1,4 +1,5 @@
 @import "../../mixins";
+@import "../../vars";
 
 .home-page {
   display: flex;
@@ -12,7 +13,7 @@
     @include shadow-block;
 
     width: 340px;
-    background: #fff;
+    background: $lightest-color;
     padding: 30px;
     min-height: 460px;
   }

@@ -16,11 +16,14 @@ const printFormData = (form: HTMLFormElement) => {
     return;
   }
 
-  const data: Record<string, string> = Array.from(inputs).reduce((total: Record<string, string>, input) => {
-    const { name } = input;
-    total[name] = input.value;
-    return total;
-  }, {});
+  const data: Record<string, string> = Array.from(inputs).reduce(
+    (total: Record<string, string>, input) => {
+      const { name } = input;
+      total[name] = input.value;
+      return total;
+    },
+    {}
+  );
 
   console.log(data);
 };

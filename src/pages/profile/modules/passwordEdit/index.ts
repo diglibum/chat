@@ -1,1 +1,1 @@
-export { passwordEdit } from "./passwordEdit";
+export { PasswordEdit } from "./passwordEdit";

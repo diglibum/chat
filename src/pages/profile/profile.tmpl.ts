@@ -1,20 +1,20 @@
-const noAvatar = require("./noAvatar.svg") as string;
-
-export default
-`
+export default `
   <div class="profile-page">
     <div class="profile-page__aside">
-      <a href="/profile/" class="arrow-button"></a>
+      <a onClick="history.back()" class="arrow-button go-back"></a>
     </div>
     <div class="profile-page__content">
       <div class="profile-page__content-container">
         <div class="profile-page__avatar">
-          <img src="${noAvatar}" alt="Аватар" class="profile-page__avatar-img">
-            <div class="profile-page__avatar-overlay">Поменять аватар</div>
+          {{#if avatar }}
+            <img src="{{ avatar }}" alt="Аватар" class="profile-page__avatar-img">
+          {{/if}}
+            <div class="profile-page__avatar-overlay" data-popup="add-avatar__popup">Поменять аватар</div>
         </div>
       <h1 class="profile-page__header">{{ header }}</h1>
-        {{{ content }}}
+        {{ content }}
       </div>
     </div>
   </div>
+  {{ popup }}
 `;

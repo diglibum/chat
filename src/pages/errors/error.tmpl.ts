@@ -1,5 +1,4 @@
-export default
-`
+export default `
   <div class="error-page">
     <h1 class="error-page__code">
       {{ errorCode }}
@@ -8,7 +7,7 @@ export default
       {{ errorText }}
     </div>
     <div class="error-page__link">
-      <a href="/chat-page/">Назад к чатам</a>
+      <a href="/messenger">Назад к чатам</a>
     </div>
   </div>
 `;

@@ -1,152 +1,175 @@
-import Handlebars from "handlebars";
 import registrationTmpl from "./registration.tmpl";
 import "./registration.scss";
 import { Input } from "../../../../components/input";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
-import { submitFormData, formValidation } from "../../../../components/form/utils";
+import { formValidation } from "../../../../components/form/utils";
+import { Block } from "../../../../modules/block";
+import { Props } from "../../../../types";
+import { Templator } from "../../../../modules/templator";
+import {
+  InputType,
+  InputValidationType,
+} from "../../../../components/input/types";
+import { AuthController } from "../../../../controllers/authController";
+import { Link } from "../../../../modules/link";
 
-export function registration () {
-  const tmpl = Handlebars.compile(registrationTmpl);
+export class Registration extends Block {
+  private controller = new AuthController();
 
-  const mailInput = new Input({
-    name: "email",
-    text: "Почта",
-    required: true,
-    type: "email",
-    validationType: "email",
-    events: {
-      focus: (event: Event) => {
-        formValidation(event);
-      },
-      blur: (event: Event) => {
-        formValidation(event);
-      },
-      input: (event: Event) => {
-        formValidation(event);
-      }
-    }
-  }).toString();
+  constructor(props: Props = {}) {
+    super("div", props);
+  }
 
-  const loginInput = new Input({
-    name: "login",
-    text: "Логин",
-    required: true,
-    validationType: "login",
-    events: {
-      focus: (event: Event) => {
-        formValidation(event);
-      },
-      blur: (event: Event) => {
-        formValidation(event);
-      },
-      input: (event: Event) => {
-        formValidation(event);
-      }
-    }
-  }).toString();
+  render() {
+    const tmpl = new Templator(registrationTmpl);
 
-  const firstNameInput = new Input({
-    name: "first_name",
-    text: "Имя",
-    required: true,
-    validationType: "name",
-    events: {
-      focus: (event: Event) => {
-        formValidation(event);
+    const mailInput = new Input({
+      name: "email",
+      text: "Почта",
+      required: true,
+      type: InputType.EMAIL,
+      validationType: InputValidationType.EMAIL,
+      events: {
+        focus: (event: Event) => {
+          formValidation(event);
+        },
+        blur: (event: Event) => {
+          formValidation(event);
+        },
+        input: (event: Event) => {
+          formValidation(event);
+        },
       },
-      blur: (event: Event) => {
-        formValidation(event);
-      },
-      input: (event: Event) => {
-        formValidation(event);
-      }
-    }
-  }).toString();
+    });
 
-  const secondNameInput = new Input({
-    name: "second_name",
-    text: "Фамилия",
-    validationType: "name",
-    events: {
-      focus: (event: Event) => {
-        formValidation(event);
+    const loginInput = new Input({
+      name: "login",
+      text: "Логин",
+      required: true,
+      validationType: InputValidationType.LOGIN,
+      events: {
+        focus: (event: Event) => {
+          formValidation(event);
+        },
+        blur: (event: Event) => {
+          formValidation(event);
+        },
+        input: (event: Event) => {
+          formValidation(event);
+        },
       },
-      blur: (event: Event) => {
-        formValidation(event);
+    });
+
+    const firstNameInput = new Input({
+      name: "first_name",
+      text: "Имя",
+      required: true,
+      validationType: InputValidationType.NAME,
+      events: {
+        focus: (event: Event) => {
+          formValidation(event);
+        },
+        blur: (event: Event) => {
+          formValidation(event);
+        },
+        input: (event: Event) => {
+          formValidation(event);
+        },
       },
-      input: (event: Event) => {
-        formValidation(event);
-      }
-    }
-  }).toString();
+    });
 
-  const phoneInput = new Input({
-    name: "phone",
-    text: "Телефон",
-    type: "tel",
-    validationType: "phone",
-    required: true,
-    events: {
-      focus: (event: Event) => {
-        formValidation(event);
+    const secondNameInput = new Input({
+      name: "second_name",
+      text: "Фамилия",
+      validationType: InputValidationType.NAME,
+      events: {
+        focus: (event: Event) => {
+          formValidation(event);
+        },
+        blur: (event: Event) => {
+          formValidation(event);
+        },
+        input: (event: Event) => {
+          formValidation(event);
+        },
       },
-      blur: (event: Event) => {
-        formValidation(event);
+    });
+
+    const phoneInput = new Input({
+      name: "phone",
+      text: "Телефон",
+      type: InputType.TEL,
+      validationType: InputValidationType.PHONE,
+      required: true,
+      events: {
+        focus: (event: Event) => {
+          formValidation(event);
+        },
+        blur: (event: Event) => {
+          formValidation(event);
+        },
+        input: (event: Event) => {
+          formValidation(event);
+        },
       },
-      input: (event: Event) => {
-        formValidation(event);
-      }
-    }
-  }).toString();
+    });
 
-  const passwordInput = new Input({
-    name: "password",
-    text: "Пароль",
-    type: "password",
-    validationType: "password",
-    required: true,
-    events: {
-      focus: (event: Event) => {
-        formValidation(event);
+    const passwordInput = new Input({
+      name: "password",
+      text: "Пароль",
+      type: InputType.PASSWORD,
+      validationType: InputValidationType.PASSWORD,
+      required: true,
+      events: {
+        focus: (event: Event) => {
+          formValidation(event);
+        },
+        blur: (event: Event) => {
+          formValidation(event);
+        },
+        input: (event: Event) => {
+          formValidation(event);
+        },
       },
-      blur: (event: Event) => {
-        formValidation(event);
-      },
-      input: (event: Event) => {
-        formValidation(event);
-      }
-    }
-  }).toString();
+    });
 
-  const btn = new Button({
-    text: "Зарегистрироваться",
-    type: "submit"
-  });
+    const button = new Button({
+      text: "Зарегистрироваться",
+    });
 
-  const context = {
-    mailInput,
-    loginInput,
-    firstNameInput,
-    secondNameInput,
-    phoneInput,
-    passwordInput,
-    button: btn.toString()
-  };
+    const regLink = new Link({
+      to: "/",
+      label: "Войти",
+      className: "registration__enter-link",
+    });
 
-  const form = new Form({
-    name: "registrationForm",
-    body: tmpl(context),
-    events: {
-      submit: (event: Event) => {
-        submitFormData(event);
-      }
-    },
-    settings: {
-      withInternalID: true
-    },
-    novalidate: true
-  });
+    const context = {
+      mailInput,
+      loginInput,
+      firstNameInput,
+      secondNameInput,
+      phoneInput,
+      passwordInput,
+      button,
+      regLink,
+    };
 
-  return form.toString();
+    const form = new Form({
+      name: "registrationForm",
+      body: tmpl.compile(context),
+    });
+
+    const fragment = form.getContent();
+    const htmlForm = (<HTMLElement>fragment).querySelector(
+      ".form"
+    )! as HTMLFormElement;
+
+    htmlForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.controller.signUp(htmlForm);
+    });
+
+    return fragment;
+  }
 }

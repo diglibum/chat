@@ -1,8 +1,12 @@
-export default
-`
+export default `
   <button 
-    class="button {{ className }}" 
-    type="{{ type }}">
+    data-id="{{ id }}"
+    type="{{ type }}"
+    class="button {{ className }}"
+    {{#if disabled }}
+      disabled
+    {{/if}}
+    >
     {{ text }}
   </button>
 `;

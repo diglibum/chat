@@ -1,5 +1,2 @@
-import { Props } from "./props";
-
-export {
-  Props
-};
+export { Props } from "./props";
+export * from "./types";

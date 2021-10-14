@@ -1,14 +1,16 @@
+@import "../../vars";
+
 .input {
   position: relative;
 
   &__label {
-    display: block;
     position: absolute;
+    z-index: 0;
+    bottom: 8px;
+    display: block;
     font-size: 13px;
     line-height: 13px;
-    bottom: 8px;
-    color: #999;
-    z-index: 0;
+    color: $gray-color;
   }
 
   &__input {
@@ -16,7 +18,7 @@
     width: 100%;
     border: none;
     outline: none;
-    border-bottom: 1px solid var(--primary-color);
+    border-bottom: 1px solid $primary-color;
     padding-bottom: 6px;
     padding-top: 22px;
     background-color: transparent;
@@ -31,7 +33,7 @@
   }
 
   &__error-message {
-    color: var(--error-color);
+    color: $error-color;
     margin-top: 7px;
     font-size: 8px;
     line-height: 8px;
@@ -53,16 +55,16 @@
       width: 100%;
       border: none;
       outline: none;
-      border-bottom: 1px solid #eaeaea;
+      border-bottom: 1px solid $light-color;
       padding-bottom: 7px;
       background-color: transparent;
       text-align: right;
       padding-left: 90px;
-      color: #999;
+      color: $gray-color;
     }
 
     &__error-message {
-      color: var(--error-color);
+      color: $error-color;
       margin-top: 7px;
       font-size: 8px;
       line-height: 8px;

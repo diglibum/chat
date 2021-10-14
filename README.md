@@ -1,21 +1,21 @@
-## yandex praktikum course Middle frontend developer - sprint_2
+## yandex praktikum course Middle frontend developer - sprint_3
 
 Учебный проект Веб-приложение «Чат».
 
 - `npm run start` — start project,
 - `npm run dev` — Parcel run in development mode,
 - `npm run build` — Parcel run in production mode.
-
+- `npm run test` - Start tests
 
 ## Что изменилось
 
-- Внедрён TypeScript
-- Добавлен ESList и Stylelint 
-- Компоненты Input и Button наследуются от блока, используют EventBus
-- Валидация для страниц Авторизация, Регистрация, Настройки пользователя
-- Валидация инпутов на события (blur, focus, input)
-- Валидация полей формы на событие (submit) - вывод данных формы в консоль.
-
+- Добавлен роутинг
+- Авторизация пользователя
+- Работу с информацией пользователя
+- Работа с чатами
+- Подключен WebSocket - сообщения пока выводятся в консоль
+- Тесты для шаблонизатора, роутера, компонента input, SignInApi
+- изменён шаблонизатор с handlebars на свой
 
 ## Ссылки
 
@@ -25,14 +25,15 @@ Netlify - [https://garipova.netlify.app/]
 
 Pull request - [https://github.com/diglibum/middle.messenger.praktikum.yandex/pull/2]
 
-
 ## Страницы
+
 Страницы доступны по ссылкам:
+
 - /
-- /registration/
-- /chat-page/
-- /500/
-- /profile/
-- /profile-edit/
-- /password-edit/
-- /404 - по умолчанию
+- /sign-up
+- /settings
+- /messenger
+- /profile-edit
+- /password-edit
+- /500
+- /404
