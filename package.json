@@ -8,7 +8,12 @@
     "build": "webpack --mode production",
     "watch": "webpack --mode development --watch",
     "start": "webpack-dev-server --mode development --open",
-    "test": "mocha -r jsdom-global/register --require ts-node/register --require ignore-styles --compilerOptions '{\"module\":\"ES6\"}' src/**/*.spec.ts"
+    "test": "mocha -r jsdom-global/register --require ts-node/register --require ignore-styles --compilerOptions '{\"module\":\"ES6\"}' src/**/*.spec.ts",
+    "lint": "standard",
+    "validate": "npm-run-all --parallel test lint",
+    "precommit": "npm test",
+    "prepush": "npm test",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +38,9 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "5.1.0",
     "html-loader": "2.1.2",
+    "husky": "7.0.2",
+    "npm-run-all": "4.0.0",
+    "standard": "8.6.0",
     "ignore-styles": "5.0.1",
     "jsdom": "14.1.0",
     "jsdom-global": "3.0.2",
