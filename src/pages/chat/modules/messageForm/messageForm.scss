@@ -38,7 +38,8 @@
   &__send {
     width: 28px;
     height: 28px;
-    background: no-repeat $primary-color center
+    background:
+      no-repeat $primary-color center
       url("data:image/svg+xml,%3Csvg width='13' height='12' viewBox='0 0 13 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 5.19995H11V6.79995H0V5.19995Z' fill='white'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.9755 6L6.37531 1.49976L7.6247 0.500244L12.0245 6L7.6247 11.4998L6.37531 10.5002L9.9755 6Z' fill='white'/%3E%3C/svg%3E%0A");
     border-radius: 100%;
     margin-left: 10px;
