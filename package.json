@@ -8,12 +8,7 @@
     "build": "webpack --mode production",
     "watch": "webpack --mode development --watch",
     "start": "webpack-dev-server --mode development --open",
-    "test": "mocha -r jsdom-global/register --require ts-node/register --require ignore-styles --compilerOptions '{\"module\":\"ES6\"}' src/**/*.spec.ts",
-    "lint": "standard",
-    "validate": "npm-run-all --parallel test lint",
-    "precommit": "npm test",
-    "prepush": "npm test",
-    "prepare": "husky install"
+    "test": "mocha -r jsdom-global/register --require ts-node/register --require ignore-styles --compilerOptions '{\"module\":\"ES6\"}' src/**/*.spec.ts"
   },
   "keywords": [],
   "author": "",
