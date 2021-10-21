@@ -14,21 +14,6 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js", ".json", ".html"],
   },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, "dist"),
-    },
-    devMiddleware: {
-      index: true,
-      mimeTypes: { "text/html": ["phtml"] },
-      publicPath: "/dist",
-      serverSideRender: true,
-      writeToDisk: true,
-    },
-    compress: true,
-    port: 3000,
-    hot: true,
-  },
   module: {
     rules: [
       {
@@ -62,7 +47,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "style-[hash].css",
+      filename: "style-[chunkhash].css",
     }),
     new HtmlWebpackPlugin({
       template: "src/index.html",

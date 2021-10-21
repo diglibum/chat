@@ -9,7 +9,7 @@
     "watch": "webpack --mode development --watch",
     "eslint": "eslint src/**/*.ts",
     "stylelint": "stylelint src/**/*.scss",
-    "start": "webpack-dev-server --mode development --open",
+    "start": "node server.js",
     "test": "mocha -r jsdom-global/register --require ts-node/register --require ignore-styles --compilerOptions '{\"module\":\"ES6\"}' src/**/*.spec.ts"
   },
   "keywords": [],
