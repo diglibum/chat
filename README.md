@@ -2,17 +2,17 @@
 
 Учебный проект Веб-приложение «Чат».
 
-- `npm run start` — start project,
+- `npm run start` — Start project,
 - `npm run dev` — Webpack run in development mode,
-- `npm run build` — running webpack build
+- `npm run build` — Running webpack build,
 - `npm run test` - Start tests
 
 ## Что изменилось
 
-- Настроен Webpack
-- Настроена Docker-сборка
-- Проект размещён в Heroku с Docker-сборкой
-- Настроен precommit
+- Настроен Webpack,
+- Настроена Docker-сборка,
+- Проект размещён в Heroku с Docker-сборкой,
+- Настроен precommit,
 - Проведен аудит пакетов, обновлёны и приведены в актуальное состояние.
 
 ## Ссылки
