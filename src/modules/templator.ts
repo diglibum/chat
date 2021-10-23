@@ -18,6 +18,7 @@ export class Templator {
   private TEMPLATE_REGEXP = /\{\{(.*?)\}\}/gi;
   private IF_TEMPLATE_REGEXP =
     /\{\{(#if (?<key>.*?))\}\}[\s]*(?<value>.*?)[\s]*\{\{\/if\}\}/gim;
+
   private _template: string;
 
   constructor(template: string) {

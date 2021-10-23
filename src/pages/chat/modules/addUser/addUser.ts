@@ -1,5 +1,5 @@
 import { Block } from "../../../../modules/block";
-import { Props } from "../../../../types";
+import { Props, User } from "../../../../types";
 import "./addUser.scss";
 import { Popup } from "../../../../components/popup/popup";
 import Store from "../../../../modules/store";
@@ -56,7 +56,7 @@ export class AddUser extends Block {
         const userName = userNameInput.value;
         if (chatId) {
           ChatController.searchUsers(htmlForm, userName).then((users) => {
-            if (users && users.length > 0) {
+            if (users && ((<unknown>users) as User[]).length > 0) {
               this.setProps({ users, inner: "add", hidePopup: false });
             }
           });

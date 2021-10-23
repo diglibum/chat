@@ -1,11 +1,12 @@
 const express = require("express");
-const Bundler = require("parcel-bundler");
-const app = express();
-const PORT = process.env.PORT || 3000;
-const indexFile = "./index.html";
-const bundler = new Bundler(indexFile, { watch: true, cache: false });
 
-app.use(bundler.middleware());
-app.listen(PORT, function () {
-  console.log(`Example app listening on port ${PORT}!`);
+const path = require("path");
+const PORT = process.env.PORT || 3000;
+
+const app = express();
+app.use(express.static("dist"));
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(__dirname, "/index.html"));
 });
+
+app.listen(PORT);

@@ -226,9 +226,13 @@ class ChatController {
   getNewMessages(chatId: number) {
     return this.getNewMsgCount(chatId).then((msgCount) => {
       let offset = 0;
-      while (offset < msgCount) {
+      if (msgCount < 20) {
         this.getMessages(chatId, offset);
-        offset += 20;
+      } else {
+        while (offset < msgCount) {
+          this.getMessages(chatId, offset);
+          offset += 20;
+        }
       }
     });
   }
