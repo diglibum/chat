@@ -216,16 +216,9 @@ class ChatController {
 
   getNewMessages(chatId: number) {
     return this.getNewMsgCount(chatId).then((msgCount) => {
-      console.log("msgCount: ", msgCount);
-
       if (msgCount && msgCount > 0) {
         this.getAllOldMessages(msgCount, chatId);
       }
-
-      // if (msgCount < 20) {
-      //   this.getMessages(chatId, offset);
-      // } else {
-      // }
     });
   }
 

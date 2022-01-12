@@ -79,7 +79,6 @@ export class WebSocketService {
     this.socket.addEventListener("message", (event) => {
       const data = JSON.parse(event.data);
       const msgType = data.type;
-      console.log(data);
       if (Array.isArray(data) || msgType === WS_ACTIONS.MESSAGES) {
         chatController.setMessage(this.chatId, data);
         chatController.getChats();

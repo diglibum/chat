@@ -1,4 +1,4 @@
-## yandex praktikum course Middle frontend developer - sprint_4
+## yandex praktikum course Middle frontend developer
 
 Учебный проект Веб-приложение «Чат».
 
