@@ -2,7 +2,7 @@ import { SignUpRequest } from "../api/types";
 import { checkAllForm } from "../components/form/utils/formValidation";
 import Store, { unAuthorizedState } from "../modules/store";
 import { prepareDataToRequest } from "./utils/prepareDataToRequest";
-import { chatController } from "./ChatController";
+import { chatController } from "./chatController";
 import { AuthApi } from "../api/authApi";
 
 const API = new AuthApi();

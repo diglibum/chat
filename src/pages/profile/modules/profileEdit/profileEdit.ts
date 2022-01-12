@@ -12,7 +12,7 @@ import {
   InputType,
   InputValidationType,
 } from "../../../../components/input/types";
-import { usersController } from "../../../../controllers/UsersController";
+import { usersController } from "../../../../controllers/usersController";
 import { Router } from "../../../../modules/router";
 
 export class ProfileEdit extends Block {

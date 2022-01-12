@@ -1,4 +1,4 @@
-import { chatController } from "../controllers/ChatController";
+import { chatController } from "../controllers/chatController";
 
 export enum WS_ACTIONS {
   MESSAGES = "message",

@@ -10,7 +10,7 @@ import Store from "../../modules/store";
 import { Popup } from "../../components/popup/popup";
 import { Form } from "../../components/form";
 import avatarFormTmpl from "./avatarForm.tmpl";
-import { usersController } from "../../controllers/UsersController";
+import { usersController } from "../../controllers/usersController";
 
 export class ProfilePage extends Block {
   controller = usersController;

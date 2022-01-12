@@ -3,7 +3,7 @@ import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
 import messageFormTmpl from "./messageForm.tmpl";
 import "./messageForm.scss";
-import { chatController } from "../../../../controllers/ChatController";
+import { chatController } from "../../../../controllers/chatController";
 import Store from "../../../../modules/store";
 
 export class MessageForm extends Block {

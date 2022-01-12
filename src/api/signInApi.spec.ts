@@ -2,7 +2,7 @@
 import * as sinon from "sinon";
 import { expect } from "chai";
 import { SignInRequest } from "./types";
-import { AuthApi } from "./AuthApi";
+import { AuthApi } from "./authApi";
 
 describe("SignIn API", () => {
   const requests: sinon.SinonFakeXMLHttpRequest[] = [];

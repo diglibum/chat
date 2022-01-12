@@ -7,7 +7,7 @@ import deleteUserTmpl from "./deleteUser.tmpl";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
 import Store from "../../../../modules/store";
-import { chatController } from "../../../../controllers/ChatController";
+import { chatController } from "../../../../controllers/chatController";
 import { DeleteUsersFromChatRequest } from "../../../../api/types";
 
 export class DeleteUser extends Block {

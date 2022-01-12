@@ -3,7 +3,7 @@ import { Props, User } from "../../../../types";
 import "./addUser.scss";
 import { Popup } from "../../../../components/popup/popup";
 import Store from "../../../../modules/store";
-import { chatController } from "../../../../controllers/ChatController";
+import { chatController } from "../../../../controllers/chatController";
 import { AddUsersToChatRequest } from "../../../../api/types";
 import { searchUserForm } from "./searchUserForm";
 import { addUserForm } from "./addUserForm";
