@@ -5,7 +5,7 @@ import { Input } from "../../../../components/input";
 import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
 import { InputType } from "../../../../components/input/types";
-import { authController } from "../../../../controllers/AuthController";
+import { authController } from "../../../../controllers/authController";
 import { Link } from "../../../../modules/link";
 import Store from "../../../../modules/store";
 
