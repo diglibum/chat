@@ -1,0 +1,64 @@
+@import "../../../../vars";
+
+.chat-list-item {
+  display: flex;
+  padding: 12px 0;
+  border-top: 1px solid $light-color;
+  cursor: pointer;
+
+  &__avatar {
+    flex-shrink: 0;
+    width: 47px;
+    height: 47px;
+    background: $bg-color-dark;
+    border-radius: 100%;
+    margin-right: 10px;
+
+    img {
+      width: 47px;
+      height: 47px;
+      border-radius: 100%;
+    }
+  }
+
+  &__content {
+    flex-grow: 1;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 13px;
+  }
+
+  &__message {
+    margin-top: 4px;
+    line-height: 15px;
+    color: $gray-color;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  &__time {
+    font-size: 9px;
+    line-height: 13px;
+    color: $gray-color;
+  }
+
+  &__badge {
+    width: 20px;
+    height: 20px;
+    background: $primary-color;
+    font-size: 11px;
+    line-height: 12px;
+    color: $lightest-color;
+    border-radius: 100%;
+    text-align: center;
+    padding-top: 4px;
+    margin-top: 14px;
+  }
+}

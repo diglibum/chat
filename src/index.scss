@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+@import "./vars";
+
+* {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  color: $dark-color-75;
+  font-weight: 500;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 12px;
+  line-height: 15px;
+}
+
+a {
+  color: $primary-color;
+}
+
+.hide {
+  height: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.arrow-button {
+  width: 28px;
+  height: 28px;
+  background-color: $primary-color;
+  color: $primary-color;
+  border: none;
+  outline: none;
+  border-radius: 100%;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    top: 0;
+    left: 0;
+    content: "";
+    background-image: url("/static/icons/arrow_button.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,7 @@
+@mixin rounded-block {
+  border-radius: 12px;
+}
+
+@mixin shadow-block {
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
+}
