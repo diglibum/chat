@@ -7,7 +7,8 @@ import { prepareDataToRequest } from "./utils/prepareDataToRequest";
 
 const userProfileApi = new UserProfileApi();
 const userPasswordApi = new UserPasswordApi();
-export class UsersController {
+
+class UsersController {
   public changeProfile(form?: HTMLFormElement) {
     try {
       const validateData = checkAllForm(form!);
@@ -63,3 +64,5 @@ export class UsersController {
     });
   }
 }
+
+export const userController = new UsersController();

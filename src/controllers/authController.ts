@@ -6,20 +6,20 @@ import { SignUpRequest } from "../api/types";
 import { checkAllForm } from "../components/form/utils/formValidation";
 import Store, { unAuthorizedState } from "../modules/store";
 import { prepareDataToRequest } from "./utils/prepareDataToRequest";
-import ChatController from "./chatController";
+import { chatController } from "./chatController";
 
 const signUpApi = new SignUpApi();
 const signInApi = new SignInApi();
 const logoutApi = new LogoutApi();
 const userLoginApi = new UserLoginApi();
 
-export class AuthController {
+class AuthController {
   public checkUser() {
     return userLoginApi
       .userLogin()
       .then((user) => {
         Store.setState({ isAuthorized: true, user });
-        ChatController.getChats();
+        chatController.getChats();
       })
       .catch(() => {
         Store.setState({ isAuthorized: false, user: null });
@@ -79,3 +79,5 @@ export class AuthController {
       });
   }
 }
+
+export const authController = new AuthController();

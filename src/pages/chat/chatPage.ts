@@ -6,7 +6,7 @@ import { Props } from "../../types/props";
 import { SearchForm } from "./modules/searchForm";
 import { ChatList } from "./modules/chatList";
 import { Link } from "../../modules/link";
-import ChatController from "../../controllers/chatController";
+import { chatController } from "../../controllers/chatController";
 import { AddChat } from "./modules/addChat";
 import Store from "../../modules/store";
 import { ChatBody } from "./modules/chatBody";
@@ -17,6 +17,7 @@ import chatMenuTmpl from "./chatMenu.tmpl";
 import chatStubTmpl from "./chatStub.tmpl";
 import { MessageForm } from "./modules/messageForm";
 import { Chat, Message } from "../../types";
+
 export class ChatPage extends Block {
   currentChat: Chat;
   newMessages: Message[];
@@ -24,11 +25,12 @@ export class ChatPage extends Block {
   constructor(props: Props = {}) {
     super("div", props);
     Store.registerEvent(this.reRender, this);
-    ChatController.getChats();
+    chatController.getChats();
   }
 
   render() {
     this.currentChat = Store.getState("currentChat");
+
     const searchForm = new SearchForm({
       placeholder: "Поиск",
     });
@@ -89,7 +91,7 @@ export class ChatPage extends Block {
     button?.addEventListener("click", (e) => {
       e.preventDefault();
       const chatId = Store.getState("currentChat")?.id;
-      if (chatId && ChatController.deleteChat(chatId)) {
+      if (chatId && chatController.deleteChat(chatId)) {
         console.log("чат удалён");
       }
     });

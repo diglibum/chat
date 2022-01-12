@@ -12,6 +12,7 @@ import Store from "../modules/store";
 import { WebSocketService, WS_ACTIONS } from "../modules/webSocketService";
 import { Chat, Message } from "../types";
 import { prepareDataToRequest } from "./utils/prepareDataToRequest";
+
 class ChatController {
   private tokenAPIinstance = new TokenApi();
   private chatAPIInstance = new ChatApi();
@@ -287,4 +288,4 @@ class ChatController {
   }
 }
 
-export default new ChatController();
+export const chatController = new ChatController();
