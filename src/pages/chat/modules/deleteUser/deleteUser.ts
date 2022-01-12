@@ -7,7 +7,7 @@ import deleteUserTmpl from "./deleteUser.tmpl";
 import { Button } from "../../../../components/button";
 import { Form } from "../../../../components/form";
 import Store from "../../../../modules/store";
-import ChatController from "../../../../controllers/chatController";
+import { chatController } from "../../../../controllers/ChatController";
 import { DeleteUsersFromChatRequest } from "../../../../api/types";
 
 export class DeleteUser extends Block {
@@ -26,7 +26,7 @@ export class DeleteUser extends Block {
     });
 
     if (chatId && !users) {
-      ChatController.getChatUsers(chatId).then((data) => {
+      chatController.getChatUsers(chatId).then((data) => {
         this.setProps({ users: data });
       });
     }
@@ -77,7 +77,7 @@ export class DeleteUser extends Block {
           users: Array.from(selectedUsers),
           chatId,
         };
-        if (ChatController.deleteUsersFromChat(oldUsers)) {
+        if (chatController.deleteUsersFromChat(oldUsers)) {
           htmlForm
             .querySelector("button")
             ?.setAttribute("disabled", "disabled");

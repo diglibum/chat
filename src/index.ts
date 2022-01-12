@@ -4,7 +4,7 @@ import { HomePage } from "./pages/home";
 import { ProfilePage } from "./pages/profile";
 import { ChatPage } from "./pages/chat";
 import Store from "./modules/store";
-import { authController } from "./controllers/authController";
+import { authController } from "./controllers/AuthController";
 import { ErrorPage } from "./pages/errors";
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -1,4 +1,4 @@
-import ChatController from "../controllers/chatController";
+import { chatController } from "../controllers/ChatController";
 
 export enum WS_ACTIONS {
   MESSAGES = "message",
@@ -12,6 +12,7 @@ interface WsRequest {
 }
 
 const host = "wss://ya-praktikum.tech/ws/chats";
+
 export class WebSocketService {
   socket: WebSocket;
   chatId: number;
@@ -78,9 +79,10 @@ export class WebSocketService {
     this.socket.addEventListener("message", (event) => {
       const data = JSON.parse(event.data);
       const msgType = data.type;
+      console.log(data);
       if (Array.isArray(data) || msgType === WS_ACTIONS.MESSAGES) {
-        ChatController.setMessage(this.chatId, data);
-        ChatController.getChats();
+        chatController.setMessage(this.chatId, data);
+        chatController.getChats();
       }
     });
 

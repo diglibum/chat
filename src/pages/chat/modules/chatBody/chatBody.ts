@@ -6,7 +6,7 @@ import chatBodyTmpl from "./chatBody.tmpl";
 import { ChatMessage } from "../chatMessage";
 import "./chatBody.scss";
 import { Button } from "../../../../components/button";
-import ChatController from "../../../../controllers/chatController";
+import { chatController } from "../../../../controllers/ChatController";
 
 export class ChatBody extends Block {
   constructor(props: Props = {}) {
@@ -16,6 +16,7 @@ export class ChatBody extends Block {
   render() {
     const chatId = Store.getState("currentChat")?.id;
     const messages = this.findMessages(chatId);
+    if (!messages) chatController.getMessages(chatId, 0);
 
     const messagesList = messages?.reduce((acc: any[], message: Message) => {
       return [...acc, new ChatMessage({ message })];
@@ -36,7 +37,7 @@ export class ChatBody extends Block {
     const moreBtn = fragment.querySelector(".button__more-msg");
     moreBtn?.addEventListener("click", (e) => {
       e.preventDefault();
-      ChatController.getMessages(chatId, messages ? messages.length : 0);
+      chatController.getMessages(chatId, messages ? messages.length : 0);
     });
 
     return fragment;

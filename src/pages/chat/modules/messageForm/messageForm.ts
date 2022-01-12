@@ -3,7 +3,7 @@ import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
 import messageFormTmpl from "./messageForm.tmpl";
 import "./messageForm.scss";
-import ChatController from "../../../../controllers/chatController";
+import { chatController } from "../../../../controllers/ChatController";
 import Store from "../../../../modules/store";
 
 export class MessageForm extends Block {
@@ -22,7 +22,7 @@ export class MessageForm extends Block {
       e.preventDefault();
       const message = (fragment.querySelector("input") as HTMLInputElement)
         .value;
-      ChatController.newMessage(
+      chatController.newMessage(
         htmlForm,
         message,
         Store.getState("currentChat")?.id

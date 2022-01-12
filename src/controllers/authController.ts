@@ -1,22 +1,15 @@
-import { LogoutApi } from "../api/auth/logoutApi";
-import { SignInApi } from "../api/auth/signInApi";
-import { SignUpApi } from "../api/auth/signUpApi";
-import { UserLoginApi } from "../api/auth/userLoginApi";
 import { SignUpRequest } from "../api/types";
 import { checkAllForm } from "../components/form/utils/formValidation";
 import Store, { unAuthorizedState } from "../modules/store";
 import { prepareDataToRequest } from "./utils/prepareDataToRequest";
-import { chatController } from "./chatController";
+import { chatController } from "./ChatController";
+import { AuthApi } from "../api/authApi";
 
-const signUpApi = new SignUpApi();
-const signInApi = new SignInApi();
-const logoutApi = new LogoutApi();
-const userLoginApi = new UserLoginApi();
+const API = new AuthApi();
 
 class AuthController {
   public checkUser() {
-    return userLoginApi
-      .userLogin()
+    return API.getUser()
       .then((user) => {
         Store.setState({ isAuthorized: true, user });
         chatController.getChats();
@@ -33,8 +26,7 @@ class AuthController {
         throw new Error("ошибка валидации");
       }
       const data = prepareDataToRequest(new FormData(form)) as SignUpRequest;
-      signUpApi
-        .signUp(data)
+      API.signUp(data)
         .then(() => {
           this.checkUser();
         })
@@ -54,8 +46,7 @@ class AuthController {
         throw new Error("ошибка валидации");
       }
       const data = prepareDataToRequest(new FormData(form)) as SignUpRequest;
-      signInApi
-        .signIn(data)
+      API.signIn(data)
         .then(() => {
           this.checkUser();
         })
@@ -69,8 +60,7 @@ class AuthController {
   }
 
   public logOut() {
-    logoutApi
-      .logout()
+    API.logout()
       .then(() => {
         Store.setState({ ...unAuthorizedState });
       })

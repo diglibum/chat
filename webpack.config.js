@@ -11,6 +11,16 @@ module.exports = {
     filename: "chat.bundle.js",
   },
   devtool: "source-map",
+  devServer: {
+    historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    open: true,
+    compress: true,
+    hot: true,
+    port: 3000,
+  },
   resolve: {
     extensions: [".ts", ".js", ".json", ".html"],
   },

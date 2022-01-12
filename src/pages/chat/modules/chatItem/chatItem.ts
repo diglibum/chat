@@ -4,7 +4,7 @@ import chatItemTmpl from "./chatItem.tmpl";
 import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
 import { dataTimeFormat } from "../../../../utils";
-import ChatController from "../../../../controllers/chatController";
+import { chatController } from "../../../../controllers/ChatController";
 
 export class ChatItem extends Block {
   constructor(props: Props) {
@@ -33,7 +33,7 @@ export class ChatItem extends Block {
 
     const fragment = tmpl.compile(context);
     fragment.firstElementChild?.addEventListener("click", () => {
-      ChatController.setCurrentChat(this.props.chat);
+      chatController.setCurrentChat(this.props.chat);
     });
     return fragment;
   }

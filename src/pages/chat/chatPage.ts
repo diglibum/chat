@@ -6,7 +6,7 @@ import { Props } from "../../types/props";
 import { SearchForm } from "./modules/searchForm";
 import { ChatList } from "./modules/chatList";
 import { Link } from "../../modules/link";
-import { chatController } from "../../controllers/chatController";
+import { chatController } from "../../controllers/ChatController";
 import { AddChat } from "./modules/addChat";
 import Store from "../../modules/store";
 import { ChatBody } from "./modules/chatBody";

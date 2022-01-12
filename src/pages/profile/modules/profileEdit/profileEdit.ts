@@ -12,11 +12,11 @@ import {
   InputType,
   InputValidationType,
 } from "../../../../components/input/types";
-import { UsersController } from "../../../../controllers/usersController";
+import { usersController } from "../../../../controllers/UsersController";
 import { Router } from "../../../../modules/router";
 
 export class ProfileEdit extends Block {
-  private controller = new UsersController();
+  private controller = usersController;
 
   constructor(props: Props = {}) {
     super("div", props);

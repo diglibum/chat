@@ -10,11 +10,11 @@ import Store from "../../modules/store";
 import { Popup } from "../../components/popup/popup";
 import { Form } from "../../components/form";
 import avatarFormTmpl from "./avatarForm.tmpl";
-import { UsersController } from "../../controllers/usersController";
-
-const controller = new UsersController();
+import { usersController } from "../../controllers/UsersController";
 
 export class ProfilePage extends Block {
+  controller = usersController;
+
   constructor(props: Props = {}) {
     super("div", props);
     Store.registerEvent(this.reRender, this);
@@ -66,7 +66,7 @@ export class ProfilePage extends Block {
     );
     avatarForm?.addEventListener("submit", (e) => {
       e.preventDefault();
-      controller.changeAvatar(avatarForm);
+      this.controller.changeAvatar(avatarForm);
       popup.close();
     });
     return fragment;

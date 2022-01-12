@@ -12,7 +12,7 @@ import addChatTmpl from "./addChat.tmpl";
 import "./addChat.scss";
 import { formValidation } from "../../../../components/form/utils";
 import { Popup } from "../../../../components/popup/popup";
-import ChatController from "../../../../controllers/chatController";
+import { chatController } from "../../../../controllers/ChatController";
 
 export class AddChat extends Block {
   constructor(props: Props = {}) {
@@ -64,7 +64,7 @@ export class AddChat extends Block {
     const htmlForm = fragment.querySelector("form");
     htmlForm!.addEventListener("submit", (e) => {
       e.preventDefault();
-      ChatController.createChat(htmlForm!);
+      chatController.createChat(htmlForm!);
     });
     return fragment;
   }

@@ -1,12 +1,11 @@
-import { ChatApi } from "../api/chats/chatApi";
-import { TokenApi } from "../api/chats/tokenApi";
+import { ChatApi } from "../api/ChatApi";
 import {
   AddUsersToChatRequest,
   BaseRequest,
   DeleteChatRequest,
   DeleteUsersFromChatRequest,
 } from "../api/types";
-import { UserSearch } from "../api/users/userSearch";
+import { UserApi } from "../api/userApi";
 import { checkAllForm } from "../components/form/utils";
 import Store from "../modules/store";
 import { WebSocketService, WS_ACTIONS } from "../modules/webSocketService";
@@ -14,15 +13,14 @@ import { Chat, Message } from "../types";
 import { prepareDataToRequest } from "./utils/prepareDataToRequest";
 
 class ChatController {
-  private tokenAPIinstance = new TokenApi();
-  private chatAPIInstance = new ChatApi();
-  private userSearchAPIInstance = new UserSearch();
+  private userAPI = new UserApi();
+
+  private API = new ChatApi();
   ws: WebSocketService | null = null;
   wsArray: any[] = [];
 
   public getToken(chatId: number) {
-    return this.tokenAPIinstance
-      .getToken(chatId)
+    return this.API.getToken(chatId)
       .then((result) => {
         return (<any>result).token;
       })
@@ -38,8 +36,7 @@ class ChatController {
         throw new Error("ошибка валидации");
       }
       const data = prepareDataToRequest(new FormData(form)) as BaseRequest;
-      this.chatAPIInstance
-        .create(data)
+      this.API.create(data)
         .then(() => {
           this.getChats();
         })
@@ -55,8 +52,7 @@ class ChatController {
 
   getChats() {
     try {
-      this.chatAPIInstance
-        .getChats()
+      this.API.getChats()
         .then((chats) => {
           if (chats) {
             Store.setState({ chats });
@@ -108,17 +104,14 @@ class ChatController {
     if (!validateData) {
       throw new Error("ошибка валидации");
     }
-    return this.userSearchAPIInstance
-      .findUser({ login: userName })
-      .catch((reason) => {
-        console.log(reason);
-      });
+    return this.userAPI.searchUser({ login: userName }).catch((reason) => {
+      console.log(reason);
+    });
   }
 
   addUsersToChat(obj: AddUsersToChatRequest) {
     try {
-      this.chatAPIInstance
-        .addUsersToChat(obj)
+      this.API.addUsersToChat(obj)
         .then(() => {
           this.getChats();
         })
@@ -133,15 +126,14 @@ class ChatController {
   }
 
   getChatUsers(chatId: number) {
-    return this.chatAPIInstance.getChatUsers(chatId).catch((reason) => {
+    return this.API.getChatUsers(chatId).catch((reason) => {
       console.log(reason);
     });
   }
 
   deleteUsersFromChat(obj: DeleteUsersFromChatRequest) {
     try {
-      this.chatAPIInstance
-        .deleteUsersFromChat(obj)
+      this.API.deleteUsersFromChat(obj)
         .then(() => {
           this.getChats();
         })
@@ -186,8 +178,7 @@ class ChatController {
       const chat: DeleteChatRequest = {
         chatId,
       };
-      this.chatAPIInstance
-        .deleteChat(chat)
+      this.API.deleteChat(chat)
         .then(() => {
           Store.setState({
             currentChat: {
@@ -214,8 +205,7 @@ class ChatController {
   }
 
   getNewMsgCount(chatId: number) {
-    return this.chatAPIInstance
-      .getNewMessagesCount(chatId)
+    return this.API.getNewMessagesCount(chatId)
       .then((count) => {
         return (<any>count).unread_count;
       })
@@ -226,16 +216,25 @@ class ChatController {
 
   getNewMessages(chatId: number) {
     return this.getNewMsgCount(chatId).then((msgCount) => {
-      let offset = 0;
-      if (msgCount < 20) {
-        this.getMessages(chatId, offset);
-      } else {
-        while (offset < msgCount) {
-          this.getMessages(chatId, offset);
-          offset += 20;
-        }
+      console.log("msgCount: ", msgCount);
+
+      if (msgCount && msgCount > 0) {
+        this.getAllOldMessages(msgCount, chatId);
       }
+
+      // if (msgCount < 20) {
+      //   this.getMessages(chatId, offset);
+      // } else {
+      // }
     });
+  }
+
+  getAllOldMessages(msgCount: number, chatId: number) {
+    let offset = 0;
+    while (offset < msgCount) {
+      this.getMessages(chatId, offset);
+      offset += 20;
+    }
   }
 
   getMessages(chatId: number, offset: number) {

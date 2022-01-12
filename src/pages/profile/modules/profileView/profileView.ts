@@ -5,12 +5,12 @@ import { Input } from "../../../../components/input";
 import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
 import { InputType } from "../../../../components/input/types";
-import { AuthController } from "../../../../controllers/authController";
+import { authController } from "../../../../controllers/AuthController";
 import { Link } from "../../../../modules/link";
 import Store from "../../../../modules/store";
 
 export class ProfileView extends Block {
-  controller = new AuthController();
+  controller = authController;
 
   constructor(props: Props = {}) {
     super("div", props);

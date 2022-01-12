@@ -12,10 +12,10 @@ import {
   InputType,
   InputValidationType,
 } from "../../../../components/input/types";
-import { AuthController } from "../../../../controllers/authController";
+import { authController } from "../../../../controllers/AuthController";
 
 export class Login extends Block {
-  controller = new AuthController();
+  controller = authController;
 
   constructor(props: Props = {}) {
     super("div", props);
