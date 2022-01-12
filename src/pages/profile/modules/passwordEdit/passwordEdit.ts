@@ -13,10 +13,10 @@ import {
 } from "../../../../components/input/types";
 import Store from "../../../../modules/store";
 import { Router } from "../../../../modules/router";
-import { UsersController } from "../../../../controllers/usersController";
+import { usersController } from "../../../../controllers/UsersController";
 
 export class PasswordEdit extends Block {
-  private controller = new UsersController();
+  private controller = usersController;
 
   constructor(props: Props = {}) {
     super("div", props);

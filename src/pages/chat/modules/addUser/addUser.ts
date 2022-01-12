@@ -3,10 +3,11 @@ import { Props, User } from "../../../../types";
 import "./addUser.scss";
 import { Popup } from "../../../../components/popup/popup";
 import Store from "../../../../modules/store";
-import ChatController from "../../../../controllers/chatController";
+import { chatController } from "../../../../controllers/ChatController";
 import { AddUsersToChatRequest } from "../../../../api/types";
 import { searchUserForm } from "./searchUserForm";
 import { addUserForm } from "./addUserForm";
+
 export class AddUser extends Block {
   constructor(props: Props = {}) {
     super("div", props);
@@ -55,7 +56,7 @@ export class AddUser extends Block {
       if (this.props.inner === "search") {
         const userName = userNameInput.value;
         if (chatId) {
-          ChatController.searchUsers(htmlForm, userName).then((users) => {
+          chatController.searchUsers(htmlForm, userName).then((users) => {
             if (users && ((<unknown>users) as User[]).length > 0) {
               this.setProps({ users, inner: "add", hidePopup: false });
             }
@@ -66,7 +67,7 @@ export class AddUser extends Block {
           users: Array.from(selectedUsers),
           chatId,
         };
-        if (ChatController.addUsersToChat(newUser)) {
+        if (chatController.addUsersToChat(newUser)) {
           htmlForm
             .querySelector("button")
             ?.setAttribute("disabled", "disabled");

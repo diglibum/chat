@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 import * as sinon from "sinon";
 import { expect } from "chai";
-import { SignInApi } from "./signInApi";
-import { SignInRequest } from "../types";
+import { SignInRequest } from "./types";
+import { AuthApi } from "./AuthApi";
 
 describe("SignIn API", () => {
   const requests: sinon.SinonFakeXMLHttpRequest[] = [];
@@ -22,7 +22,7 @@ describe("SignIn API", () => {
   });
 
   it("signIn sends POST to /auth/signin", () => {
-    const api = new SignInApi();
+    const api = new AuthApi();
     const data: SignInRequest = {
       first_name: "Имя",
       second_name: "Фамилия",

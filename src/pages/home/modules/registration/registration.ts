@@ -11,11 +11,11 @@ import {
   InputType,
   InputValidationType,
 } from "../../../../components/input/types";
-import { AuthController } from "../../../../controllers/authController";
+import { authController } from "../../../../controllers/AuthController";
 import { Link } from "../../../../modules/link";
 
 export class Registration extends Block {
-  private controller = new AuthController();
+  private controller = authController;
 
   constructor(props: Props = {}) {
     super("div", props);

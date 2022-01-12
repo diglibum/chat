@@ -1,3 +1,5 @@
+import { baseUrl } from "./consts";
+
 enum METHODS {
   GET = "GET",
   POST = "POST",
@@ -12,11 +14,11 @@ export type Options = {
   data?: any;
 } & Record<string, unknown>;
 
-export class HTTPTransport {
+export class HTTP {
   url: string;
 
   constructor(url: string) {
-    this.url = url;
+    this.url = baseUrl + url;
   }
 
   get = (url: string, options: Options = {}) => {

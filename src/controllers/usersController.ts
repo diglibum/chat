@@ -1,12 +1,10 @@
 import { UserPasswordRequest, UserProfileRequest } from "../api/types";
-import { UserPasswordApi } from "../api/users/userPasswordApi";
-import { UserProfileApi } from "../api/users/userProfileApi";
 import { checkAllForm } from "../components/form/utils/formValidation";
 import Store from "../modules/store";
 import { prepareDataToRequest } from "./utils/prepareDataToRequest";
+import { UserApi } from "../api/userApi";
 
-const userProfileApi = new UserProfileApi();
-const userPasswordApi = new UserPasswordApi();
+const API = new UserApi();
 
 class UsersController {
   public changeProfile(form?: HTMLFormElement) {
@@ -18,8 +16,7 @@ class UsersController {
       const data = prepareDataToRequest(
         new FormData(form)
       ) as UserProfileRequest;
-      userProfileApi
-        .updateUser(data)
+      API.updateProfile(data)
         .then((user) => {
           Store.setState({ user });
         })
@@ -41,15 +38,13 @@ class UsersController {
         throw new Error("ошибка валидации");
       }
       const data = prepareDataToRequest(new FormData(form));
-      userPasswordApi
-        .updatePass(<UserPasswordRequest>{
-          oldPassword: data.oldPassword,
-          newPassword: data.newPassword,
-        })
-        .catch((reason) => {
-          console.log(reason);
-          return false;
-        });
+      API.updatePassword(<UserPasswordRequest>{
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
+      }).catch((reason) => {
+        console.log(reason);
+        return false;
+      });
     } catch (error) {
       console.log(error);
       return false;
@@ -59,10 +54,10 @@ class UsersController {
 
   public changeAvatar(form?: HTMLFormElement) {
     const data = new FormData(form);
-    userProfileApi.changeAvatar(data).then((user) => {
+    API.changeAvatar(data).then((user) => {
       Store.setState({ user });
     });
   }
 }
 
-export const userController = new UsersController();
+export const usersController = new UsersController();
