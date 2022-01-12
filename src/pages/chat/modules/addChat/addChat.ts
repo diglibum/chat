@@ -12,7 +12,7 @@ import addChatTmpl from "./addChat.tmpl";
 import "./addChat.scss";
 import { formValidation } from "../../../../components/form/utils";
 import { Popup } from "../../../../components/popup/popup";
-import { chatController } from "../../../../controllers/ChatController";
+import { chatController } from "../../../../controllers/chatController";
 
 export class AddChat extends Block {
   constructor(props: Props = {}) {

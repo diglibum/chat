@@ -6,7 +6,7 @@ import chatBodyTmpl from "./chatBody.tmpl";
 import { ChatMessage } from "../chatMessage";
 import "./chatBody.scss";
 import { Button } from "../../../../components/button";
-import { chatController } from "../../../../controllers/ChatController";
+import { chatController } from "../../../../controllers/chatController";
 
 export class ChatBody extends Block {
   constructor(props: Props = {}) {

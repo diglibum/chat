@@ -13,7 +13,7 @@ import {
 } from "../../../../components/input/types";
 import Store from "../../../../modules/store";
 import { Router } from "../../../../modules/router";
-import { usersController } from "../../../../controllers/UsersController";
+import { usersController } from "../../../../controllers/usersController";
 
 export class PasswordEdit extends Block {
   private controller = usersController;

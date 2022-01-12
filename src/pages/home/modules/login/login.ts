@@ -12,7 +12,7 @@ import {
   InputType,
   InputValidationType,
 } from "../../../../components/input/types";
-import { authController } from "../../../../controllers/AuthController";
+import { authController } from "../../../../controllers/authController";
 
 export class Login extends Block {
   controller = authController;

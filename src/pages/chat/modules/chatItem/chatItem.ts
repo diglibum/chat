@@ -4,7 +4,7 @@ import chatItemTmpl from "./chatItem.tmpl";
 import { Block } from "../../../../modules/block";
 import { Props } from "../../../../types";
 import { dataTimeFormat } from "../../../../utils";
-import { chatController } from "../../../../controllers/ChatController";
+import { chatController } from "../../../../controllers/chatController";
 
 export class ChatItem extends Block {
   constructor(props: Props) {

@@ -11,7 +11,7 @@ import {
   InputType,
   InputValidationType,
 } from "../../../../components/input/types";
-import { authController } from "../../../../controllers/AuthController";
+import { authController } from "../../../../controllers/authController";
 import { Link } from "../../../../modules/link";
 
 export class Registration extends Block {
