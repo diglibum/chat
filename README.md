@@ -14,15 +14,15 @@ TypeScript, Scss, Webpack
 
 ## Установка
 
-`$ npm i
- $ npm run buid`
+`$ npm i`
+ `$ npm run buid`
  
 
 # Запуск
 
-`$npm run dev  # Webpack сервер
-$ npm run test  # Тесты
-$ npm run start` 
+`$npm run dev  # Webpack сервер`
+`$ npm run test  # Тесты`
+`$ npm run start` 
 
 
 ## Ссылки
