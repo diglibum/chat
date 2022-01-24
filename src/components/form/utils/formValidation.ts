@@ -166,7 +166,7 @@ export const checkPasswordValidaty = (value: string = ""): ResultObject => {
   const rules: Rules = {
     symbols: "!@#%&",
     minLength: 6,
-    maxLength: 10,
+    maxLength: 20,
   };
   rules.pattern = new RegExp(
     `^[0-9a-zA-Z${rules.symbols}]{${rules.minLength},${rules.maxLength}}$`,
