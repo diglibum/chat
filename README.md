@@ -1,37 +1,35 @@
-## yandex praktikum course Middle frontend developer
+## Веб-приложение «Чат».
 
-Учебный проект Веб-приложение «Чат».
+Учебный проект Яндекс.Практикум - курс "Middle front-end developer"
 
-- `npm run start` — Start project,
-- `npm run dev` — Webpack run in development mode,
-- `npm run build` — Running webpack build,
-- `npm run test` - Start tests
+# Функциональность
+- регистрация,
+- авторизация,
+- список чатов,
+- обмен сообщениями.
 
-## Что изменилось
+## Стек 
+TypeScript, Scss, Webpack
 
-- Настроен Webpack,
-- Настроена Docker-сборка,
-- Проект размещён в Heroku с Docker-сборкой,
-- Настроен precommit,
-- Проведен аудит пакетов, обновлёны и приведены в актуальное состояние.
+
+## Установка
+
+`$ npm i
+ $ npm run buid`
+ 
+
+# Запуск
+
+`$npm run dev  # Webpack сервер
+$ npm run test  # Тесты
+$ npm run start` 
+
 
 ## Ссылки
 
-Макет в Figma - [https://www.figma.com/file/SYPGzKY1kNuZqvpTRlXaDE/Chat-Copy] - (за основу взят предлагаемый в курсе макет с небольшими изменениями.)
+Макет - [https://www.figma.com/file/SYPGzKY1kNuZqvpTRlXaDE/Chat-Copy] - (за основу взят предлагаемый в курсе макет с небольшими изменениями.)
 
-Heroku - [https://diglibum-chat-app.herokuapp.com/]
+Heroku - [https://diglibum-chat-app.herokuapp.com/] - демо-пользователь: demoUser LNCgTVA5!
 
-Pull request - [https://github.com/diglibum/middle.messenger.praktikum.yandex/pull/4]
 
-## Страницы
 
-Страницы доступны по ссылкам:
-
-- https://diglibum-chat-app.herokuapp.com/
-- https://diglibum-chat-app.herokuapp.com/sign-up
-- https://diglibum-chat-app.herokuapp.com/settings
-- https://diglibum-chat-app.herokuapp.com/messenger
-- https://diglibum-chat-app.herokuapp.com/profile-edit
-- https://diglibum-chat-app.herokuapp.com/password-edit
-- https://diglibum-chat-app.herokuapp.com/500
-- https://diglibum-chat-app.herokuapp.com/404
