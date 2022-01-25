@@ -1,39 +1,43 @@
-<h1>Веб-приложение «Чат»</h1>
+# Веб-приложение «Чат»
 
-<p>Учебный проект Яндекс.Практикум - курс "Middle front-end developer"</p>
+Учебный проект Яндекс.Практикум - курс "Middle front-end developer"
 
-<h2> Функциональность</h2>
-    <ul>
-        <li>регистрация</li>
-        <li>авторизация</li>
-        <li>список чатов</li>
-        <li>обмен сообщениями</li>
-    </ul>
+![image](https://user-images.githubusercontent.com/42203392/150953436-21002105-c781-4b01-812a-9d467e9c88ae.png)
+За основу взят предлагаемый в курсе дизайн
 
-<h2>Стек</h2> 
-TypeScript, Scss, Webpack
 
-<h2>Установка</h2>
+## Функциональность
+- Регистрация
+- Авторизация
+- Список чатов
+- Обмен сообщениями
 
-<pre>
-    <code>
-        $ npm i <br />
-        $ npm run buid
-    </code>
-</pre>
+## В планах
+- Вывод ошибок
+- Ресайз поля для ввода сообщений
+- Просмотри информации о пользователях
+- Прикрепление файлов и изображений
+- Подгружать сообщения при прокрутке вверх
+- Адаптация под мобильные устройства
 
-<h2>Запуск</h2>
+## Стек
+`TypeScript`, `Scss`, `Webpack`
 
-<pre>
-    <code>
-        $ npm run dev  # Webpack сервер <br />
-        $ npm run test  # Тесты <br />
-        $ npm run start <br />
-    </code>
-</pre>
+## Установка
 
-<h2>Ссылки</h2>
+```
+$ npm i
+$ npm run buid
+```
 
-<p>Макет - [https://www.figma.com/file/SYPGzKY1kNuZqvpTRlXaDE/Chat-Copy] - (за основу взят предлагаемый в курсе макет с небольшими изменениями.)</p>
+## Запуск
 
-<p>Сайт - [https://diglibum-chat-app.herokuapp.com/] - демо-пользователь: <code>demoUser LNCgTVA5!</code></p>
+```
+$ npm run dev  # Webpack сервер
+$ npm run test  # Тесты
+$ npm run start
+```
+
+## Сайт
+
+[https://diglibum-chat-app.herokuapp.com/] - демо-пользователь: `demoUser LNCgTVA5!`
