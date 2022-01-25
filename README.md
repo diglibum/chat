@@ -33,8 +33,6 @@ $ npm run buid
 ## Запуск
 
 ```
-$ npm run dev  # Webpack сервер
-$ npm run test  # Тесты
 $ npm run start
 ```
 
